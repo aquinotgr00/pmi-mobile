@@ -35,13 +35,3 @@ target 'PmiJkt' do
 
   use_native_modules!
 end
-
-target 'PmiJkt-tvOS' do
-  # Pods for PmiJkt-tvOS
-
-  target 'PmiJkt-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end
