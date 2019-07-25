@@ -28,20 +28,16 @@ target 'PmiJkt' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'react-native-onesignal',
+  :path => "../node_modules/react-native-onesignal/react-native-onesignal.podspec",
+  :inhibit_warnings => true
+
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
   target 'PmiJktTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
   use_native_modules!
-end
-
-target 'PmiJkt-tvOS' do
-  # Pods for PmiJkt-tvOS
-
-  target 'PmiJkt-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
