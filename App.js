@@ -25,21 +25,21 @@ import {
 } from 'react-native/Libraries/NewAppScreen'
 
 import OneSignal from 'react-native-onesignal'
+import Config from 'react-native-config'
 
 class App extends React.Component {
   constructor (properties) {
     super(properties)
     OneSignal.init('f15f0f81-9c61-4cf1-ac1d-74e25525ff5a')
 
-    // OneSignal.addEventListener('received', this.onReceived)
-    // OneSignal.addEventListener('opened', this.onOpened)
+    OneSignal.addEventListener('received', this.onReceived)
+    OneSignal.addEventListener('opened', this.onOpened)
     OneSignal.addEventListener('ids', this.onIds)
-    OneSignal.configure()
   }
 
   componentWillUnmount () {
-    // OneSignal.removeEventListener('received', this.onReceived)
-    // OneSignal.removeEventListener('opened', this.onOpened)
+    OneSignal.removeEventListener('received', this.onReceived)
+    OneSignal.removeEventListener('opened', this.onOpened)
     OneSignal.removeEventListener('ids', this.onIds)
   }
 
@@ -78,6 +78,7 @@ class App extends React.Component {
                 <Text style={styles.sectionDescription}>
                   Edit <Text style={styles.highlight}>App.js</Text> to change this
                   screen and then come back to see your edits.
+                  {Config.API_URL}
                 </Text>
               </View>
               <View style={styles.sectionContainer}>

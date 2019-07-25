@@ -32,6 +32,8 @@ target 'PmiJkt' do
   :path => "../node_modules/react-native-onesignal/react-native-onesignal.podspec",
   :inhibit_warnings => true
 
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
   target 'PmiJktTests' do
     inherit! :search_paths
     # Pods for testing
