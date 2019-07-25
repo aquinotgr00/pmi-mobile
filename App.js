@@ -74,6 +74,7 @@ class App extends React.Component {
             )}
             <View style={styles.body}>
               <View style={styles.sectionContainer}>
+                <Text style={{ fontFamily: 'fontello' }}>{''}</Text>
                 <Text style={styles.sectionTitle}>Step One Step</Text>
                 <Text style={styles.sectionDescription}>
                   Edit <Text style={styles.highlight}>App.js</Text> to change this
