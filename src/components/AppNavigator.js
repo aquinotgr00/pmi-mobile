@@ -6,6 +6,7 @@ import ForgotPasswordScreen from 'src/screens/ForgotPassword'
 import ResetPasswordScreen from 'src/screens/ResetPassword'
 
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
+import InKindDonationFormScreen from 'src/screens/Donation/InKind'
 
 const DrawerNavigator = createDrawerNavigator({
   Home: {
@@ -38,6 +39,9 @@ const StackNavigator = createStackNavigator({
   },
   ResetPassword: {
     screen: ResetPasswordScreen
+  },
+  InKindDonationForm: {
+    screen: InKindDonationFormScreen
   }
 
 }, {
