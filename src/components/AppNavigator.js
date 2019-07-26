@@ -1,6 +1,11 @@
 import HomeScreen from 'src/screens/Home'
 import { DonatorRegistrationScreen, VolunteerRegistrationScreen } from 'src/screens/Registration'
-import { createDrawerNavigator, createAppContainer } from 'react-navigation'
+import DonatorRegistrationFormScreen from 'src/screens/Registration/Donator/Form'
+import LoginScreen from 'src/screens/Login'
+import ForgotPasswordScreen from 'src/screens/ForgotPassword'
+import ResetPasswordScreen from 'src/screens/ResetPassword'
+
+import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 
 const DrawerNavigator = createDrawerNavigator({
   Home: {
@@ -18,4 +23,25 @@ const DrawerNavigator = createDrawerNavigator({
   }
 })
 
-export default createAppContainer(DrawerNavigator)
+const StackNavigator = createStackNavigator({
+  Main: {
+    screen: DrawerNavigator
+  },
+  DonatorRegistrationForm: {
+    screen: DonatorRegistrationFormScreen
+  },
+  Login: {
+    screen: LoginScreen
+  },
+  ForgotPassword: {
+    screen: ForgotPasswordScreen
+  },
+  ResetPassword: {
+    screen: ResetPasswordScreen
+  }
+
+}, {
+  headerMode: 'none'
+})
+
+export default createAppContainer(StackNavigator)

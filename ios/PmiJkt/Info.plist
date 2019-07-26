@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -39,7 +39,9 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>PMI needs your location to inform nearest campaigns for donation purpose</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>PMI needs your location to inform nearest campaigns for donation purpose</string>
 	<key>UIAppFonts</key>
 	<array>
