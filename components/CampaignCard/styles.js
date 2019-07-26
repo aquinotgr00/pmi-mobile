@@ -5,18 +5,17 @@ const styles = StyleSheet.create({
         textAlign: 'right'
     },
     listItemContainer: {
-        borderRadius: 8,
-        width: 275,
+        borderRadius: 6,
+        width: 245,
         marginRight: 20,
-        marginBottom: 20,
-        minHeight: 365,
+        minHeight: 355,
         shadowColor: 'black',
         shadowOffset: {width:5, height:8},
-        shadowOpacity: .03
+        shadowOpacity: .04
     },
     listItemDetail: {
-        paddingHorizontal:25,
-        paddingTop:15,
+        paddingHorizontal:20,
+        paddingTop:10,
         paddingBottom:10,
         backgroundColor: 'white',
         borderBottomLeftRadius: 8,
@@ -37,14 +36,15 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     campaignCardTitle: {
-        marginBottom: 20,
-        minHeight: 35
+        marginBottom: 13,
+        lineHeight: 20,
+        minHeight: 40
     },
     campaignCardImage: {
-        width: 275,
-        height: 150,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
+        width: 245,
+        height: 135,
+        borderTopLeftRadius: 6,
+        borderTopRightRadius: 6
     },
     campaignCardHr: {
         borderBottomColor: '#d3d3d3',
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     campaignCardBoldText: {
         width: '50%',
-        fontWeight: 'bold'
+        fontWeight: '500'
     },
     campaignCardMuteText: {
         fontSize: 11,

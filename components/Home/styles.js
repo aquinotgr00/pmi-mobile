@@ -3,41 +3,39 @@ import { StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
     whiteButtonText: {
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: 11
     },
     campaignTitleList: {
-        fontWeight: 'bold',
+        fontWeight: '500',
         fontSize: 16,
-        letterSpacing: 1,
-        marginTop: 20,
-        marginBottom: 25
+        letterSpacing: .5,
     },
     campaignListContainer: {
-        marginBottom: 35
+        marginBottom: 15,
     },
     homeBanner: {
-        height: 200,
-        width: 345,
+        height: 160,
+        width: '100%',
         position: 'relative', // because it's parent
-        top: 2,
-        left: 2,
         borderRadius: 10
     },
     homeBannerTextContainer: {
         fontWeight: 'bold',
         position: 'absolute', // child
-        bottom: 20, // position where you want
+        bottom: 18, // position where you want
         left: 20,
     },
     homeBannerSubHeading: {
         color: 'white',
-        marginBottom: 3
+        marginBottom: 3,
+        fontSize: 11
     },
     homeBannerHeading: {
         color:'white',
         fontSize:15,
         fontWeight:'bold',
-        marginBottom: 12,
+        marginBottom: 8,
     },
     homeBannerButton: {
         borderWidth: 2,

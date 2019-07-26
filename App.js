@@ -5,15 +5,21 @@ import {
 } from 'react-navigation'
 
 // Components
-import CampaignList from './components/CampaignList'
+import Home from './components/Home'
 import Campaign from './components/Campaign'
+import CampaignList from './components/CampaignList'
 
 const RootStack = createStackNavigator({
+  Home: { screen: Home },
+  Campaign: { screen: Campaign },
   CampaignList: { screen: CampaignList },
-  Campaign: { screen: Campaign }
 },
 {
-  initialRouteName: 'CampaignList'
+  initialRouteName: 'Home',
+  defaultNavigationOptions: {
+    headerTintColor: '#fff',
+    headerBackTitle: null
+  }
 })
 
 const App = createAppContainer(RootStack)

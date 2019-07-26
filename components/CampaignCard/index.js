@@ -4,21 +4,21 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    StyleSheet,
     Button
 } from 'react-native'
 import styles from './styles'
 
-const CampaignCard = ({title, amount_donation, navigation}) => {
+const CampaignCard = ({items, navigation}) => {
+    const { title, image, amount_donation } = items
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Campaign', {title})}>
+        <TouchableOpacity onPress={() => navigation.navigate('Campaign', {items})}>
             <View style={styles.listItemContainer}>
                 <Image
                     style={styles.campaignCardImage}
-                    source={{uri:'https://via.placeholder.com/275x150'}}
+                    source={{uri:image}}
                 />
                 <View style={styles.listItemDetail}>
-                    <Text style={styles.campaignCardTitle}>{title}</Text>
+                    <Text numberOfLines={2} renderTruncatedFooter={() => '...'} style={styles.campaignCardTitle}>{title}</Text>
                     <View style={styles.progressBar}>
                         <View style={styles.filler} />
                     </View>
@@ -33,7 +33,9 @@ const CampaignCard = ({title, amount_donation, navigation}) => {
                     <View
                         style={styles.campaignCardHr}
                     />
-                    <Button title='Berdonasi' color='red' />
+                    <TouchableOpacity style={{paddingVertical: 10}}>
+                        <Text style={{color: 'red',fontWeight: '500',textAlign: 'center'}}>Berdonasi</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </TouchableOpacity>
