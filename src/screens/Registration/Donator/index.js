@@ -30,7 +30,7 @@ export class DonatorRegistrationScreen extends React.Component {
     return (
       <Screen title='Daftar Sebagai Donatur' menu>
         
-        <Image source={require('PmiJkt/assets/images/daftar-donatur.png')} />
+        <Image source={require('assets/images/daftar-donatur.png')} />
         <Button rounded danger onPress={this.navigateToRegistrationForm}>
           <Text>Daftar</Text>
         </Button>

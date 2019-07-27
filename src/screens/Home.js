@@ -1,6 +1,6 @@
 import React from 'react'
+import { IconInu, Screen, CampaignList, HomeBanner } from 'src/components'
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native'
-import { IconInu, Screen } from 'src/components'
 
 export default class HomeScreen extends React.Component {
     state = {
@@ -13,24 +13,41 @@ export default class HomeScreen extends React.Component {
       drawerIcon: ({ tintColor }) => (
         <IconInu name='icon-pmi-home' color={tintColor} />
       ),
-    };
-
-    async componentDidMount() {
-      // const generalCampaigns = await basicRequest().get('/app/campaigns?t=1')
-      // this.setState({
-      //   generalCampaigns
-      // })
     }
-  
+
+    constructor(props) {
+      super(props)
+      this.state = {
+        percentage: 50,
+        generalCampaigns: [],
+        data: [
+          {key:'a'},
+          {key:'b'},
+          {key:'c'},
+        ]
+      }
+    
+      this.navigateToInKindDonationForm = this.navigateToInKindDonationForm.bind(this)
+    }
+    
+    navigateToInKindDonationForm() {
+      this.props.navigation.navigate('InKindDonationForm')
+    }
+
     render() {
       return (
         <Screen title='Home' menu>
-          <View style={{flex:1,flexDirection:'row',marginBottom:15}}>
-            <Text style={[styles.campaignTitleList, {width: '50%'}]}>Donasi Umum</Text>
-            <TouchableOpacity style={{width: '50%'}} onPress={() => navigation.navigate('CampaignList', {param: 'donasi-umum'})}>
-              <Text style={{textAlign: 'right',color: 'red',fontSize: 13,fontWeight: '600'}}>Lihat Semua</Text>
-            </TouchableOpacity>
-          </View>
+          <CampaignList title='Donasi Umum' data={this.state.data} navigation={this.props.navigation} />
+
+          <CampaignList title='Donasi Khusus' data={this.state.data} navigation={this.props.navigation} />
+
+          <HomeBanner />
+
+          <CampaignList title='Bulan Dana' data={this.state.data} navigation={this.props.navigation} />
+
+          {/* <Button bordered onPress={this.navigateToInKindDonationForm}>
+            <Text>Mock Donasi Barang</Text>
+          </Button> */}
         </Screen>
       );
     }

@@ -17,7 +17,7 @@ export default class LoginScreen extends React.Component {
   render () {
     return (
       <Screen title='Masuk Sebagai Donatur' back>
-        <Image source={require('PmiJkt/assets/images/login.png')} />
+        <Image source={require('assets/images/login.png')} />
         <Item>
           <Input placeholder='Email' />
         </Item>
