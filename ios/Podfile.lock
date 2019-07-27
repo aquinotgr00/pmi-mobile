@@ -11,6 +11,16 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - MidtransCoreKit (1.15.4)
+  - MidtransKit (1.15.4):
+    - MidtransCoreKit (= 1.15.4)
+    - MidtransKit/UI (= 1.15.4)
+  - MidtransKit/UI (1.15.4):
+    - MidtransCoreKit (= 1.15.4)
+  - MidtransModule (1.0.0):
+    - MidtransCoreKit
+    - MidtransKit
+    - React
   - OneSignal (2.10.0)
   - React (0.60.4):
     - React-Core (= 0.60.4)
@@ -99,6 +109,9 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - MidtransCoreKit
+  - MidtransKit
+  - MidtransModule (from `../node_modules/react-native-payment-gateway`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/React`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
@@ -127,6 +140,8 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - boost-for-react-native
+    - MidtransCoreKit
+    - MidtransKit
     - OneSignal
 
 EXTERNAL SOURCES:
@@ -136,6 +151,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  MidtransModule:
+    :path: "../node_modules/react-native-payment-gateway"
   React:
     :path: "../node_modules/react-native/"
   React-Core:
@@ -190,6 +207,9 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  MidtransCoreKit: e94026826d7bfbb03f29fe7cfdf4208aad6093f5
+  MidtransKit: 255b70500e24fde7aed899f65e2d9db55da7dfd1
+  MidtransModule: 35424bb4d20354bb58ea642549198031f0f4225b
   OneSignal: 0f5ff711d9f25da54885e4ab06ef0abc221a46ef
   React: ff7ee2ae5ee1c1d9ae2183b4111045b25294bb01
   React-Core: 8e0ea421cae5609d2562850f98421b15030476fa
@@ -216,6 +236,6 @@ SPEC CHECKSUMS:
   RNSnackbar: f6d5a0f66f5e75794e1d94b62827b78ce37bd530
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: 08fabc667f45f276ebd64b81bbbc8f8e765b2c3e
+PODFILE CHECKSUM: 24da47899f58bc4f1fa947656b59f2e47ab0943b
 
 COCOAPODS: 1.7.4

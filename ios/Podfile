@@ -1,6 +1,11 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+def shared_pods
+  pod 'MidtransCoreKit'
+  pod 'MidtransKit'
+end
+
 target 'PmiJkt' do
   # Pods for PmiJkt
   pod 'React', :path => '../node_modules/react-native/'
@@ -33,6 +38,8 @@ target 'PmiJkt' do
   :inhibit_warnings => true
 
   pod 'react-native-config', :path => '../node_modules/react-native-config'
+
+  shared_pods
 
   target 'PmiJktTests' do
     inherit! :search_paths
