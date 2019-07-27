@@ -1,5 +1,6 @@
 import HomeScreen from 'src/screens/Home'
 import { DonatorRegistrationScreen, VolunteerRegistrationScreen } from 'src/screens/Registration'
+import CampaignScreen from 'src/screens/Campaign'
 import DonatorRegistrationFormScreen from 'src/screens/Registration/Donator/Form'
 import LoginScreen from 'src/screens/Login'
 import ForgotPasswordScreen from 'src/screens/ForgotPassword'
@@ -27,6 +28,9 @@ const DrawerNavigator = createDrawerNavigator({
 const StackNavigator = createStackNavigator({
   Main: {
     screen: DrawerNavigator
+  },
+  Campaign: {
+    screen: CampaignScreen
   },
   DonatorRegistrationForm: {
     screen: DonatorRegistrationFormScreen

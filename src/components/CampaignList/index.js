@@ -1,27 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native'
 import { Card, CardItem, Left, Right } from 'native-base';
-
-const ProgressBar = (props) => {
-  return (
-    <View style={{
-      position: 'relative',
-      marginLeft: 20,
-      marginVertical: 10,
-      height: 10,
-      width: 205,
-      borderRadius: 50,
-      backgroundColor: 'pink'
-    }}>
-      <View style={{
-        backgroundColor: 'red',
-        height: '100%',
-        borderRadius: 50,
-        width: `${props.percentage}%`
-      }} />
-    </View>
-  )
-}
+import { ProgressBar } from 'src/components'
 
 export default class CampaignList extends Component {
 	constructor (props) {
@@ -30,6 +10,15 @@ export default class CampaignList extends Component {
 		this.state = {
 			percentage: 50
 		}
+
+		this.navigateToDetailCampaign = this.navigateToDetailCampaign.bind(this)
+	}
+
+	navigateToDetailCampaign() {
+		this.props.navigation.navigate('Campaign')
+	}
+	navigateToCampaignList() {
+		this.props.navigation.navigate('CampaignList')
 	}
 
 	render () {
@@ -41,7 +30,7 @@ export default class CampaignList extends Component {
 					marginBottom: 15,
 				}}>
 					<Text style={{width:'50%',fontWeight:'500'}}>{this.props.title}</Text>
-					<TouchableOpacity style={{width:'50%'}}>
+					<TouchableOpacity onPress={this.navigateToDetailCampaign} style={{width:'50%'}}>
 						<Text style={{textAlign:'right',color:'red',fontSize:12}}>Lihat Semua</Text>
 					</TouchableOpacity>
 				</View>
@@ -60,6 +49,7 @@ export default class CampaignList extends Component {
 							shadowRadius: 8,
 							elevation: 1,
 						}}>
+							<TouchableOpacity onPress={this.navigateToDetailCampaign}>
 							<View style={{borderRadius:5}}>
 								<Image
 									source={{uri: 'https://via.placeholder.com/250x150'}}
@@ -71,7 +61,7 @@ export default class CampaignList extends Component {
 									<Text style={{fontWeight:'500',marginTop:5}}>{item.key}</Text>
 								</Left>
 							</CardItem>
-							<ProgressBar percentage={this.state.percentage} />
+							<ProgressBar left={20} height={10} width={205} percentage={this.state.percentage} />
 							<CardItem>
 								<Left>
 									<View style={{flex:1,marginLeft:10}}>
@@ -90,13 +80,14 @@ export default class CampaignList extends Component {
 								marginHorizontal:20,
 								opacity:.1
 							}} />
-								<TouchableOpacity style={{
-									borderBottomLeftRadius:5,
-									borderBottomRightRadius:5,
-									paddingVertical:15
-								}}>
-									<Text style={{color:'red',textAlign:'center'}}>Berdonasi</Text>
-								</TouchableOpacity>
+							<TouchableOpacity style={{
+								borderBottomLeftRadius:5,
+								borderBottomRightRadius:5,
+								paddingVertical:15
+							}}>
+								<Text style={{color:'red',textAlign:'center'}}>Berdonasi</Text>
+							</TouchableOpacity>
+							</TouchableOpacity>
 						</Card>
 					}
 				/>

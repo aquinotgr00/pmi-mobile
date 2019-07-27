@@ -32,9 +32,13 @@ export default class HomeScreen extends React.Component {
     render() {
       return (
         <Screen title='Home' menu>
-          <CampaignList title='Donasi Umum' data={this.state.data} />
+          <CampaignList title='Donasi Umum' data={this.state.data} navigation={this.props.navigation} />
+
+          <CampaignList title='Donasi Khusus' data={this.state.data} navigation={this.props.navigation} />
 
           <HomeBanner />
+
+          <CampaignList title='Bulan Dana' data={this.state.data} navigation={this.props.navigation} />
 
           {/* <Button bordered onPress={this.navigateToInKindDonationForm}>
             <Text>Mock Donasi Barang</Text>
