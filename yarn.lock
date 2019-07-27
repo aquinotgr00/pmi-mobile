@@ -5500,6 +5500,13 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-collapsible-toolbar@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible-toolbar/-/react-native-collapsible-toolbar-0.1.2.tgz#3a17ed208bdd18b1b9e9d6ce2ab325340f26e51f"
+  integrity sha512-huLYc29/72VJA6J8AJDDUYF3jCIevHHscUKwxmCazsltvzg6uz6Tgf4i0c480sQq2W5iLaLuQioQKU8v1xY1nw==
+  dependencies:
+    prop-types "^15.5.10"
+
 "react-native-config@https://github.com/luggit/react-native-config":
   version "0.11.7"
   resolved "https://github.com/luggit/react-native-config#89a602bf8be3808838403a97afaf915caeec76c2"
@@ -5561,6 +5568,11 @@ react-native-safe-area-view@^0.14.1:
   integrity sha512-tOxHGQUN83MTmQB4ghoQkibqOdGiX4JQEmeyEv96MKWO/x8T2PJv84ECUos9hD3blPRQwVwSpAid1PPPhrVEaw==
   dependencies:
     debounce "^1.2.0"
+
+react-native-snackbar@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-2.0.2.tgz#f01b247734aaff53075a2a07045f5d2531cf91d4"
+  integrity sha512-m/tMKYj5KrTNxOkK8LuOVJC/8FFto8rTarGlbLPQdVaLSVBeV84QAyeSQPSneWRz3EOM/7RAMkGFDynJXoPbcw==
 
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   version "1.4.1"
