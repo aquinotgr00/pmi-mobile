@@ -1,8 +1,13 @@
 import React from 'react'
-import { Button, Text } from 'native-base'
 import { IconInu, Screen, CampaignList, HomeBanner } from 'src/components'
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native'
 
 export default class HomeScreen extends React.Component {
+    state = {
+      loading: true,
+      generalCampaigns: []
+    }
+
     static navigationOptions = {
       drawerLabel: 'Home',
       drawerIcon: ({ tintColor }) => (
@@ -46,4 +51,12 @@ export default class HomeScreen extends React.Component {
         </Screen>
       );
     }
-  }
+}
+
+const styles = StyleSheet.create({
+  campaignTitleList: {
+    fontWeight: '500',
+    fontSize: 16,
+    letterSpacing: .5,
+  },
+})
