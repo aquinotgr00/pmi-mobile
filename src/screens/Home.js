@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Text } from 'native-base'
-import { IconInu, Screen } from 'src/components'
+import { IconInu, Screen, CampaignList, HomeBanner } from 'src/components'
 
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -12,6 +12,15 @@ export default class HomeScreen extends React.Component {
 
     constructor(props) {
       super(props)
+      this.state = {
+        percentage: 50,
+        generalCampaigns: [],
+        data: [
+          {key:'a'},
+          {key:'b'},
+          {key:'c'},
+        ]
+      }
     
       this.navigateToInKindDonationForm = this.navigateToInKindDonationForm.bind(this)
     }
@@ -23,10 +32,13 @@ export default class HomeScreen extends React.Component {
     render() {
       return (
         <Screen title='Home' menu>
-          <Text>ini Home Screen</Text>
-          <Button bordered onPress={this.navigateToInKindDonationForm}>
+          <CampaignList title='Donasi Umum' data={this.state.data} />
+
+          <HomeBanner />
+
+          {/* <Button bordered onPress={this.navigateToInKindDonationForm}>
             <Text>Mock Donasi Barang</Text>
-          </Button>
+          </Button> */}
         </Screen>
       );
     }
