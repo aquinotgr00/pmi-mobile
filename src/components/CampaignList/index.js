@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native'
-import { Card, CardItem, Left, Right } from 'native-base';
-import { ProgressBar } from 'src/components'
+import { View, Text, TouchableOpacity, FlatList } from 'react-native'
 import { CampaignCard } from './CampaignCard'
 
 export { CampaignCard } from './CampaignCard'
@@ -18,11 +16,12 @@ export default class CampaignList extends Component {
 		this.navigateToCampaignList = this.navigateToCampaignList.bind(this)
 	}
 
-	navigateToDetailCampaign() {
-		this.props.navigation.navigate('Campaign')
+	navigateToDetailCampaign(id) {
+		this.props.navigation.navigate('Campaign', {id})
 	}
 	navigateToCampaignList() {
-		this.props.navigation.navigate('CampaignList', {title:this.props.title})
+		const { title, type } = this.props
+		this.props.navigation.navigate('CampaignList', {title, type})
 	}
 
 	render () {
@@ -46,12 +45,14 @@ export default class CampaignList extends Component {
 					data={this.props.data}
 					style={{marginBottom:25,paddingBottom:10}}
 					horizontal
+					keyExtractor={(item, index) => item.id}
 					renderItem={(item) =>
 						<CampaignCard
 							{...item}
+							key={item.item.id}
 							width={245}
 							link={this.navigateToDetailCampaign}
-							percentage={this.state.percentage}
+							// percentage={item.item.amount_real/item.item.amount_goal*100}
 						/>
 					}
 				/>

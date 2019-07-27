@@ -4,6 +4,7 @@ import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimension
 import { Card, CardItem, Thumbnail, Body } from 'native-base';
 export { CampaignListScreen } from './List'
 import { BackButton } from 'src/components/HeaderButtons'
+import Axios from 'axios'
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height*(1/9))
@@ -14,6 +15,15 @@ export default class CampaignScreen extends React.Component {
 		this.state = {
 			percentage: 80,
 			lineNumber: 9,
+			id: this.props.navigation.state.params.id,
+			image: '',
+			title: '...',
+			description: 'loading...',
+			amount_goal: 0,
+			amount_real: 0,
+			get_donations: [],
+			finish_campaign: '',
+			type_id: 0,
 			data: [
 				{key:'a'},
 				{key:'b'},
@@ -24,6 +34,8 @@ export default class CampaignScreen extends React.Component {
 				{key:'g'},
 			],
 		}
+
+		this.getDetailCampaign = this.getDetailCampaign.bind(this)
 
 		this.animatedHeight = new Animated.Value(0)
 		this.animatedHeaderHeight = this.animatedHeight.interpolate({
@@ -41,6 +53,25 @@ export default class CampaignScreen extends React.Component {
 			outputRange: [0, 1],
 			extrapolate: 'clamp'
 		})
+		this.animatedBackColor = this.animatedHeight.interpolate({
+			inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
+			outputRange: ['white', 'black'],
+			extrapolate: 'clamp'
+		})
+	}
+
+	componentDidMount() {
+		this.getDetailCampaign()
+	}
+
+	getDetailCampaign() {
+		Axios.get('http://test-donatur.test/api/app/campaigns/'+this.state.id)
+			.then(res => {
+				const { image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id } = res.data.data
+				this.setState({
+					image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id
+				})
+			})
 	}
 
 	render () {
@@ -48,7 +79,7 @@ export default class CampaignScreen extends React.Component {
 			<>
 			<Animated.View>
 				<Animated.Image
-					source={{uri: 'https://via.placeholder.com/380x200'}}
+					source={{uri: this.state.image}}
 					style={{
 						width:380,
 						height:this.animatedHeaderHeight,
@@ -63,17 +94,24 @@ export default class CampaignScreen extends React.Component {
 					top: Math.round(Dimensions.get('window').height*(1/22)),
 					left: 15,
 				}}>
-					<BackButton />
+					<BackButton color={this.animatedBackColor} />
 				</TouchableOpacity>
 				<Animated.View style={{
 					position:'absolute',
-					top: '55%',
-					left: 0,
+					top: Math.round(Dimensions.get('window').height*(1/16)),
+					left: 50,
 					width: '100%',
 					opacity: this.animatedTitleOpacity
 				}}>
-					<Animated.Text numberOfLines={1} style={{textAlign:'center',fontSize:16}}>
-						title
+					<Animated.Text
+						numberOfLines={1}
+						style={{
+							textAlign:'left',
+							fontSize:16,
+							width: '80%'
+						}}
+					>
+						{this.state.title}
 					</Animated.Text>
 				</Animated.View>
 			</Animated.View>
@@ -90,14 +128,14 @@ export default class CampaignScreen extends React.Component {
 					}
 				])}
 			>
-				<Text style={{marginBottom:10}}>Judul</Text>
+				<Text style={{marginBottom:10}}>{this.state.title}</Text>
 
 				<ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
 
 				<View style={{flex:1,flexDirection:'row',marginTop:10,marginBottom:20}}>
 					<View style={{flex:1}}>
 						<Text style={{marginBottom:5,fontSize:11,color:'grey'}}>Terkumpul</Text>
-						<Text style={{fontWeight:'500'}}>Rp. 1000</Text>
+						<Text style={{fontWeight:'500'}}>Rp. {this.state.amount_real ? this.state.amount_real:0}</Text>
 					</View>
 					<View style={{flex:1,alignItems:'flex-end'}}>
 						<Text style={{marginBottom:5,fontSize:11,color:'grey'}}>Sisa Hari</Text>
@@ -106,9 +144,7 @@ export default class CampaignScreen extends React.Component {
 				</View>
 
 				<Text numberOfLines={this.state.lineNumber} style={{marginBottom:20}}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Purus ut faucibus pulvinar elementum integer enim neque. Nulla pellentesque dignissim enim sit amet venenatis urna. Tempor id eu nisl nunc mi ipsum faucibus vitae aliquet. Curabitur vitae nunc sed velit dignissim. Nunc id cursus metus aliquam eleifend. Vitae et leo duis ut diam quam nulla. Pharetra massa massa ultricies mi quis hendrerit dolor magna. Egestas tellus rutrum tellus pellentesque. Tortor consequat id porta nibh venenatis cras sed felis eget. At erat pellentesque adipiscing commodo elit at imperdiet dui accumsan. Nibh sit amet commodo nulla facilisi nullam vehicula. Nulla facilisi etiam dignissim diam quis.
-
-					Elit ut aliquam purus sit amet luctus venenatis lectus. Aenean euismod elementum nisi quis eleifend quam adipiscing vitae. Faucibus ornare suspendisse sed nisi lacus sed. Pharetra vel turpis nunc eget lorem dolor. Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. Nunc faucibus a pellentesque sit amet porttitor eget. Vehicula ipsum a arcu cursus vitae. Pharetra sit amet aliquam id diam. Tortor consequat id porta nibh venenatis. Varius vel pharetra vel turpis nunc eget lorem. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. Pellentesque sit amet porttitor eget dolor morbi non arcu.
+					{this.state.description}
 				</Text>
 
 				<View style={{
@@ -128,18 +164,18 @@ export default class CampaignScreen extends React.Component {
 				</TouchableOpacity>
 
 				<FlatList
-					data={this.state.data.slice(0,3)}
+					data={this.state.get_donations.slice(0,4)}
 					renderItem={({item}) =>
 					<Card transparent>
 						<CardItem style={{paddingLeft:0,paddingRight:0}}>
-                <Thumbnail source={{uri: 'https://via.placeholder.com/50'}} />
+                <Thumbnail source={{uri: item.image}} />
                 <Body style={{marginLeft:20}}>
 									<View style={{flex:1,flexDirection:'row',marginBottom:10}}>
-										<Text style={{flex:1}}>Donatur 1</Text>
+										<Text style={{flex:1}}>{item.name}</Text>
 										<Text style={{flex:1,textAlign:'right',color:'grey',fontSize:11}}>2:16 PM</Text>
 									</View>
                   <Text style={{color:'grey',fontSize:11}}>Jumlah Donasi</Text>
-                  <Text note>GeekyAnts</Text>
+                  <Text note>Rp. {item.amount}</Text>
                 </Body>
             </CardItem>
 					</Card>

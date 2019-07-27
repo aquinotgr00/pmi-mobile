@@ -5,7 +5,6 @@ export const ProgressBar = (props) => {
   return (
     <View style={{
       position: 'relative',
-      // marginLeft: props.left,
       marginVertical: 10,
       height: props.height,
       width: '100%',

@@ -1,11 +1,15 @@
 import React from 'react'
 import { IconInu, Screen, CampaignList, HomeBanner } from 'src/components'
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
+import axios from 'axios'
 
 export default class HomeScreen extends React.Component {
     state = {
       loading: true,
-      generalCampaigns: []
+      generalCampaigns: [],
+      specialCampaigns: [],
+      bulanDana: [],
+      percentage: 50,
     }
 
     static navigationOptions = {
@@ -17,17 +21,35 @@ export default class HomeScreen extends React.Component {
 
     constructor(props) {
       super(props)
-      this.state = {
-        percentage: 50,
-        generalCampaigns: [],
-        data: [
-          {key:'a'},
-          {key:'b'},
-          {key:'c'},
-        ]
-      }
     
       this.navigateToInKindDonationForm = this.navigateToInKindDonationForm.bind(this)
+      this.getCampaignList = this.getCampaignList.bind(this)
+    }
+
+    componentDidMount () {
+      this.getCampaignList(1)
+      this.getCampaignList(2)
+      this.getCampaignList(3)
+    }
+
+    getCampaignList(t) {
+      axios.get('http://test-donatur.test/api/app/campaigns?t='+t)
+        .then(res => {
+          switch (t) {
+            case 1:
+              this.setState({generalCampaigns:res.data.data.data})
+              break;
+            case 2:
+              this.setState({specialCampaigns:res.data.data.data})
+              break;
+            case 3:
+              this.setState({bulanDana:res.data.data.data})
+              break;
+          
+            default:
+              break;
+          }
+        })
     }
     
     navigateToInKindDonationForm() {
@@ -37,13 +59,28 @@ export default class HomeScreen extends React.Component {
     render() {
       return (
         <Screen title='Home' menu>
-          <CampaignList title='Donasi Umum' data={this.state.data} navigation={this.props.navigation} />
+          <CampaignList
+            type={1}
+            title='Donasi Umum'
+            data={this.state.generalCampaigns.slice(0, 3)}
+            navigation={this.props.navigation}
+          />
 
-          <CampaignList title='Donasi Khusus' data={this.state.data} navigation={this.props.navigation} />
+          <CampaignList
+            type={2}
+            title='Donasi Khusus'
+            data={this.state.specialCampaigns.slice(0, 3)}
+            navigation={this.props.navigation}
+          />
 
           <HomeBanner />
 
-          <CampaignList title='Bulan Dana' data={this.state.data} navigation={this.props.navigation} />
+          <CampaignList
+            type={3}
+            title='Bulan Dana'
+            data={this.state.bulanDana.slice(0, 3)}
+            navigation={this.props.navigation}
+          />
 
           {/* <Button bordered onPress={this.navigateToInKindDonationForm}>
             <Text>Mock Donasi Barang</Text>
