@@ -5,6 +5,7 @@ export function HomeBanner (props) {
     return (
         <ImageBackground
             source={{ uri: 'https://via.placeholder.com/350x160' }}
+            imageStyle={{borderRadius:5}}
             style={{
               height: 160,
               width: '100%',
@@ -18,7 +19,8 @@ export function HomeBanner (props) {
               style={{
                 position: 'absolute', // child
                 bottom: 20, // position where you want
-                left: 20
+                width: '100%',
+                paddingHorizontal: '8%',
               }}
             >
               <Text style={{color:'white',fontSize:12}}>Bersama Kita Bantu Sesama</Text>

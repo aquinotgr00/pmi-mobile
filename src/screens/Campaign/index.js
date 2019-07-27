@@ -1,12 +1,12 @@
 import React from 'react'
 import { ProgressBar } from 'src/components'
-import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView } from 'react-native'
+import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body } from 'native-base';
 export { CampaignListScreen } from './List'
 import { BackButton } from 'src/components/HeaderButtons'
 
-const Header_Maximum_Height = 200;
-const Header_Minimum_Height = 85;
+const Header_Maximum_Height = 200
+const Header_Minimum_Height = Math.round(Dimensions.get('window').height*(1/9))
 
 export default class CampaignScreen extends React.Component {
 	constructor (props) {
@@ -44,7 +44,6 @@ export default class CampaignScreen extends React.Component {
 	}
 
 	render () {
-		console.log(this.props)
 		return (
 			<>
 			<Animated.View>
@@ -61,14 +60,14 @@ export default class CampaignScreen extends React.Component {
 				onPress={() => { this.props.navigation.goBack()}}
 				style={{
 					position:'absolute',
-					top: 40,
+					top: Math.round(Dimensions.get('window').height*(1/22)),
 					left: 15,
 				}}>
 					<BackButton />
 				</TouchableOpacity>
 				<Animated.View style={{
 					position:'absolute',
-					top: 55,
+					top: '55%',
 					left: 0,
 					width: '100%',
 					opacity: this.animatedTitleOpacity
@@ -91,7 +90,6 @@ export default class CampaignScreen extends React.Component {
 					}
 				])}
 			>
-      {/* <Screen title='' back noHeader> */}
 				<Text style={{marginBottom:10}}>Judul</Text>
 
 				<ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
@@ -134,7 +132,6 @@ export default class CampaignScreen extends React.Component {
 					renderItem={({item}) =>
 					<Card transparent>
 						<CardItem style={{paddingLeft:0,paddingRight:0}}>
-              {/* <Left> */}
                 <Thumbnail source={{uri: 'https://via.placeholder.com/50'}} />
                 <Body style={{marginLeft:20}}>
 									<View style={{flex:1,flexDirection:'row',marginBottom:10}}>
@@ -144,7 +141,6 @@ export default class CampaignScreen extends React.Component {
                   <Text style={{color:'grey',fontSize:11}}>Jumlah Donasi</Text>
                   <Text note>GeekyAnts</Text>
                 </Body>
-              {/* </Left> */}
             </CardItem>
 					</Card>
 					}
@@ -160,7 +156,6 @@ export default class CampaignScreen extends React.Component {
 						Lihat Semua
 					</Text>
 				</View>
-			{/* </Screen> */}
 			</ScrollView>
 			</>
 		)
