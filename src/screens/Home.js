@@ -1,14 +1,15 @@
 import React from 'react'
-import { Button } from 'native-base'
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native'
-import { IconInu, Screen } from 'src/components'
-import Config from 'react-native-config'
-import PaymentGateway from 'react-native-payment-gateway'
+import { IconInu, Screen, CampaignList, HomeBanner } from 'src/components'
+import { StyleSheet } from 'react-native'
+import axios from 'axios'
 
 export default class HomeScreen extends React.Component {
   state = {
     loading: true,
-    generalCampaigns: []
+    generalCampaigns: [],
+    specialCampaigns: [],
+    bulanDana: [],
+    percentage: 50,
   }
 
   static navigationOptions = {
@@ -21,104 +22,64 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
   
-    this.navigateToInKindDonationForm = this.navigateToInKindDonationForm.bind(this)
-    this.pay = this.pay.bind(this)
-  }
-  
-  navigateToInKindDonationForm() {
-    this.props.navigation.navigate('InKindDonationForm')
+    this.getCampaignList = this.getCampaignList.bind(this)
   }
 
-  async componentDidMount() {
-    // const generalCampaigns = await basicRequest().get('/app/campaigns?t=1')
-    // this.setState({
-    //   generalCampaigns
-    // })
+  componentDidMount () {
+    this.getCampaignList(1)
+    this.getCampaignList(2)
+    this.getCampaignList(3)
   }
 
-  pay() {
-    const optionConect = {
-      clientKey: 'SB-Mid-client-5cSArh5V34nHg_JD',
-      urlMerchant: 'https://webapi-develop-pmi-public.blm.solutions',
-      sandbox : true
-    }
-    console.log(optionConect);
-    
-    const transRequest = {
-        transactionId: "0001",
-        totalAmount: 4000
-    }
-
-    const itemDetails = [
-        {id: "001", price: 1000, qty: 4, name: "peanuts"}
-    ];
-
-    const creditCardOptions = {
-        saveCard: false,
-        saveToken: false,
-        paymentMode: "Normal",
-        secure: false
-    };
-
-    const userDetail = {
-        fullName: "jhon",
-        email: "jhon@payment.com",
-        phoneNumber: "0850000000",
-        userId: "U01",
-        address: "street coffee",
-        city: "yogyakarta",
-        country: "IDN",
-        zipCode: "59382"
-    };
-
-    const optionColorTheme = {
-        primary: '#c51f1f',
-        primaryDark: '#1a4794',
-        secondary: '#1fce38'
-    }
-
-    const optionFont = {
-        defaultText: "open_sans_regular.ttf",
-        semiBoldText: "open_sans_semibold.ttf",
-        boldText: "open_sans_bold.ttf"
-    }
-
-    const callback = (res) => {
-        console.log(res)
-    };
-
-    PaymentGateway.checkOut(
-        optionConect,
-        transRequest,
-        itemDetails,
-        creditCardOptions,
-        userDetail,
-        optionColorTheme,
-        optionFont,
-        callback
-    );
+  getCampaignList(t) {
+    axios.get('http://test-donatur.test/api/app/campaigns?t='+t)
+    .then(res => {
+      switch (t) {
+        case 1:
+          this.setState({generalCampaigns:res.data.data.data})
+          break;
+        case 2:
+          this.setState({specialCampaigns:res.data.data.data})
+          break;
+        case 3:
+          this.setState({bulanDana:res.data.data.data})
+          break;
+      
+        default:
+          break;
+      }
+    })
   }
 
   render() {
+
     return (
       <Screen title='Home' menu>
-        <Button bordered onPress={this.navigateToInKindDonationForm}>
-          <Text>Mock Donasi Barang</Text>
-        </Button>
-        <Button bordered>
-          <Text>Mock Midtrans</Text>
-        </Button>
-        <Button bordered onPress={this.pay}>
-          <Text>Mock Login</Text>
-        </Button>
-        <View style={{flex:1,flexDirection:'row',marginBottom:15}}>
-          <Text style={[styles.campaignTitleList, {width: '50%'}]}>Donasi Umum</Text>
-          <TouchableOpacity style={{width: '50%'}} onPress={() => navigation.navigate('CampaignList', {param: 'donasi-umum'})}>
-            <Text style={{textAlign: 'right',color: 'red',fontSize: 13,fontWeight: '600'}}>Lihat Semua</Text>
-          </TouchableOpacity>
-        </View>
+        <CampaignList
+          type={1}
+          title='Donasi Umum'
+          data={this.state.generalCampaigns.slice(0, 3)}
+          navigation={this.props.navigation}
+        />
+
+        <CampaignList
+          type={2}
+          title='Donasi Khusus'
+          data={this.state.specialCampaigns.slice(0, 3)}
+          navigation={this.props.navigation}
+        />
+
+        <HomeBanner />
+
+        <CampaignList
+          type={3}
+          title='Bulan Dana'
+          data={this.state.bulanDana.slice(0, 3)}
+          navigation={this.props.navigation}
+        />
+        
       </Screen>
-    );
+    )
   }
 }
 

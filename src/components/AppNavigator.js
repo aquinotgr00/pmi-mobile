@@ -1,5 +1,7 @@
 import HomeScreen from 'src/screens/Home'
 import { DonatorRegistrationScreen, VolunteerRegistrationScreen } from 'src/screens/Registration'
+import CampaignScreen from 'src/screens/Campaign'
+import CampaignListScreen from 'src/screens/Campaign/List'
 import DonatorRegistrationFormScreen from 'src/screens/Registration/Donator/Form'
 import LoginScreen from 'src/screens/Login'
 import ForgotPasswordScreen from 'src/screens/ForgotPassword'
@@ -10,6 +12,11 @@ import { createDrawerNavigator, createAppContainer, createStackNavigator } from 
 import InKindDonationFormScreen from 'src/screens/Donation/InKind'
 
 const Home = { screen: HomeScreen }
+const drawerContentOptions = {
+  contentOptions: {
+    activeTintColor: '#ed1b24'
+  }
+}
 
 const GuestDrawerNavigator = createDrawerNavigator({
   Home,
@@ -19,13 +26,9 @@ const GuestDrawerNavigator = createDrawerNavigator({
   VolunteerRegistration: {
     screen: VolunteerRegistrationScreen
   }
-}, {
-  contentOptions: {
-    activeTintColor: '#ed1b24'
-  }
-})
+}, drawerContentOptions)
 
-const UserDrawerNavigator = createDrawerNavigator({
+const DonatorDrawerNavigator = createDrawerNavigator({
   Home,
   VolunteerRegistration: {
     screen: VolunteerRegistrationScreen
@@ -33,18 +36,20 @@ const UserDrawerNavigator = createDrawerNavigator({
   UserProfile: {
     screen: UserProfileScreen
   }
-}, {
-  contentOptions: {
-    activeTintColor: '#ed1b24'
-  }
-})
+}, drawerContentOptions)
 
 const StackNavigator = createStackNavigator({
   GuestNavigator: {
     screen: GuestDrawerNavigator
   },
-  UserNavigator: {
-    screen: UserDrawerNavigator
+  DonatorNavigator: {
+    screen: DonatorDrawerNavigator
+  },
+  Campaign: {
+    screen: CampaignScreen
+  },
+  CampaignList: {
+    screen: CampaignListScreen
   },
   DonatorRegistrationForm: {
     screen: DonatorRegistrationFormScreen
@@ -64,8 +69,8 @@ const StackNavigator = createStackNavigator({
 
 }, {
   headerMode: 'none',
-  initialRouteName: 'InKindDonationForm'
-  // initialRouteName: 'GuestNavigator'
+  // initialRouteName: 'InKindDonationForm'
+  initialRouteName: 'GuestNavigator'
 })
 
 export default createAppContainer(StackNavigator)

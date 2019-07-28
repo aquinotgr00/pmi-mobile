@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, Animated } from 'react-native'
 
 export function IconInu (props) {
   const code = {
@@ -20,6 +20,6 @@ export function IconInu (props) {
   const { size, color } = props
   const fontSize = size || 26
   return (
-    <Text style={{ fontFamily: 'fontello', fontSize, color }}>{code[props.name]}</Text>
+    <Animated.Text style={{ fontFamily: 'fontello', fontSize, color }}>{code[props.name]}</Animated.Text>
   )
 }
