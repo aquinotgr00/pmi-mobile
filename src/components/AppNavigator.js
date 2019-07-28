@@ -4,14 +4,15 @@ import DonatorRegistrationFormScreen from 'src/screens/Registration/Donator/Form
 import LoginScreen from 'src/screens/Login'
 import ForgotPasswordScreen from 'src/screens/ForgotPassword'
 import ResetPasswordScreen from 'src/screens/ResetPassword'
+import UserProfileScreen from 'src/screens/UserProfile'
 
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import InKindDonationFormScreen from 'src/screens/Donation/InKind'
 
-const DrawerNavigator = createDrawerNavigator({
-  Home: {
-    screen: HomeScreen
-  },
+const Home = { screen: HomeScreen }
+
+const GuestDrawerNavigator = createDrawerNavigator({
+  Home,
   DonatorRegistration: {
     screen: DonatorRegistrationScreen
   },
@@ -24,9 +25,26 @@ const DrawerNavigator = createDrawerNavigator({
   }
 })
 
+const UserDrawerNavigator = createDrawerNavigator({
+  Home,
+  VolunteerRegistration: {
+    screen: VolunteerRegistrationScreen
+  },
+  UserProfile: {
+    screen: UserProfileScreen
+  }
+}, {
+  contentOptions: {
+    activeTintColor: '#ed1b24'
+  }
+})
+
 const StackNavigator = createStackNavigator({
-  Main: {
-    screen: DrawerNavigator
+  GuestNavigator: {
+    screen: GuestDrawerNavigator
+  },
+  UserNavigator: {
+    screen: UserDrawerNavigator
   },
   DonatorRegistrationForm: {
     screen: DonatorRegistrationFormScreen
@@ -45,7 +63,9 @@ const StackNavigator = createStackNavigator({
   }
 
 }, {
-  headerMode: 'none'
+  headerMode: 'none',
+  initialRouteName: 'InKindDonationForm'
+  // initialRouteName: 'GuestNavigator'
 })
 
 export default createAppContainer(StackNavigator)

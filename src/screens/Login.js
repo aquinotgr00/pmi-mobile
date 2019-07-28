@@ -8,6 +8,11 @@ export default class LoginScreen extends React.Component {
     super(props)
 
     this.forgotPassword = this.forgotPassword.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+  }
+
+  handleLogin () {
+    this.props.navigation.navigate('UserNavigator')
   }
 
   forgotPassword () {
@@ -25,7 +30,7 @@ export default class LoginScreen extends React.Component {
           <Input placeholder='Password' secureTextEntry />
         </Item>
 
-        <Button rounded danger>
+        <Button rounded danger onPress={this.handleLogin}>
           <Text>Masuk</Text>
         </Button>
         <Button transparent onPress={this.forgotPassword}>

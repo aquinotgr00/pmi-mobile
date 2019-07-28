@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Icon, Input, Item, Picker, Text } from 'native-base'
+import { Button, CheckBox, Icon, Input, Item, Picker, Text } from 'native-base'
 import { Screen } from 'src/components'
 
 export default class InKindDonationFormScreen extends React.Component {
@@ -41,7 +41,7 @@ export default class InKindDonationFormScreen extends React.Component {
 
         <Text>Barang Donasi</Text>
         
-
+        <CheckBox checked /><Text>Sembunyikan nama saya (Anonim)</Text>
         <Button rounded danger onPress={this.handleFormSubmit}>
           <Text>Lanjutkan</Text>
         </Button>

@@ -105,8 +105,11 @@ export default class HomeScreen extends React.Component {
         <Button bordered onPress={this.navigateToInKindDonationForm}>
           <Text>Mock Donasi Barang</Text>
         </Button>
-        <Button bordered onPress={this.pay}>
+        <Button bordered>
           <Text>Mock Midtrans</Text>
+        </Button>
+        <Button bordered onPress={this.pay}>
+          <Text>Mock Login</Text>
         </Button>
         <View style={{flex:1,flexDirection:'row',marginBottom:15}}>
           <Text style={[styles.campaignTitleList, {width: '50%'}]}>Donasi Umum</Text>
