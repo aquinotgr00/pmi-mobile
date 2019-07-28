@@ -6,7 +6,7 @@ import { IconInu } from 'src/components'
 export const BackButton = withNavigation(function (props) {
   return (
     <Button transparent onPress={() => { props.navigation.goBack() }}>
-      <IconInu name='icon-pmi-back' />
+      <IconInu {...props} name='icon-pmi-back' />
     </Button>
   )
 })
