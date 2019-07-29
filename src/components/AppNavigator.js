@@ -1,4 +1,5 @@
 import React from 'react'
+import SplashScreen from 'src/screens/Splash'
 import HomeScreen from 'src/screens/Home'
 import { DonatorRegistrationScreen, VolunteerRegistrationScreen } from 'src/screens/Registration'
 import CampaignScreen from 'src/screens/Campaign'
@@ -55,6 +56,9 @@ const DonatorDrawerNavigator = createDrawerNavigator({
 }, drawerContentOptions)
 
 const StackNavigator = createStackNavigator({
+  Splash: {
+    screen: SplashScreen
+  },
   GuestNavigator: {
     screen: GuestDrawerNavigator
   },
@@ -95,7 +99,7 @@ const StackNavigator = createStackNavigator({
 }, {
   headerMode: 'none',
   // initialRouteName: 'InKindDonationForm'
-  initialRouteName: 'GuestNavigator'
+  // initialRouteName: 'GuestNavigator'
 })
 
 export default createAppContainer(StackNavigator)
