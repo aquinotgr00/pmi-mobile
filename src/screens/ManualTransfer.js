@@ -1,16 +1,35 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, CameraRoll } from 'react-native'
 import { Card, CardItem, Body, Thumbnail, Left, Button } from 'native-base'
 import { Screen } from 'src/components'
+import { uploadProofApi } from 'src/services/api';
 
 export default class ManualTransferScreen extends React.Component {
 	state = {
-		title: 'Manual Transfer'
+		title: 'Manual Transfer',
+		photo: null
+	}
+
+	handleUpload = () => {
+		CameraRoll.getPhotos({
+			first: 1,
+			assetType: 'Photos',
+		})
+		.then(r => {
+			this.setState({ photo: r.edges });
+			console.log(r.edges)
+			console.log(this.state.photo)
+		})
+		.catch((err) => {
+			console.log(err)
+			 //Error Loading Images
+		})
 	}
 
 	render () {
+		console.log(this.props.navigation.state.params)
 		return (
-			<Screen title={this.state.title} back>
+			<Screen title={this.state.title}>
 				<Text style={styles.heading}>Informasi Transfer</Text>
 				<Text style={styles.desc}>Silahkan melakukan transfer dengan rekening tujuan dibawah ini:</Text>
 				<View style={styles.bankContainer}>
@@ -83,9 +102,18 @@ export default class ManualTransferScreen extends React.Component {
 				</View>
 				<Text style={styles.desc}>Jika anda mengirimkan lebih dari 1 donasi, jangan melakukan transfer dengan menggabungkan	total nilai donasi tersebut. Lakukan transfer terpisah untuk tiap-tiap donasi.</Text>
 				<Text style={styles.heading}>Sudah Melakukan Transfer?</Text>
-				<Button rounded style={styles.button}>
+				<Button rounded style={styles.button} onPress={this.handleUpload}>
 					<Text style={styles.textButton}>Upload Bukti Transfer</Text>
 				</Button>
+				{this.state.photo !== null &&
+					<Image
+						style={{
+							width: 300,
+							height: 100,
+						}}
+						source={{ uri: this.state.photo.node.image.uri }}
+					/>
+				}
 			</Screen>
 		)
 	}
