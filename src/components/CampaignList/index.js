@@ -8,10 +8,6 @@ export default class CampaignList extends Component {
 	constructor (props) {
 		super(props)
 
-		this.state = {
-			percentage: 20
-		}
-
 		this.navigateToDetailCampaign = this.navigateToDetailCampaign.bind(this)
 		this.navigateToCampaignList = this.navigateToCampaignList.bind(this)
 		this.navigateToInputDonation = this.navigateToInputDonation.bind(this)

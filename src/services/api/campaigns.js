@@ -7,3 +7,7 @@ let cancel
 export function getCampaignListApi (params) {
   return basicRequest().get('/campaigns', { params })
 }
+
+export function getCampaignDetail (id) {
+  return basicRequest().get('/campaigns/'+id)
+}

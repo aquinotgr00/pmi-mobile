@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen, CampaignList, HomeBanner } from 'src/components'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, ActivityIndicator } from 'react-native'
 import { getCampaignListApi } from 'src/services/api'
 
 export default class HomeScreen extends React.Component {
@@ -9,7 +9,7 @@ export default class HomeScreen extends React.Component {
     generalCampaigns: [],
     specialCampaigns: [],
     bulanDana: [],
-    percentage: 50,
+    loading: true,
   }
 
   constructor(props) {
@@ -51,6 +51,7 @@ export default class HomeScreen extends React.Component {
           default:
             break;
         }
+        this.setState({ loading: false })
       }
       else {
         // TODO: handle error
@@ -67,28 +68,40 @@ export default class HomeScreen extends React.Component {
 
     return (
       <Screen title={<Image source={require('assets/images/logo-home.png')}/>} menu>
-        <CampaignList
-          type={1}
-          title='Donasi Umum'
-          data={this.state.generalCampaigns.slice(0, 3)}
-          navigation={this.props.navigation}
-        />
+        {this.state.loading
+        ? <ActivityIndicator />
+        :
+          <CampaignList
+            type={1}
+            title='Donasi Umum'
+            data={this.state.generalCampaigns.slice(0, 3)}
+            navigation={this.props.navigation}
+          />
+        }
 
-        <CampaignList
-          type={2}
-          title='Donasi Khusus'
-          data={this.state.specialCampaigns.slice(0, 3)}
-          navigation={this.props.navigation}
-        />
+        {this.state.loading
+        ? <ActivityIndicator />
+        :
+          <CampaignList
+            type={2}
+            title='Donasi Khusus'
+            data={this.state.specialCampaigns.slice(0, 3)}
+            navigation={this.props.navigation}
+          />
+        }
 
         <HomeBanner />
 
-        <CampaignList
-          type={3}
-          title='Bulan Dana'
-          data={this.state.bulanDana.slice(0, 3)}
-          navigation={this.props.navigation}
-        />
+        {this.state.loading
+        ? <ActivityIndicator />
+        :
+          <CampaignList
+            type={3}
+            title='Bulan Dana'
+            data={this.state.bulanDana.slice(0, 3)}
+            navigation={this.props.navigation}
+          />
+        }
         
       </Screen>
     )

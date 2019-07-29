@@ -4,7 +4,7 @@ import { ImageBackground, View, Text, TouchableOpacity } from 'react-native';
 export function HomeBanner (props) {
     return (
         <ImageBackground
-            source={{ uri: 'https://via.placeholder.com/350x160' }}
+            source={require('assets/images/home-banner.png')}
             imageStyle={{borderRadius:5}}
             style={{
               height: 160,

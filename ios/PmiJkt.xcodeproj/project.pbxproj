@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* PmiJktTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PmiJktTests.m */; };
 		0A37D735E66F4A1BA7707952 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5172632600804F71BCF1FC4F /* SimpleLineIcons.ttf */; };
