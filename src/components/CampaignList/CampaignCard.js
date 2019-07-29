@@ -9,7 +9,6 @@ export const CampaignCard = (props) => {
 
 	return (
 		<Card
-		key={props.key}
 		style={{
 			marginRight:15,
 			marginLeft:0,
@@ -59,11 +58,14 @@ export const CampaignCard = (props) => {
 					marginHorizontal:20,
 					opacity:.1
 				}} />
-				<TouchableOpacity style={{
-					borderBottomLeftRadius:5,
-					borderBottomRightRadius:5,
-					paddingVertical:18
-				}}>
+				<TouchableOpacity
+					onPress={() => props.linkForm(props.item.id)}
+					style={{
+						borderBottomLeftRadius:5,
+						borderBottomRightRadius:5,
+						paddingVertical:18
+					}}
+				>
 					<Text style={{color:'red',textAlign:'center',fontWeight:'500'}}>Berdonasi</Text>
 				</TouchableOpacity>
 			</TouchableOpacity>

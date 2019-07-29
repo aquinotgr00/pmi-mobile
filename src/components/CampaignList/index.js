@@ -14,6 +14,7 @@ export default class CampaignList extends Component {
 
 		this.navigateToDetailCampaign = this.navigateToDetailCampaign.bind(this)
 		this.navigateToCampaignList = this.navigateToCampaignList.bind(this)
+		this.navigateToInputDonation = this.navigateToInputDonation.bind(this)
 	}
 
 	navigateToDetailCampaign(id) {
@@ -22,6 +23,9 @@ export default class CampaignList extends Component {
 	navigateToCampaignList() {
 		const { title, type } = this.props
 		this.props.navigation.navigate('CampaignList', {title, type})
+	}
+	navigateToInputDonation(id) {
+		this.props.navigation.navigate('FundDonation', {id})
 	}
 
 	render () {
@@ -49,10 +53,9 @@ export default class CampaignList extends Component {
 					renderItem={(item) =>
 						<CampaignCard
 							{...item}
-							key={item.item.id}
 							width={245}
 							link={this.navigateToDetailCampaign}
-							// percentage={item.item.amount_real/item.item.amount_goal*100}
+							linkForm={this.navigateToInputDonation}
 						/>
 					}
 				/>
