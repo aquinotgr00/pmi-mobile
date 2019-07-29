@@ -22,7 +22,7 @@ export const CampaignCard = (props) => {
 			<TouchableOpacity onPress={() => props.link(props.item.id)}>
 				<View style={{borderRadius:5}}>
 					<Image
-						source={{uri: 'https://via.placeholder.com/250x150'}}
+						source={{uri: props.item.image}}
 						style={{
 							width: '100%',
 							height:150,
@@ -33,7 +33,7 @@ export const CampaignCard = (props) => {
 				</View>
 				<CardItem>
 					<Left style={{paddingHorizontal:10}}>
-						<Text numberOfLines={2} style={{fontWeight:'500',minHeight:40}}>{props.item.title}</Text>
+						<Text numberOfLines={2} style={{fontWeight:'500',minHeight:30,lineHeight:20}}>{props.item.title}</Text>
 					</Left>
 				</CardItem>
 				<View style={{marginHorizontal:25}}>
@@ -48,7 +48,7 @@ export const CampaignCard = (props) => {
 					</Left>
 					<Right style={{paddingHorizontal:10}}>
 						<Text style={{fontSize:11,color:'grey'}}>Sisa Hari</Text>
-						<Text style={{fontWeight:'500'}}>{days !== NaN ? days:'-'}</Text>
+						<Text style={{fontWeight:'500'}}>{isNaN(days) ? '-':days}</Text>
 					</Right>
 				</CardItem>
 				<CardItem style={{

@@ -1,10 +1,11 @@
 import React from 'react'
 import { ProgressBar } from 'src/components'
-import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
+import { Text, View, TouchableOpacity, TouchableHighlight, FlatList, Animated, ScrollView, Dimensions, Modal } from 'react-native'
 import { Card, CardItem, Thumbnail, Body } from 'native-base'
 import { BackButton } from 'src/components/HeaderButtons'
-import Axios from 'axios'
 export { CampaignListScreen } from './List'
+import { getCampaignDetail } from 'src/services/api'
+import { daysRemaining } from 'src/utils/'
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
@@ -13,29 +14,28 @@ export default class CampaignScreen extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      percentage: 80,
+      percentage: 0,
+      days: 0,
       lineNumber: 9,
+      showReadMore: false,
+      readMoreText: 'Baca Selengkapnya',
+      showAllDonationsText: false,
+      donatorListModalVisible: false,
       id: this.props.navigation.state.params.id,
       image: '',
       title: '...',
       description: 'loading...',
+      loading: true,
       amount_goal: 0,
       amount_real: 0,
       get_donations: [],
       finish_campaign: '',
       type_id: 0,
-      data: [
-        { key: 'a' },
-        { key: 'b' },
-        { key: 'c' },
-        { key: 'd' },
-        { key: 'e' },
-        { key: 'f' },
-        { key: 'g' }
-      ]
     }
 
     this.getDetailCampaign = this.getDetailCampaign.bind(this)
+    this.toggleReadMoreBtn = this.toggleReadMoreBtn.bind(this)
+    this.setModalVisible = this.setModalVisible.bind(this)
 
     this.animatedHeight = new Animated.Value(0)
     this.animatedHeaderHeight = this.animatedHeight.interpolate({
@@ -64,14 +64,35 @@ export default class CampaignScreen extends React.Component {
     this.getDetailCampaign()
   }
 
-  getDetailCampaign () {
-    Axios.get('http://test-donatur.test/api/app/campaigns/' + this.state.id)
-      .then(res => {
-        const { image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id } = res.data.data
+  async getDetailCampaign () {
+    try {
+      const response = await getCampaignDetail(this.state.id)
+      const { status } = response.data
+      if(status==='success') {
+        const { image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id } = response.data.data
+        const days = daysRemaining(finish_campaign)
+        const percentage = amount_real/amount_goal*100
+        const loading = false
+        const showAllDonationsText = get_donations.length > 4 ? true:false 
         this.setState({
-          image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id
+          image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, days, percentage, loading, showAllDonationsText
         })
-      })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  toggleReadMoreBtn = () => {
+    if (this.state.lineNumber !== 999) {
+      this.setState({ lineNumber: 999, readMoreText: 'Persingkat' })
+    } else if (this.state.lineNumber === 999) {
+      this.setState({ lineNumber: 9, readMoreText: 'Baca Selengkapnya' })
+    }
+  }
+
+  setModalVisible(visible) {
+    this.setState({donatorListModalVisible: visible});
   }
 
   render () {
@@ -97,20 +118,20 @@ export default class CampaignScreen extends React.Component {
             <BackButton color={this.animatedBackColor} />
           </TouchableOpacity>
           <Animated.View style={{
-			    position: 'absolute',
-			    top: Math.round(Dimensions.get('window').height * (1 / 16)),
-			    left: 50,
-			    width: '100%',
-			    opacity: this.animatedTitleOpacity
-			  }}>
+            position: 'absolute',
+            top: Math.round(Dimensions.get('window').height * (1 / 17)),
+            left: 50,
+            width: '100%',
+            opacity: this.animatedTitleOpacity
+          }}>
             <Animated.Text
               numberOfLines={1}
               style={{
-			        textAlign: 'left',
-			        fontSize: 16,
-			        width: '80%'
-			      }}
-			    >
+                textAlign: 'left',
+                fontSize: 16,
+                width: '80%'
+              }}
+            >
               {this.state.title}
             </Animated.Text>
           </Animated.View>
@@ -139,28 +160,43 @@ export default class CampaignScreen extends React.Component {
             </View>
             <View style={{ flex: 1, alignItems: 'flex-end' }}>
               <Text style={{ marginBottom: 5, fontSize: 11, color: 'grey' }}>Sisa Hari</Text>
-              <Text style={{ fontWeight: '500' }}>-</Text>
+              <Text style={{ fontWeight: '500' }}>{isNaN(this.state.days) ? '-':this.state.days}</Text>
             </View>
           </View>
 
-          <Text numberOfLines={this.state.lineNumber} style={{ marginBottom: 20 }}>
-            {this.state.description}
-          </Text>
-
-          <View style={{
-			    borderTopWidth: 1,
-			    borderBottomWidth: 1,
-			    borderColor: 'rgba(60, 58, 57, 0.15)',
-			    marginBottom: 35
-			  }}>
-            <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
-						Baca Selengkapnya
+          {!this.state.loading && 
+            <Text
+              numberOfLines={this.state.lineNumber}
+              style={{ marginBottom: 20 }}
+              onLayout={(ev) => { 
+                if (this.state.lineNumber !== 999)
+                  this.setState({
+                    showReadMore: ev.nativeEvent.layout.height > 16*this.state.lineNumber ? true:false
+                  })
+              }}
+            >
+              {this.state.description}
             </Text>
-          </View>
+          }
 
-				<Text style={{fontWeight:'500',fontSize:16,marginBottom:15}}>List Donatur</Text>
+          {this.state.showReadMore &&
+            <View style={{
+              borderTopWidth: 1,
+              borderBottomWidth: 1,
+              borderColor: 'rgba(60, 58, 57, 0.15)',
+              marginBottom: 35
+            }}>
+              <TouchableOpacity onPress={this.toggleReadMoreBtn}>
+                <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
+                  {this.state.readMoreText}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          }
+
+				<Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
 				<TouchableOpacity
-					onPress={() => this.props.navigation.navigate('FundDonation')}
+					onPress={() => this.props.navigation.navigate('FundDonation', { id:this.state.id })}
 					style={{backgroundColor:'red',borderRadius:60,paddingVertical:15,marginBottom:10}}
 				>
 					<Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
@@ -182,19 +218,68 @@ export default class CampaignScreen extends React.Component {
                   </Body>
                 </CardItem>
               </Card>
-			    }
-			  />
+            }
+          />
 
-          <View style={{
-			    borderTopWidth: 1,
-			    borderBottomWidth: 1,
-			    borderColor: 'rgba(60, 58, 57, 0.15)',
-			    marginBottom: 35
-			  }}>
-            <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
-						Lihat Semua
-            </Text>
-          </View>
+          {this.state.showAllDonationsText &&
+            <View style={{
+              borderTopWidth: 1,
+              borderBottomWidth: 1,
+              borderColor: 'rgba(60, 58, 57, 0.15)',
+              marginBottom: 65
+            }}>
+              <TouchableOpacity onPress={() => this.setModalVisible(true)}>
+                <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
+                Lihat Semua
+                </Text>
+              </TouchableOpacity>
+            </View>
+          }
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.donatorListModalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
+            <View style={{
+                marginTop:160,
+                marginBottom:40,
+                backgroundColor:'white',
+                shadowOffset: { width: 3, height: -5 },
+                shadowOpacity: .5,
+                shadowRadius: 8,
+                elevation: 1,
+              }}
+            >
+              <View>
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setModalVisible(!this.state.donatorListModalVisible);
+                  }}>
+                  <Text style={{textAlign:'center'}}>Hide Modal</Text>
+                </TouchableHighlight>
+                <FlatList
+                  data={this.state.get_donations}
+                  renderItem={({ item }) =>
+                    <Card transparent>
+                      <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
+                        <Thumbnail source={{ uri: item.image }} />
+                        <Body style={{ marginLeft: 20 }}>
+                          <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+                            <Text style={{ flex: 1 }}>{item.name}</Text>
+                            <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
+                          </View>
+                          <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
+                          <Text note>Rp. {item.amount}</Text>
+                        </Body>
+                      </CardItem>
+                    </Card>
+                  }
+                />
+              </View>
+            </View>
+          </Modal>
         </ScrollView>
       </>
     )
