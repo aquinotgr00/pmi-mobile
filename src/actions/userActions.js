@@ -1,5 +1,6 @@
-import { loginApi, logoutApi } from 'services/api'
-import { persistor } from 'store'
+import { loginApi, logoutApi, registerDonatorApi } from 'src/services/api'
+import { persistor } from 'src/store'
+import NavigationService from 'src/services/NavigationService'
 
 export function login (credentials) {
   return async function (dispatch, getState) {
@@ -13,11 +14,12 @@ export function login (credentials) {
 
       const { status, data } = loginResponse.data
       if (status === 'success') {
-        const { token } = data
+        const { access_token: token } = data
         dispatch({
           type: 'LOGIN_SUCCESS',
           token
         })
+        NavigationService.navigate('DonatorNavigator')
       } else {
         const { account } = data
         dispatch({
@@ -28,6 +30,36 @@ export function login (credentials) {
     } catch (error) {
       dispatch({
         type: 'LOGIN_FAILURE',
+        account: 'Server Error'
+      })
+    }
+  }
+}
+
+export function registerDonator (user) {
+  return async function (dispatch, getState) {
+    dispatch({
+      type: 'REGISTER_DONATOR_REQUEST'
+    })
+
+    try {
+      const registerDonatorResponse = await registerDonatorApi(user)
+
+      const { status, data } = registerDonatorResponse.data
+      if (status === 'success') {
+        const { token } = data
+        dispatch({
+          type: 'REGISTER_DONATOR_SUCCESS',
+          token
+        })
+      } else {
+        dispatch({
+          type: 'REGISTER_DONATOR_FAILURE'
+        })
+      }
+    } catch (error) {
+      dispatch({
+        type: 'REGISTER_DONATOR_FAILURE',
         account: 'Server Error'
       })
     }
@@ -50,15 +82,3 @@ export function logout () {
     }
   }
 }
-
-export const showConfirmLogout = () => ({
-  type: 'SHOW_CONFIRM_LOGOUT'
-})
-
-export const hideConfirmLogout = () => ({
-  type: 'HIDE_CONFIRM_LOGOUT'
-})
-
-export const toggleConfirmLogout = () => ({
-  type: 'TOGGLE_CONFIRM_LOGOUT'
-})

@@ -6,6 +6,7 @@ import { store, persistor } from 'src/store'
 import OneSignal from 'react-native-onesignal'
 import Config from 'react-native-config'
 import AppNavigator from 'src/components/AppNavigator'
+import NavigationService from 'src/services/NavigationService'
 
 export default class App extends Component {
   constructor (properties) {
@@ -42,7 +43,9 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppNavigator />
+          <AppNavigator ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef)
+          }} />
         </PersistGate>
       </Provider>
     )

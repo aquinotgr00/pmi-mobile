@@ -11,12 +11,12 @@ export function Screen (props) {
           { props.back && <BackButton /> }
         </Left>
         <Body style={{ flex: 6 }}>
-          <Title>{props.title}</Title>
+          <Title style={{ fontWeight: '300' }}>{props.title}</Title>
         </Body>
         <Right />
       </Header>
 
-      <Content style={{ padding: 20 }}>
+      <Content style={{ padding: 15 }}>
         {props.children}
       </Content>
     </Container>
