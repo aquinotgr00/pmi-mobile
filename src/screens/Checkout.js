@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Screen } from 'src/components'
+import { Form, Item, Input, Label } from 'native-base'
+import { RedButton, Screen } from 'src/components'
 import PaymentGateway from 'react-native-payment-gateway'
+import Config from 'react-native-config'
 
 export default class Checkout extends Component {
   constructor (props) {
@@ -10,19 +12,22 @@ export default class Checkout extends Component {
   }
 
   pay () {
+    const { navigation } = this.props
+    const donation = navigation.getParam('donation')
+    const { name: fullName, email, phone: phoneNumber, amount } = donation
     const optionConect = {
-      clientKey: 'SB-Mid-client-5cSArh5V34nHg_JD',
-      urlMerchant: 'https://webapi-develop-pmi-public.blm.solutions',
+      clientKey: Config.MIDTRANS_CLIENT_KEY,
+      urlMerchant: Config.SERVER_URL,
       sandbox: true
     }
 
     const transRequest = {
-      transactionId: '0001',
-      totalAmount: 4000
+      transactionId: btoa(Math.random()).slice(0, 5),
+      totalAmount: donation.amount
     }
 
     const itemDetails = [
-      { id: '001', price: 1000, qty: 4, name: 'peanuts' }
+      { id: 'PMI', price: donation.amount, qty: 1, name: 'Donasi PMI' }
     ]
 
     const creditCardOptions = {
@@ -33,12 +38,12 @@ export default class Checkout extends Component {
     }
 
     const userDetail = {
-      fullName: 'jhon',
-      email: 'jhon@payment.com',
-      phoneNumber: '0850000000',
+      fullName,
+      email,
+      phoneNumber,
       userId: 'U01',
-      address: 'street coffee',
-      city: 'yogyakarta',
+      address: '-',
+      city: '-',
       country: 'IDN',
       zipCode: '59382'
     }
@@ -72,9 +77,30 @@ export default class Checkout extends Component {
   }
 
   render () {
+    const { navigation } = this.props
+    const donation = navigation.getParam('donation')
+    console.log(donation)
     return (
       <Screen title='Konfirmasi Donasi' back>
-        <Button text='Lanjutkan Pembayaran' onPress={this.pay} />
+        <Form>
+          <Item stackedLabel>
+            <Label>Name</Label>
+            <Input disabled value={donation.name} />
+          </Item>
+          <Item stackedLabel>
+            <Label>Email</Label>
+            <Input disabled value={donation.email} />
+          </Item>
+          <Item stackedLabel>
+            <Label>Phone</Label>
+            <Input disabled value={donation.phone} />
+          </Item>
+          <Item stackedLabel>
+            <Label>Amount</Label>
+            <Input disabled value={`${donation.amount}`} />
+          </Item>
+        </Form>
+        <RedButton text='Lanjutkan Pembayaran' onPress={this.pay} style={{ marginTop: 40 }} />
       </Screen>
     )
   }

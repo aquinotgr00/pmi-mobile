@@ -52,14 +52,19 @@ export default class FundDonationScreen extends React.Component {
 
 	handleSubmit = async values => {
 		try {
-			if (values.payment_method === 'manual') {
-				const response = await storeFundDonation(values)
-				const { status, data } = response.data
-				if (status === 'success') {
+			const response = await storeFundDonation(values)
+			const { status, data } = response.data
+			if (status === 'success') {
+				if (values.payment_method === 'manual') {
 					const { id } = data.donation
 					this.props.navigation.navigate('ManualTransfer', {id})
+				} else {
+					const { donation } = data
+					this.props.navigation.navigate('Checkout', {donation})
 				}
+				
 			}
+			
 		} catch (error) {
 			console.log(error)
 		}
