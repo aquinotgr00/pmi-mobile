@@ -1,1 +1,1 @@
-import { authRequest } from 'utils/network'
+import { authRequest } from 'src/utils/network'
