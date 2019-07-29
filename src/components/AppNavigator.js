@@ -8,10 +8,13 @@ import DonatorRegistrationFormScreen from 'src/screens/Registration/Donator/Form
 import LoginScreen from 'src/screens/Login'
 import ForgotPasswordScreen from 'src/screens/ForgotPassword'
 import ResetPasswordScreen from 'src/screens/ResetPassword'
+import ManualTransferScreen from 'src/screens/ManualTransfer'
+import ThankYouScreen from 'src/screens/ThankYou'
 import UserProfileScreen from 'src/screens/UserProfile'
 
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import InKindDonationFormScreen from 'src/screens/Donation/InKind'
+import FundDonationScreen from 'src/screens/Donation/FundDonation'
 
 import { IconInu } from 'src/components'
 import Theme from 'src/constants/Theme'
@@ -82,6 +85,15 @@ const StackNavigator = createStackNavigator({
   },
   InKindDonationForm: {
     screen: InKindDonationFormScreen
+  },
+  FundDonation: {
+    screen: FundDonationScreen
+  },
+  ManualTransfer: {
+    screen: ManualTransferScreen
+  },
+  ThankYou: {
+    screen: ThankYouScreen
   }
 
 }, {
