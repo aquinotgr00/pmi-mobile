@@ -5555,6 +5555,11 @@ react-native-onesignal@^3.3.0:
   dependencies:
     invariant "^2.2.2"
 
+react-native-payment-gateway@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-payment-gateway/-/react-native-payment-gateway-0.4.3.tgz#5f1d9f79718cbe302dae2967fd422bca75520dbb"
+  integrity sha512-dtKijFmLrMPKaZMwbR+xtpov9r2aM/FUxIQyjX7JpyMtxoUwQs+gPHslcSISSSDcOsuWWSy1o38S3aQlTZOMgw==
+
 react-native-safe-area-view@^0.14.1:
   version "0.14.6"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.14.6.tgz#9a9d37d9f8f3887d60c4076eae7b5d2319539446"
