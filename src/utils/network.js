@@ -2,7 +2,7 @@ import axios from 'axios'
 import Config from 'react-native-config'
 
 const axiosInstanceDefaults = {
-  baseURL: Config.API_URL
+  baseURL: Config.SERVER_URL + '/' + Config.API_PREFIX
 }
 
 export const basicRequest = () => {

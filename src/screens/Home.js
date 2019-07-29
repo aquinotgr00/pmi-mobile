@@ -1,7 +1,7 @@
 import React from 'react'
-import { IconInu, Screen, CampaignList, HomeBanner } from 'src/components'
-import { StyleSheet } from 'react-native'
-import axios from 'axios'
+import { Screen, CampaignList, HomeBanner } from 'src/components'
+import { Image, StyleSheet } from 'react-native'
+import { getCampaignListApi } from 'src/services/api'
 
 export default class HomeScreen extends React.Component {
   state = {
@@ -10,13 +10,6 @@ export default class HomeScreen extends React.Component {
     specialCampaigns: [],
     bulanDana: [],
     percentage: 50,
-  }
-
-  static navigationOptions = {
-    drawerLabel: 'Home',
-    drawerIcon: ({ tintColor }) => (
-      <IconInu name='icon-pmi-home' color={tintColor} />
-    ),
   }
 
   constructor(props) {
@@ -31,30 +24,49 @@ export default class HomeScreen extends React.Component {
     this.getCampaignList(3)
   }
 
-  getCampaignList(t) {
-    axios.get('http://test-donatur.test/api/app/campaigns?t='+t)
-    .then(res => {
-      switch (t) {
-        case 1:
-          this.setState({generalCampaigns:res.data.data.data})
-          break;
-        case 2:
-          this.setState({specialCampaigns:res.data.data.data})
-          break;
-        case 3:
-          this.setState({bulanDana:res.data.data.data})
-          break;
-      
-        default:
-          break;
+  async getCampaignList(t) {
+    const campaignParams = new URLSearchParams()
+    campaignParams.append('p', 1)  // published
+    campaignParams.append('h', 0)  // visible
+    campaignParams.append('t', t)
+    try {
+      const response = await getCampaignListApi(campaignParams)
+      const { status } = response.data
+      if(status==='success') {
+        const { data } = response.data
+        switch (t) {
+          case 1:
+            const { data:generalCampaigns } = data
+            this.setState({generalCampaigns})
+            break;
+          case 2:
+            const { data:specialCampaigns } = data
+            this.setState({specialCampaigns})
+            break;
+          case 3:
+            const { data:bulanDana } = data
+            this.setState({bulanDana})
+            break;
+        
+          default:
+            break;
+        }
       }
-    })
+      else {
+        // TODO: handle error
+      }
+      
+    } catch (error) {
+      console.log(error);
+      
+      // TODO: handle error
+    }
   }
 
   render() {
 
     return (
-      <Screen title='Home' menu>
+      <Screen title={<Image source={require('assets/images/logo-home.png')}/>} menu>
         <CampaignList
           type={1}
           title='Donasi Umum'

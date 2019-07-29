@@ -1,3 +1,4 @@
+import React from 'react'
 import HomeScreen from 'src/screens/Home'
 import { DonatorRegistrationScreen, VolunteerRegistrationScreen } from 'src/screens/Registration'
 import CampaignScreen from 'src/screens/Campaign'
@@ -11,10 +12,22 @@ import UserProfileScreen from 'src/screens/UserProfile'
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import InKindDonationFormScreen from 'src/screens/Donation/InKind'
 
-const Home = { screen: HomeScreen }
+import { IconInu } from 'src/components'
+import Theme from 'src/constants/Theme'
+
+const Home = {
+  screen: HomeScreen,
+  navigationOptions: ({ navigation }) => ({
+    drawerLabel: 'Home',
+    drawerIcon: ({ tintColor }) => (
+      <IconInu name='icon-pmi-home' color={tintColor} />
+    )
+  })
+}
+
 const drawerContentOptions = {
   contentOptions: {
-    activeTintColor: '#ed1b24'
+    activeTintColor: Theme.color.red
   }
 }
 

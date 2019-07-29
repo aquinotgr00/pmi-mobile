@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { authRequest } from 'utils/network'
+import { authRequest } from 'src/utils/network'
 
 const CancelToken = axios.CancelToken
 let cancel

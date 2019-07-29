@@ -5,18 +5,16 @@ import { BackButton, MenuButton } from './HeaderButtons'
 export function Screen (props) {
   return (
     <Container>
-      { !props.noHeader &&
-        <Header>
-          <Left>
-            { props.menu && <MenuButton /> }
-            { props.back && <BackButton /> }
-          </Left>
-          <Body style={{ flex: 6 }}>
-            <Title>{props.title}</Title>
-          </Body>
-          <Right />
-        </Header>
-      }
+      <Header transparent>
+        <Left>
+          { props.menu && <MenuButton /> }
+          { props.back && <BackButton /> }
+        </Left>
+        <Body style={{ flex: 6 }}>
+          <Title>{props.title}</Title>
+        </Body>
+        <Right />
+      </Header>
 
       <Content style={{ padding: 20 }}>
         {props.children}
