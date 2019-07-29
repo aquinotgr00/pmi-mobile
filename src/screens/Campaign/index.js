@@ -158,10 +158,13 @@ export default class CampaignScreen extends React.Component {
             </Text>
           </View>
 
-          <Text style={{ fontWeight: '500', fontSize: 16, marginBottom: 15 }}>List Donatur</Text>
-          <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 60, paddingVertical: 15, marginBottom: 10 }}>
-            <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Berdonasi</Text>
-          </TouchableOpacity>
+				<Text style={{fontWeight:'500',fontSize:16,marginBottom:15}}>List Donatur</Text>
+				<TouchableOpacity
+					onPress={() => this.props.navigation.navigate('FundDonation')}
+					style={{backgroundColor:'red',borderRadius:60,paddingVertical:15,marginBottom:10}}
+				>
+					<Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
+				</TouchableOpacity>
 
           <FlatList
             data={this.state.get_donations.slice(0, 4)}
