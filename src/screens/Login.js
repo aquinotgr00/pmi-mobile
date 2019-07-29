@@ -1,9 +1,13 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
+import { connect } from 'react-redux'
+import { Formik } from 'formik'
 import { Button, Input, Item, Text } from 'native-base'
-import { Screen } from 'src/components'
+import { RedButton, Screen } from 'src/components'
+import Color from 'src/constants/Color'
+import { login } from 'src/actions'
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
   constructor (props) {
     super(props)
 
@@ -11,8 +15,8 @@ export default class LoginScreen extends React.Component {
     this.handleLogin = this.handleLogin.bind(this)
   }
 
-  handleLogin () {
-    this.props.navigation.navigate('UserNavigator')
+  handleLogin (credentials) {
+    this.props.dispatch(login(credentials))
   }
 
   forgotPassword () {
@@ -22,21 +26,44 @@ export default class LoginScreen extends React.Component {
   render () {
     return (
       <Screen title='Masuk Sebagai Donatur' back>
-        <Image source={require('assets/images/login.png')} />
-        <Item>
-          <Input placeholder='Email' />
-        </Item>
-        <Item>
-          <Input placeholder='Password' secureTextEntry />
-        </Item>
+        <Formik
+          initialValues={{
+            email: 'donatur1@mail.com',
+            password: 'open1234'
+          }}
+          onSubmit={values => this.handleLogin(values)}
+        >
+          {props => (
+            <View style={{ alignItems: 'center' }}>
+              <Image source={require('assets/images/login.png')} />
+              <Item>
+                <Input
+                  placeholder='Email'
+                  onChangeText={props.handleChange('email')}
+                  onBlur={props.handleBlur('email')}
+                  value={props.values.email}
+                />
+              </Item>
+              <Item>
+                <Input
+                  placeholder='Password'
+                  secureTextEntry
+                  onChangeText={props.handleChange('password')}
+                  onBlur={props.handleBlur('password')}
+                  value={props.values.password}
+                />
+              </Item>
 
-        <Button rounded danger onPress={this.handleLogin}>
-          <Text>Masuk</Text>
-        </Button>
-        <Button transparent onPress={this.forgotPassword}>
-          <Text>Lupa Password?</Text>
-        </Button>
+              <RedButton text='Masuk' onPress={props.handleSubmit} style={{ marginTop: 30 }} />
+              <Button full transparent onPress={this.forgotPassword} style={{ marginTop: 30 }}>
+                <Text style={{ color: Color.red }}>Lupa Password?</Text>
+              </Button>
+            </View>
+          )}
+        </Formik>
       </Screen>
     )
   }
 }
+
+export default connect(state => ({ user: state.user }))(LoginScreen)

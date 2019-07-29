@@ -17,7 +17,7 @@ import InKindDonationFormScreen from 'src/screens/Donation/InKind'
 import FundDonationScreen from 'src/screens/Donation/FundDonation'
 
 import { IconInu } from 'src/components'
-import Theme from 'src/constants/Theme'
+import Color from 'src/constants/Color'
 
 const Home = {
   screen: HomeScreen,
@@ -29,9 +29,13 @@ const Home = {
   })
 }
 
+const VolunteerRegistration = {
+  screen: VolunteerRegistrationScreen
+}
+
 const drawerContentOptions = {
   contentOptions: {
-    activeTintColor: Theme.color.red
+    activeTintColor: Color.red
   }
 }
 
@@ -40,16 +44,12 @@ const GuestDrawerNavigator = createDrawerNavigator({
   DonatorRegistration: {
     screen: DonatorRegistrationScreen
   },
-  VolunteerRegistration: {
-    screen: VolunteerRegistrationScreen
-  }
+  VolunteerRegistration
 }, drawerContentOptions)
 
 const DonatorDrawerNavigator = createDrawerNavigator({
   Home,
-  VolunteerRegistration: {
-    screen: VolunteerRegistrationScreen
-  },
+  VolunteerRegistration,
   UserProfile: {
     screen: UserProfileScreen
   }
@@ -99,7 +99,7 @@ const StackNavigator = createStackNavigator({
 }, {
   headerMode: 'none',
   // initialRouteName: 'InKindDonationForm'
-  // initialRouteName: 'GuestNavigator'
+  initialRouteName: 'DonatorRegistrationForm'
 })
 
 export default createAppContainer(StackNavigator)

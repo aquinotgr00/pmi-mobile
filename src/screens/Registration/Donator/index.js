@@ -1,11 +1,12 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 import { Button, Text } from 'native-base'
-import { IconInu, Screen } from 'src/components'
+import { IconInu, RedButton, Screen } from 'src/components'
+import Color from 'src/constants/Color'
 
 export class DonatorRegistrationScreen extends React.Component {
   static navigationOptions = {
-    drawerLabel: 'Daftar Donatur',
+    drawerLabel: 'Login/Register Donatur',
     drawerIcon: ({ tintColor }) => (
       <IconInu name='icon-pmi-donatur-regist' color={tintColor} />
     ),
@@ -29,15 +30,20 @@ export class DonatorRegistrationScreen extends React.Component {
   render() {
     return (
       <Screen title='Daftar Sebagai Donatur' menu>
-        
-        <Image source={require('assets/images/daftar-donatur.png')} />
-        <Button rounded danger onPress={this.navigateToRegistrationForm}>
-          <Text>Daftar</Text>
-        </Button>
-        <Button transparent onPress={this.navigateToLogin}>
-          <Text>Sudah memiliki akun? <Text>Masuk</Text></Text>
-        </Button>
-        
+        <View style={{alignItems:'center'}}>
+          <Image source={require('assets/images/daftar-donatur.png')} style={{flex:1}}/>
+          <View style={{alignItems:'center'}}>
+            <View style={{alignItems:'center'}}>
+              <Text style={{fontWeight:500}}>BERDONASI UNTUK BANTU SESAMA</Text>
+              <Text>Lorem ipsum dolor sit amet,</Text>
+              <Text>consectetur adipiscing</Text>
+            </View>
+            <RedButton text='Daftar' onPress={this.navigateToRegistrationForm} style={{marginTop:30}} />
+            <Button full transparent onPress={this.navigateToLogin} style={{marginTop:20}} >
+              <Text style={{color:Color.black}}>Sudah memiliki akun? <Text style={{color:Color.red}}>Masuk</Text></Text>
+            </Button>
+          </View>
+        </View>
       </Screen>
     );
   }
