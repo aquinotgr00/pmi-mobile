@@ -11,6 +11,7 @@ import ResetPasswordScreen from 'src/screens/ResetPassword'
 import ManualTransferScreen from 'src/screens/ManualTransfer'
 import ThankYouScreen from 'src/screens/ThankYou'
 import UserProfileScreen from 'src/screens/UserProfile'
+import CheckoutScreen from 'src/screens/Checkout'
 
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import InKindDonationFormScreen from 'src/screens/Donation/InKind'
@@ -94,12 +95,16 @@ const StackNavigator = createStackNavigator({
   },
   ThankYou: {
     screen: ThankYouScreen
+  },
+  Checkout: {
+    screen: CheckoutScreen
   }
 
 }, {
   headerMode: 'none',
   // initialRouteName: 'InKindDonationForm'
-  initialRouteName: 'GuestNavigator'
+  // initialRouteName: 'GuestNavigator'
+  // initialRouteName: 'DonatorRegistrationForm'
 })
 
 export default createAppContainer(StackNavigator)
