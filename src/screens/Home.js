@@ -90,7 +90,7 @@ export default class HomeScreen extends React.Component {
           />
         }
 
-        <HomeBanner />
+        <HomeBanner navigation={this.props.navigation} />
 
         {this.state.loading
         ? <ActivityIndicator />
