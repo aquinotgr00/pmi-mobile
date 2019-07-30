@@ -2,9 +2,13 @@ import React from 'react'
 import { View, Text, StyleSheet, CameraRoll } from 'react-native'
 import { Card, CardItem, Body, Thumbnail, Left, Button } from 'native-base'
 import { Screen } from 'src/components'
-import { uploadProofApi } from 'src/services/api';
+import { uploadProofApi } from 'src/services/api'
 
 export default class ManualTransferScreen extends React.Component {
+	static navigationOptions = {
+		gesturesEnabled: false
+	}
+
 	state = {
 		title: 'Manual Transfer',
 		photo: null
@@ -27,9 +31,8 @@ export default class ManualTransferScreen extends React.Component {
 	}
 
 	render () {
-		console.log(this.props.navigation.state.params)
 		return (
-			<Screen title={this.state.title}>
+			<Screen title={this.state.title} menu>
 				<Text style={styles.heading}>Informasi Transfer</Text>
 				<Text style={styles.desc}>Silahkan melakukan transfer dengan rekening tujuan dibawah ini:</Text>
 				<View style={styles.bankContainer}>
