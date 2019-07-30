@@ -12,6 +12,7 @@ const validationSchema = yup.object().shape({
 		.required(),
 	email: yup
 		.string()
+		.email()
 		.required(),
 	phone: yup
 		.string()
@@ -27,6 +28,7 @@ export default class FundDonationScreen extends React.Component {
 		id: this.props.navigation.state.params.id,
 		category: 1,
 		checked: false,
+		selected: ''
 	}
 
 	constructor (props) {
@@ -51,6 +53,7 @@ export default class FundDonationScreen extends React.Component {
 	}
 
 	handleSubmit = async values => {
+		console.log(values)
 		try {
 			const response = await storeFundDonation(values)
 			const { status, data } = response.data
@@ -75,7 +78,16 @@ export default class FundDonationScreen extends React.Component {
 			<Screen title={this.state.title} back>
 				<Text style={{fontWeight:'600',fontSize:16}}>Informasi Donasi</Text>
 				<Formik
-					initialValues={{ name: '',email: '',phone: '',amount: '', payment_method: '', campaign_id: this.state.id, category: 1 }}
+					initialValues={{
+						name: '',
+						email: '',
+						phone: '',
+						amount: '',
+						payment_method: '',
+						campaign_id: this.state.id,
+						category: 1,
+						anonym: false,
+					}}
 					onSubmit={this.handleSubmit}
 					validationSchema={validationSchema}
 				>
@@ -88,39 +100,58 @@ export default class FundDonationScreen extends React.Component {
 							<Text style={{ color: 'red' }}>{formikProps.errors.name}</Text>
 							<Item floatingLabel style={{marginLeft:0}}>
 								<Label>E-mail</Label>
-								<Input onChangeText={formikProps.handleChange('email')} />
+								<Input email onChangeText={formikProps.handleChange('email')} />
 							</Item>
 							<Text style={{ color: 'red' }}>{formikProps.errors.email}</Text>
 							<Item floatingLabel style={{marginLeft:0}}>
 								<Label>No Telepon</Label>
-								<Input onChangeText={formikProps.handleChange('phone')} />
+								<Input number onChangeText={formikProps.handleChange('phone')} />
 							</Item>
 							<Text style={{ color: 'red' }}>{formikProps.errors.phone}</Text>
 							<Item floatingLabel style={{marginLeft:0}}>
 								<Label>Besar Donasi (min Rp.10,000)</Label>
-								<Input onChangeText={formikProps.handleChange('amount')} />
+								<Input number onChangeText={formikProps.handleChange('amount')} />
 							</Item>
 							<Text style={{ color: 'red' }}>{formikProps.errors.amount}</Text>
 							<Picker
 								iosIcon={<Icon name='arrow-down' />}
 								placeholder='Metode Transfer'
 								placeholderStyle={{ fontSize:17, color:'black', paddingLeft:0}}
+								itemStyle={{paddingHorizontal:0}}
 								placeholderIconColor='#007aff'
-								onValueChange={formikProps.handleChange('payment_method')}
-								style={{marginTop:10, borderBottomWidth:1,borderBottomColor: 'black', opacity:.6}}
+								selectedValue={this.state.selected}
+								onValueChange={(value) => {
+									formikProps.setFieldValue('payment_method', value)
+									// formikProps.handleChange('payment_method')
+									this.setState({selected:value})
+								}}
+								style={{marginTop:10, borderBottomWidth:1,borderBottomColor: 'black', opacity:.6,paddingHorizontal:0}}
 							>
 								<Picker.Item label='Transfer Manual' value='manual' />
 								<Picker.Item label='Transfer Virtual Akun' value='midtrans' />
 							</Picker>
 							<View style={{marginTop:30, flex:1,flexDirection:'row',paddingLeft:0}}>
-								<CheckBox checked={this.state.checked} onPress={() => this.setState({checked: !this.state.checked})} color='red' style={{borderRadius:3,left:0}} />
+								<CheckBox
+									checked={this.state.checked}
+									onPress={(value) => {
+										formikProps.setFieldValue('anonym', !this.state.checked)
+										// formikProps.handleChange('anonym')
+										this.setState({ checked: !this.state.checked })
+									}}
+									color='red'
+									style={{borderRadius:3,left:0}}
+								/>
 								<Text style={{flex:1,marginLeft:15,fontSize:16,textAlignVertical:'bottom'}}>Sembunyikan Nama Saya (Anonim)</Text>
 							</View>
+							{formikProps.isSubmitting ? (
+								<ActivityIndicator style={{marginTop:40}} />
+							) : (
 							<Button onPress={formikProps.handleSubmit} rounded style={{backgroundColor:'red', marginTop:55}}>
 								<View style={{width:'100%',borderRadius:50}}>
 									<Text style={{textAlign:'center',fontSize:18,fontWeight:'600'}}>Lanjutkan</Text>
 								</View>
 							</Button>
+							)}
 						</React.Fragment>
 					)}
 				</Formik>
