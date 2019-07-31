@@ -1,11 +1,12 @@
 import React from 'react'
 import { ProgressBar } from 'src/components'
-import { Text, View, TouchableOpacity, TouchableHighlight, FlatList, Animated, ScrollView, Dimensions, Modal } from 'react-native'
+import { Text, View, TouchableOpacity, TouchableHighlight, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Content } from 'native-base'
 import { BackButton } from 'src/components/HeaderButtons'
 export { CampaignListScreen } from './List'
 import { getCampaignDetail } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
+import Modal from "react-native-modal"
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
@@ -31,6 +32,7 @@ export default class CampaignScreen extends React.Component {
       get_donations: [],
       finish_campaign: '',
       type_id: 0,
+      modalVisible: false,
     }
 
     this.getDetailCampaign = this.getDetailCampaign.bind(this)
@@ -202,7 +204,7 @@ export default class CampaignScreen extends React.Component {
             renderItem={({ item }) =>
               <Card transparent>
                 <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
-                  <Thumbnail source={{ uri: item.image }} />
+                  <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
                   <Body style={{ marginLeft: 20 }}>
                     <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
                       <Text style={{ flex: 1 }}>{item.name}</Text>
@@ -223,7 +225,8 @@ export default class CampaignScreen extends React.Component {
               borderColor: 'rgba(60, 58, 57, 0.15)',
               marginBottom: 35
             }}>
-              <TouchableOpacity onPress={() => this.setModalVisible(true)}>
+              {/* <TouchableOpacity onPress={() => this.setModalVisible(true)}> */}
+              <TouchableOpacity onPress={() => this.setState({modalVisible:true})}>
                 <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
                 Lihat Semua
                 </Text>
@@ -231,15 +234,18 @@ export default class CampaignScreen extends React.Component {
             </View>
           }
           <Modal
-            animationType="slide"
-            transparent={true}
-            visible={this.state.donatorListModalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
+            isVisible={this.state.modalVisible}
+            onBackdropPress={() => this.setState({ modalVisible: false })}
+            style={{width: '100%',marginHorizontal:0, marginBottom:0, marginTop:260}}
+            swipeDirection='down'
+            propagateSwipe={true}
+          >
             <View style={{
-                marginTop:160,
-                marginBottom:40,
+                bottom:0,
+                height:550,
+                // marginTop:200,
+                marginBottom:0,
+                paddingHorizontal: 15,
                 backgroundColor:'white',
                 shadowOffset: { width: 3, height: -5 },
                 shadowOpacity: .5,
@@ -247,19 +253,13 @@ export default class CampaignScreen extends React.Component {
                 elevation: 1,
               }}
             >
-              <View>
-                <TouchableHighlight
-                  onPress={() => {
-                    this.setModalVisible(!this.state.donatorListModalVisible);
-                  }}>
-                  <Text style={{textAlign:'center'}}>Hide Modal</Text>
-                </TouchableHighlight>
+                <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
                 <FlatList
                   data={this.state.get_donations}
                   renderItem={({ item }) =>
                     <Card transparent>
                       <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <Thumbnail source={{ uri: item.image }} />
+                        <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
                         <Body style={{ marginLeft: 20 }}>
                           <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
                             <Text style={{ flex: 1 }}>{item.name}</Text>
@@ -272,7 +272,6 @@ export default class CampaignScreen extends React.Component {
                     </Card>
                   }
                 />
-              </View>
             </View>
           </Modal>
         </ScrollView>
@@ -286,7 +285,6 @@ export default class CampaignScreen extends React.Component {
               paddingVertical:15,
               marginVertical:15,
               marginHorizontal: 15,
-              // bottom: 35,
             }}
           >
             <Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
