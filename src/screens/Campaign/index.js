@@ -1,7 +1,7 @@
 import React from 'react'
 import { ProgressBar } from 'src/components'
 import { Text, View, TouchableOpacity, TouchableHighlight, FlatList, Animated, ScrollView, Dimensions, Modal } from 'react-native'
-import { Card, CardItem, Thumbnail, Body } from 'native-base'
+import { Card, CardItem, Thumbnail, Body, Content } from 'native-base'
 import { BackButton } from 'src/components/HeaderButtons'
 export { CampaignListScreen } from './List'
 import { getCampaignDetail } from 'src/services/api'
@@ -136,6 +136,7 @@ export default class CampaignScreen extends React.Component {
             </Animated.Text>
           </Animated.View>
         </Animated.View>
+        <Content>
         <ScrollView
           scrollEventThrottle={16}
           style={{ padding: 20 }}
@@ -194,14 +195,8 @@ export default class CampaignScreen extends React.Component {
             </View>
           }
 
-				<Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
-				<TouchableOpacity
-					onPress={() => this.props.navigation.navigate('FundDonation', { id:this.state.id })}
-					style={{backgroundColor:'red',borderRadius:60,paddingVertical:15,marginBottom:10}}
-				>
-					<Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
-				</TouchableOpacity>
-
+          <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
+				
           <FlatList
             data={this.state.get_donations.slice(0, 4)}
             renderItem={({ item }) =>
@@ -226,7 +221,7 @@ export default class CampaignScreen extends React.Component {
               borderTopWidth: 1,
               borderBottomWidth: 1,
               borderColor: 'rgba(60, 58, 57, 0.15)',
-              marginBottom: 65
+              marginBottom: 35
             }}>
               <TouchableOpacity onPress={() => this.setModalVisible(true)}>
                 <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
@@ -281,6 +276,22 @@ export default class CampaignScreen extends React.Component {
             </View>
           </Modal>
         </ScrollView>
+        </Content>
+        <View style={{backgroundColor: 'white', bottom: 25}}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('FundDonation', { id:this.state.id })}
+            style={{
+              backgroundColor:'red',
+              borderRadius:60,
+              paddingVertical:15,
+              marginVertical:15,
+              marginHorizontal: 15,
+              // bottom: 35,
+            }}
+          >
+            <Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
+          </TouchableOpacity>
+        </View>
       </>
     )
   }
