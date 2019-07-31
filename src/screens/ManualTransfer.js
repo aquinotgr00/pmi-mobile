@@ -1,8 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet, CameraRoll } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { Card, CardItem, Body, Thumbnail, Left, Button } from 'native-base'
 import { Screen } from 'src/components'
 import { uploadProofApi } from 'src/services/api'
+import axios from 'axios'
+import ImagePicker from 'react-native-image-picker'
+import { IconInu } from 'src/components'
 
 export default class ManualTransferScreen extends React.Component {
 	static navigationOptions = {
@@ -11,28 +14,34 @@ export default class ManualTransferScreen extends React.Component {
 
 	state = {
 		title: 'Manual Transfer',
-		photo: null
-	}
+    photo: null,
+    // id: this.props.navigation.state.params.id,
+    id:17
+  }
+  
+  handleChoosePhoto = () => {
+    const options = {
+      noData: true,
+    }
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.uri) {
+        this.setState({ photo: response })
+      }
+    })
+  }
 
-	handleUpload = () => {
-		CameraRoll.getPhotos({
-			first: 1,
-			assetType: 'Photos',
-		})
-		.then(r => {
-			this.setState({ photo: r.edges });
-			console.log(r.edges)
-			console.log(this.state.photo)
-		})
-		.catch((err) => {
-			console.log(err)
-			 //Error Loading Images
-		})
+	handleUpload = async () => {
+    try {
+      const response = await uploadProofApi({id:this.state.id,image:this.state.photo})
+      this.props.navigation.navigate('ThankYou')
+    } catch (err) {
+      console.log(err)      
+    }
 	}
 
 	render () {
 		return (
-			<Screen title={this.state.title} menu>
+			<Screen title={this.state.title}>
 				<Text style={styles.heading}>Informasi Transfer</Text>
 				<Text style={styles.desc}>Silahkan melakukan transfer dengan rekening tujuan dibawah ini:</Text>
 				<View style={styles.bankContainer}>
@@ -105,18 +114,30 @@ export default class ManualTransferScreen extends React.Component {
 				</View>
 				<Text style={styles.desc}>Jika anda mengirimkan lebih dari 1 donasi, jangan melakukan transfer dengan menggabungkan	total nilai donasi tersebut. Lakukan transfer terpisah untuk tiap-tiap donasi.</Text>
 				<Text style={styles.heading}>Sudah Melakukan Transfer?</Text>
-				<Button rounded style={styles.button} onPress={this.handleUpload}>
-					<Text style={styles.textButton}>Upload Bukti Transfer</Text>
+        <Text style={styles.desc}>Silahkan upload bukti transfer dibawah ini.</Text>
+        <View style={{backgroundColor:'pink',alignItems:'center', paddingVertical: this.state.photo === null ? 30:0, marginBottom: 30}}>
+          {this.state.photo === null
+          ?  <Button transparent style={{height:'auto'}} onPress={this.handleChoosePhoto}>
+              <IconInu color='red' name='icon-add-photo' size={55} />
+            </Button>
+          :
+            <Image
+              style={{
+                width: '100%',
+                height: 200,
+              }}
+              source={{ uri: this.state.photo.uri }}
+            />
+          }
+        </View>
+				<Button rounded disabled={this.state.photo === null ? true:false} style={[styles.button, {backgroundColor: this.state.photo === null ?'grey':'red'}]} onPress={this.handleUpload}>
+					<Text style={styles.textButton}>Konfirmasi Donasi</Text>
 				</Button>
-				{this.state.photo !== null &&
-					<Image
-						style={{
-							width: 300,
-							height: 100,
-						}}
-						source={{ uri: this.state.photo.node.image.uri }}
-					/>
-				}
+        <View style={{marginBottom:70}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+            <Text style={{textAlign:'center',color:'red'}}>Lihat Riwayat Donasi</Text>
+          </TouchableOpacity>
+        </View>
 			</Screen>
 		)
 	}
@@ -171,8 +192,7 @@ const styles = StyleSheet.create({
 		marginBottom: 10
 	},
 	button: {
-		backgroundColor: 'red',
-		marginBottom: 50
+		marginBottom: 30
 	},
 	textButton: {
 		width: '100%',

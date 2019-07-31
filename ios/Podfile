@@ -41,6 +41,8 @@ target 'PmiJkt' do
 
   shared_pods
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'PmiJktTests' do
     inherit! :search_paths
     # Pods for testing

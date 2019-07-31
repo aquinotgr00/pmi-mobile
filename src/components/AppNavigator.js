@@ -102,8 +102,6 @@ const StackNavigator = createStackNavigator({
 
 }, {
   headerMode: 'none',
-  // initialRouteName: 'InKindDonationForm'
-  // initialRouteName: 'GuestNavigator'
   // initialRouteName: 'DonatorRegistrationForm'
 })
 

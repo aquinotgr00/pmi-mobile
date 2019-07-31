@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>34</string>
+	<string>35</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -39,10 +39,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>For taking a photo.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>PMI needs your location to inform nearest campaigns for donation purpose</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>PMI needs your location to inform nearest campaigns for donation purpose</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>For saving a photo.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>For choosing a photo.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
