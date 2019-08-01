@@ -26,19 +26,5 @@ export function uploadProofApi (data) {
     type: `image/${fileType}`,
   })
   formData.append('id', data.id)
-  console.log(formData)
-  const axioss = axios.create(axiosInstanceDefaults)
-  return axioss.post('/donations/proof-upload', formData)
-  // return axios({
-  //   method:'post',
-  //   url:'http://pmi-webapi.test/api/app/donations/proof-upload',
-  //   body:formData,
-  //   headers: {'Accept':'application/json','Content-Type':'multipart/form-data'},
-  // })
-  // return formDataRequest.post('/donations/proof-upload', formData, )
-  // return axios.post('http://pmi-webapi.test/api/app/donations/proof-upload', formData, {
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data'
-  //   }
-  // })
+  return basicRequest().post('/donations/proof-upload', formData)
 }

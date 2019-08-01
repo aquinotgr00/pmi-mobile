@@ -1,11 +1,12 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { Card, CardItem, Body, Thumbnail, Left, Button } from 'native-base'
 import { Screen } from 'src/components'
 import { uploadProofApi } from 'src/services/api'
 import axios from 'axios'
 import ImagePicker from 'react-native-image-picker'
 import { IconInu } from 'src/components'
+import Color from 'src/constants/Color'
 
 export default class ManualTransferScreen extends React.Component {
 	static navigationOptions = {
@@ -15,27 +16,35 @@ export default class ManualTransferScreen extends React.Component {
 	state = {
 		title: 'Manual Transfer',
     photo: null,
-    // id: this.props.navigation.state.params.id,
-    id:17
+    id: this.props.navigation.state.params.id,
+    loading: false,
   }
   
   handleChoosePhoto = () => {
+    this.setState({loading: true})
     const options = {
       noData: true,
     }
     ImagePicker.launchImageLibrary(options, response => {
       if (response.uri) {
-        this.setState({ photo: response })
+        this.setState({ photo: response, loading: false })
       }
     })
   }
 
 	handleUpload = async () => {
     try {
+      this.setState({loading: true})
       const response = await uploadProofApi({id:this.state.id,image:this.state.photo})
-      this.props.navigation.navigate('ThankYou')
+      const { status} = response.data
+      if (status === 'success') {
+        this.props.navigation.navigate('ThankYou')
+      } else if (status === 'fail') {
+        this.setState({loading:false})
+        console.log('there\'s something wrong. please try again later.')
+      }
     } catch (err) {
-      console.log(err)      
+      console.log(err)
     }
 	}
 
@@ -115,11 +124,13 @@ export default class ManualTransferScreen extends React.Component {
 				<Text style={styles.desc}>Jika anda mengirimkan lebih dari 1 donasi, jangan melakukan transfer dengan menggabungkan	total nilai donasi tersebut. Lakukan transfer terpisah untuk tiap-tiap donasi.</Text>
 				<Text style={styles.heading}>Sudah Melakukan Transfer?</Text>
         <Text style={styles.desc}>Silahkan upload bukti transfer dibawah ini.</Text>
-        <View style={{backgroundColor:'pink',alignItems:'center', paddingVertical: this.state.photo === null ? 30:0, marginBottom: 30}}>
+        <View style={{backgroundColor:Color.pink,alignItems:'center', paddingVertical: this.state.photo === null ? 30:0, marginBottom: 30}}>
           {this.state.photo === null
-          ?  <Button transparent style={{height:'auto'}} onPress={this.handleChoosePhoto}>
-              <IconInu color='red' name='icon-add-photo' size={55} />
-            </Button>
+          ? this.state.loading
+            ? <ActivityIndicator />
+            : <Button transparent style={{height:'auto'}} onPress={this.handleChoosePhoto}>
+                <IconInu color='red' name='icon-add-photo' size={55} />
+              </Button>
           :
             <Image
               style={{
@@ -130,12 +141,15 @@ export default class ManualTransferScreen extends React.Component {
             />
           }
         </View>
-				<Button rounded disabled={this.state.photo === null ? true:false} style={[styles.button, {backgroundColor: this.state.photo === null ?'grey':'red'}]} onPress={this.handleUpload}>
-					<Text style={styles.textButton}>Konfirmasi Donasi</Text>
-				</Button>
+        {this.state.loading
+        ? <ActivityIndicator />
+        : <Button rounded disabled={this.state.photo === null ? true:false} style={[styles.button, {backgroundColor: this.state.photo === null ?Color.darkGray:Color.red}]} onPress={this.handleUpload}>
+            <Text style={styles.textButton}>Konfirmasi Donasi</Text>
+          </Button>
+        }
         <View style={{marginBottom:70}}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
-            <Text style={{textAlign:'center',color:'red'}}>Lihat Riwayat Donasi</Text>
+            <Text style={{textAlign:'center',color:Color.red}}>Lihat Riwayat Donasi</Text>
           </TouchableOpacity>
         </View>
 			</Screen>
