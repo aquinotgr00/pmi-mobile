@@ -102,7 +102,7 @@ const StackNavigator = createStackNavigator({
 
 }, {
   headerMode: 'none',
-  // initialRouteName: 'DonatorRegistrationForm'
+  // initialRouteName: 'ManualTransfer'
 })
 
 export default createAppContainer(StackNavigator)
