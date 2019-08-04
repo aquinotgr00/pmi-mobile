@@ -57,6 +57,7 @@ class CampaignSearchResult extends Component {
         this.setState({ loading: false })
       }
     } catch (err) {
+      console.log(err)
       // TODO : handle error
       this.setState({ loading: false })
     }

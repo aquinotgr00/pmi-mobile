@@ -4,10 +4,19 @@ import { basicRequest } from 'src/utils/network'
 const CancelToken = axios.CancelToken
 let cancel
 
-export function getCampaignListApi (params) {
+export function getCampaignListApi (params, cancelToken) {
   params.append('p', 1) // published
   params.append('h', 0) // visible
-  return basicRequest().get('/campaigns', { params })
+
+  if (cancelToken === undefined) {
+    cancel && cancel()
+  }
+
+  return basicRequest().get('/campaigns', { params,
+    cancelToken: cancelToken || new CancelToken(function executor (c) {
+      cancel = c
+    })
+  })
 }
 
 export function getCampaignDetail (id) {

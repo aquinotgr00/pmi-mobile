@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import CampaignCard from 'src/screens/Campaign/CampaignCard'
-import { getCampaignListApi } from 'src/services/api'
+import { cancellableRequest, getCampaignListApi } from 'src/services/api'
 import { withNavigation } from 'react-navigation'
+import axios from 'axios'
 
 class RecentCampaigns extends Component {
   constructor (props) {
     super(props)
 
+    this.source = undefined
     this.state = {
       isLoading: true,
       campaigns: [],
@@ -29,7 +31,6 @@ class RecentCampaigns extends Component {
       this.setState({ isLoading: true, campaigns: [], error: null })
       this.getCampaignList(campaignType, donationType)
     }
-    console.log(this.props.campaignType, this.props.donationType)
   }
 
   async getCampaignList (campaignType, fundraising) {
@@ -40,7 +41,9 @@ class RecentCampaigns extends Component {
     }
     this.setState({ isLoading: true, campaigns: [], error: null })
     try {
-      const response = await getCampaignListApi(campaignParams)
+      this.source && this.source.cancel()
+      this.source = cancellableRequest()
+      const response = await getCampaignListApi(campaignParams, this.source.token)
       const { status } = response.data
 
       if (status === 'success') {
@@ -51,8 +54,10 @@ class RecentCampaigns extends Component {
         // TODO: handle error
       }
     } catch (error) {
-      this.setState({ isLoading: false, error })
-      // TODO: handle error
+      if (!axios.isCancel(error)) {
+        // TODO: handle error
+        this.setState({ isLoading: false, error })
+      }
     }
   }
 

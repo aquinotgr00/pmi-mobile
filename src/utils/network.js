@@ -8,7 +8,7 @@ const axiosInstanceDefaults = {
 export const basicRequest = () => {
   const basicAxios = axios.create(axiosInstanceDefaults)
   basicAxios.interceptors.request.use(request => {
-    console.log('Starting Request', request)
+    console.log(window.performance.now(), 'Starting Request', request)
     return request
   })
   basicAxios.interceptors.response.use(response => {
@@ -28,4 +28,8 @@ export function authRequest () {
   const authAxios = axios.create(axiosInstanceDefaults)
   authAxios.defaults.headers.common['Authorization'] = 'Bearer ' + authToken
   return authAxios
+}
+
+export function cancellableRequest () {
+  return axios.CancelToken.source()
 }
