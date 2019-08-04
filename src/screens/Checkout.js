@@ -22,12 +22,12 @@ export default class Checkout extends Component {
     }
 
     const transRequest = {
-      transactionId: btoa(Math.random()).slice(0, 5),
-      totalAmount: donation.amount
+      transactionId: Math.random().toString(36).substring(7),
+      totalAmount: amount
     }
 
     const itemDetails = [
-      { id: 'PMI', price: donation.amount, qty: 1, name: 'Donasi PMI' }
+      { id: 'PMI', price: amount, qty: 1, name: 'Donasi PMI' }
     ]
 
     const creditCardOptions = {

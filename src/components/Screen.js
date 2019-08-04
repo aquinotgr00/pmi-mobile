@@ -3,6 +3,7 @@ import { Container, Content, Header, Left, Body, Right, Title } from 'native-bas
 import { BackButton, MenuButton } from './HeaderButtons'
 
 export function Screen (props) {
+  const contentStyle = props.unpadded ? { paddingHorizontal: 15 } : { padding: 15 }
   return (
     <Container>
       <Header transparent>
@@ -10,13 +11,17 @@ export function Screen (props) {
           { props.menu && <MenuButton /> }
           { props.back && <BackButton /> }
         </Left>
+
         <Body style={{ flex: 6 }}>
-          <Title style={{ fontWeight: '300' }}>{props.title}</Title>
+          {typeof props.title === 'string'
+            ? <Title style={{ fontWeight: '300' }}>{props.title}</Title>
+            : props.title
+          }
         </Body>
         <Right />
       </Header>
 
-      <Content style={{ padding: 15 }}>
+      <Content style={contentStyle}>
         {props.children}
       </Content>
     </Container>

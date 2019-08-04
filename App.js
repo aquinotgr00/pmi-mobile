@@ -11,7 +11,7 @@ import NavigationService from 'src/services/NavigationService'
 export default class App extends Component {
   constructor (properties) {
     super(properties)
-    OneSignal.init(Config.ONESIGNAL_APP_ID)
+    OneSignal.init(Config.ONESIGNAL_APP_ID, { kOSSettingsKeyInFocusDisplayOption: 0 })
 
     OneSignal.addEventListener('received', this.onReceived)
     OneSignal.addEventListener('opened', this.onOpened)

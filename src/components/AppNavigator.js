@@ -2,8 +2,9 @@ import React from 'react'
 import SplashScreen from 'src/screens/Splash'
 import HomeScreen from 'src/screens/Home'
 import { DonatorRegistrationScreen, VolunteerRegistrationScreen } from 'src/screens/Registration'
-import CampaignScreen from 'src/screens/Campaign'
-import CampaignListScreen from 'src/screens/Campaign/List'
+import CampaignDetailScreen from 'src/screens/Campaign/CampaignDetail'
+import CampaignListScreen from 'src/screens/Campaign/CampaignList'
+import SearchCampaignScreen from 'src/screens/Campaign/Search'
 import DonatorRegistrationFormScreen from 'src/screens/Registration/Donator/Form'
 import LoginScreen from 'src/screens/Login'
 import ForgotPasswordScreen from 'src/screens/ForgotPassword'
@@ -56,7 +57,7 @@ const DonatorDrawerNavigator = createDrawerNavigator({
   }
 }, drawerContentOptions)
 
-const StackNavigator = createStackNavigator({
+const MainNavigator = createStackNavigator({
   Splash: {
     screen: SplashScreen
   },
@@ -67,7 +68,7 @@ const StackNavigator = createStackNavigator({
     screen: DonatorDrawerNavigator
   },
   Campaign: {
-    screen: CampaignScreen
+    screen: CampaignDetailScreen
   },
   CampaignList: {
     screen: CampaignListScreen
@@ -101,8 +102,21 @@ const StackNavigator = createStackNavigator({
   }
 
 }, {
-  headerMode: 'none',
+  headerMode: 'none'
   // initialRouteName: 'ManualTransfer'
 })
 
-export default createAppContainer(StackNavigator)
+const RootNavigator = createStackNavigator({
+  Main: {
+    screen: MainNavigator
+  },
+  SearchCampaign: {
+    screen: SearchCampaignScreen
+  }
+},
+{
+  mode: 'modal',
+  headerMode: 'none'
+})
+
+export default createAppContainer(RootNavigator)

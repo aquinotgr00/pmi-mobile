@@ -1,9 +1,8 @@
 import React from 'react'
 import { ProgressBar } from 'src/components'
-import { Text, View, TouchableOpacity, TouchableHighlight, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
+import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Content } from 'native-base'
 import { BackButton } from 'src/components/HeaderButtons'
-export { CampaignListScreen } from './List'
 import { getCampaignDetail } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
 import Modal from "react-native-modal"
