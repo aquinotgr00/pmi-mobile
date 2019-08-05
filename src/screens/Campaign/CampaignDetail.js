@@ -113,7 +113,7 @@ export default class CampaignScreen extends React.Component {
             onPress={() => { this.props.navigation.goBack() }}
             style={{
 			      position: 'absolute',
-			      top: Math.round(Dimensions.get('window').height * (1 / 24)),
+			      top: Math.round(Dimensions.get('window').height * (1 / 22)),
 			      left: 15
 			    }}>
             <BackButton color={this.animatedBackColor} />
@@ -137,6 +137,7 @@ export default class CampaignScreen extends React.Component {
             </Animated.Text>
           </Animated.View>
         </Animated.View>
+        <Content>
         <ScrollView
           scrollEventThrottle={16}
           style={{ padding: 20 }}
@@ -273,6 +274,7 @@ export default class CampaignScreen extends React.Component {
             </View>
           </Modal>
         </ScrollView>
+        </Content>
         <View style={{backgroundColor: 'white', bottom: 25}}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate('FundDonation', { id:this.state.id })}
