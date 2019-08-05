@@ -2,6 +2,8 @@ import React from 'react'
 import { ProgressBar } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Content } from 'native-base'
+import { WebView } from 'react-native-webview'
+import HTML from 'react-native-render-html'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
@@ -165,19 +167,19 @@ export default class CampaignScreen extends React.Component {
             </View>
           </View>
 
-          {!this.state.loading && 
-            <Text
-              numberOfLines={this.state.lineNumber}
-              style={{ marginBottom: 20 }}
-              onLayout={(ev) => { 
-                if (this.state.lineNumber !== 999)
-                  this.setState({
-                    showReadMore: ev.nativeEvent.layout.height > 16*this.state.lineNumber ? true:false
-                  })
-              }}
-            >
-              {this.state.description}
-            </Text>
+					{!this.state.loading && 
+            // <Text
+            //   numberOfLines={this.state.lineNumber}
+            //   style={{ marginBottom: 20 }}
+            //   onLayout={(ev) => { 
+            //     if (this.state.lineNumber !== 999)
+            //       this.setState({
+            //         showReadMore: ev.nativeEvent.layout.height > 16*this.state.lineNumber ? true:false
+            //       })
+            //   }}
+            // >
+							<HTML baseFontStyle={{fontSize:17}} html={this.state.description} />
+            // </Text>
           }
 
           {this.state.showReadMore &&
@@ -198,6 +200,7 @@ export default class CampaignScreen extends React.Component {
           <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
 				
           <FlatList
+						style={{ marginBottom:this.state.showAllDonationsText ? 0:45 }}
             data={this.state.get_donations.slice(0, 4)}
             renderItem={({ item }) =>
               <Card transparent>
@@ -221,7 +224,7 @@ export default class CampaignScreen extends React.Component {
               borderTopWidth: 1,
               borderBottomWidth: 1,
               borderColor: 'rgba(60, 58, 57, 0.15)',
-              marginBottom: 35
+              marginBottom: 45
             }}>
               {/* <TouchableOpacity onPress={() => this.setModalVisible(true)}> */}
               <TouchableOpacity onPress={() => this.setState({modalVisible:true})}>
