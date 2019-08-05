@@ -102,7 +102,7 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  initialRouteName: 'InKindDonationForm',
+  // initialRouteName: 'InKindDonationForm',
   headerMode: 'none'
 })
 
