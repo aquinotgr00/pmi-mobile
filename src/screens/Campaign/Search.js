@@ -27,6 +27,7 @@ export default class CampaignSearchScreen extends Component {
             placeholderTextColor={Color.lightGray}
             onChangeText={this.handleSearch}
             value={this.state.searchKeyword}
+            autoCapitalize='none'
           />
           <Icon name='search' style={{ color: Color.lightGray }} />
         </Item>}

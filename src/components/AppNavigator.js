@@ -102,8 +102,8 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
+  // initialRouteName: 'InKindDonationForm',
   headerMode: 'none'
-  // initialRouteName: 'ManualTransfer'
 })
 
 const RootNavigator = createStackNavigator({

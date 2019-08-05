@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { View } from 'react-native'
-import { Button, CheckBox, Icon, Input, Item, Picker, Text } from 'native-base'
-import { RedButton, Screen } from 'src/components'
+import { Button, CheckBox, Icon, Input, Item, Label, Picker, Text } from 'native-base'
+import { Formik, FieldArray } from 'formik'
+import { FormField, FormSectionTitle, RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
 
 class InKindDonationFormScreen extends React.Component {
@@ -36,52 +37,74 @@ class InKindDonationFormScreen extends React.Component {
   render () {
     return (
       <Screen title='Berdonasi Barang' back>
-        <View style={{ paddingBottom: 30 }}>
-          <Text style={{ fontWeight: '600', fontSize: 16, marginVertical: 8 }}>Informasi Donasi</Text>
-          <Item>
-            <Input placeholder='Nama' />
-          </Item>
-          <Item>
-            <Input placeholder='Email' />
-          </Item>
-          <Item>
-            <Input placeholder='Nomor HP' />
-          </Item>
-
-          <Picker
-            mode='dropdown'
-            iosIcon={<Icon name='arrow-down' />}
-            placeholder='Metode Penyerahan'
-            placeholderStyle={{ color: '#bfc6ea' }}
-            placeholderIconColor='#007aff'
-            style={{ width: undefined }}
-            onValueChange={this.onValueChange}
-          >
-            <Picker.Item label='Barang dikirim' value='key0' />
-            <Picker.Item label='Barang diantar' value='key1' />
-          </Picker>
-
-          <Text style={{ fontWeight: '600', fontSize: 16, marginVertical: 8 }}>Barang Donasi</Text>
-
-          {
-            this.state.items.map((item, i) => (
-              <DonationItem
-                itemId={i}
-                key={`${i}`}
+        <Formik
+          initialValues={{ name: '', email: '', phone: '', anonym: false, items: [] }}
+          onSubmit={values => console.log(values)}
+        >
+          {props => (
+            <View style={{ paddingBottom: 30 }}>
+              <FormSectionTitle text='Informasi Donasi' />
+              <FormField label='Nama'>
+                <Input
+                  onChangeText={props.handleChange('name')}
+                  onBlur={props.handleBlur('name')}
+                  value={props.values.name}
+                />
+              </FormField>
+              <FormField label='Email'>
+                <Input
+                  keyboardType='email-address'
+                  onChangeText={props.handleChange('email')}
+                  onBlur={props.handleBlur('email')}
+                  value={props.values.email}
+                  autoCapitalize='none'
+                />
+              </FormField>
+              <FormField label='Nomor HP'>
+                <Input
+                  keyboardType='phone-pad'
+                  onChangeText={props.handleChange('phone')}
+                  onBlur={props.handleBlur('phone')}
+                  value={props.values.phone}
+                />
+              </FormField>
+              <Picker
+                mode='dropdown'
+                iosIcon={<Icon name='arrow-down' />}
+                placeholder='Metode Penyerahan'
+                placeholderStyle={{ color: Color.darkGray, paddingLeft: 2 }}
+                placeholderIconColor='#007aff'
+                style={{ marginVertical: 15, width: undefined, borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
+                onValueChange={this.onValueChange}
+              >
+                <Picker.Item label='Barang dikirim' value='dikirim' />
+                <Picker.Item label='Barang diantar' value='diantar' />
+              </Picker>
+              <FormSectionTitle text='Barang Donasi' />
+              <FieldArray
+                name='items'
+                render={arrayHelpers => (
+                  <View>
+                    { props.values.items.map((item, index) => (
+                      <DonationItem
+                        itemId={index}
+                        key={`${index}`}
+                      />
+                    ))}
+                    <Button transparent full onPress={() => arrayHelpers.push({ itemType: '', itemName: '', itemQty: 1 })}>
+                      <Text style={{ color: Color.red }}>Tambah Barang +</Text>
+                    </Button>
+                  </View>
+                )}
               />
-            ))
-          }
-
-          <Button transparent full onPress={this.addItem}>
-            <Text style={{ color: Color.red }}>Tambah Barang +</Text>
-          </Button>
-
-          <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-            <CheckBox color='red' style={{ borderRadius: 3 }} />
-            <Text style={{ marginLeft: 20 }}>Sembunyikan nama saya (Anonim)</Text>
-          </View>
-          { this.state.items.length > 0 && <RedButton text='Lanjutkan' onPress={this.handleFormSubmit} style={{ marginTop: 30 }} /> }
-        </View>
+              <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                <CheckBox color='red' style={{ borderRadius: 3 }} />
+                <Text style={{ marginLeft: 20 }}>Sembunyikan nama saya (Anonim)</Text>
+              </View>
+              { props.values.items.length > 0 && <RedButton onPress={props.handleSubmit} text='Lanjutkan' style={{ marginTop: 30 }} /> }
+            </View>
+          )}
+        </Formik>
       </Screen>
     )
   }
@@ -103,6 +126,7 @@ class DonationItem extends React.Component {
         <Item>
           <Input placeholder='Jumlah Barang' />
         </Item>
+
       </View>
     )
   }
