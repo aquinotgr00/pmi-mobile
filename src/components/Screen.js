@@ -21,7 +21,10 @@ export function Screen (props) {
         <Right />
       </Header>
 
-      <Content style={contentStyle}>
+      <Content
+        style={contentStyle}
+        refreshControl={props.refreshControl}
+      >
         {props.children}
       </Content>
     </Container>

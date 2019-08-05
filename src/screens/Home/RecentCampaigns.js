@@ -25,9 +25,9 @@ class RecentCampaigns extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { campaignType: prevCampaignType, donationType: prevDonationType } = prevProps
-    const { campaignType, donationType } = this.props
-    if ((prevCampaignType !== campaignType) || (prevDonationType !== donationType)) {
+    const { campaignType: prevCampaignType, donationType: prevDonationType, lastUpdate: prevLastUpdate } = prevProps
+    const { campaignType, donationType, lastUpdate } = this.props
+    if ((prevCampaignType !== campaignType) || (prevDonationType !== donationType) || (prevLastUpdate !== lastUpdate)) {
       this.setState({ isLoading: true, campaigns: [], error: null })
       this.getCampaignList(campaignType, donationType)
     }

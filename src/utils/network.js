@@ -8,7 +8,7 @@ const axiosInstanceDefaults = {
 export const basicRequest = () => {
   const basicAxios = axios.create(axiosInstanceDefaults)
   basicAxios.interceptors.request.use(request => {
-    console.log(window.performance.now(), 'Starting Request', request)
+    // console.log(window.performance.now(), 'Starting Request', request)
     return request
   })
   basicAxios.interceptors.response.use(response => {
