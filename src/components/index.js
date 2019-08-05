@@ -1,4 +1,6 @@
 export { DrawerIcon } from './DrawerIcon'
+export { FormField } from './FormField'
+export { FormSectionTitle } from './FormSectionTitle'
 export { IconInu } from './IconInu'
 export { ProgressBar } from './ProgressBar'
 export { RedButton } from './RedButton'
