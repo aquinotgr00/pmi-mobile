@@ -8,7 +8,7 @@ export const FormInput = connect(function (props) {
       {...props}
       onChangeText={props.formik.handleChange(props.name)}
       onBlur={props.formik.handleBlur(props.name)}
-      value={props.formik.values[props.name]}
+      value={props.value || props.formik.values[props.name]}
     />
   )
 })

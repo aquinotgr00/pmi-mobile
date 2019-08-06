@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { TouchableWithoutFeedback, View } from 'react-native'
-import { Button, CheckBox, Icon, Input, Picker, Text } from 'native-base'
+import { View } from 'react-native'
+import { Button, Text } from 'native-base'
 import { Formik, FieldArray } from 'formik'
 import { FormCheckBox, FormField, FormInput, FormSectionTitle, FormSelect, RedButton, Screen } from 'src/components'
 import DonationItem from './DonationItem'
+import InKindDonationSchema from 'src/validators/InKindDonation'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
 import Color from 'src/constants/Color'
 
@@ -44,22 +45,23 @@ class InKindDonationFormScreen extends React.Component {
       <Screen title='Berdonasi Barang' back>
         <Formik
           initialValues={{ campaignId, name: '', email: '', phone: '', deliveryMethod: '', anonym: false, items: [] }}
+          validationSchema={InKindDonationSchema}
           onSubmit={this.handleFormSubmit}
         >
           {props => (
             <View style={{ paddingBottom: 30 }}>
               <FormSectionTitle text='Informasi Donasi' />
-              <FormField label='Nama'>
+              <FormField label='Nama' name='name'>
                 <FormInput autoCapitalize='words' name='name' />
               </FormField>
-              <FormField label='Email'>
+              <FormField label='Email' name='email'>
                 <FormInput
                   keyboardType='email-address'
                   autoCapitalize='none'
                   name='email'
                 />
               </FormField>
-              <FormField label='Nomor HP'>
+              <FormField label='Nomor HP' name='phone'>
                 <FormInput keyboardType='phone-pad' name='phone' />
               </FormField>
               <FormSelect
@@ -79,7 +81,6 @@ class InKindDonationFormScreen extends React.Component {
                   <View>
                     { props.values.items.map((item, index) => (
                       <DonationItem
-                        formikProps={props}
                         itemId={index}
                         item={item}
                         key={`${index}`}

@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Button, Input, Text } from 'native-base'
 import { connect } from 'formik'
-import { FormField } from 'src/components'
+import { FormField, FormInput } from 'src/components'
 import Color from 'src/constants/Color'
 
 class DonationItem extends React.Component {
@@ -17,33 +17,29 @@ class DonationItem extends React.Component {
   }
 
   render () {
-    const { itemId, formik } = this.props
-    const { handleBlur, handleChange, values } = formik
-    const { items } = values
+    const { itemId, item } = this.props
+    const { type, name, amount } = item
     return (
       <View style={{ borderRadius: 10, borderWidth: 1, borderColor: Color.lightGray, padding: 5, marginVertical: 10 }}>
         <FormField label='Jenis'>
-          <Input
-            onChangeText={handleChange(`items[${itemId}].type`)}
-            onBlur={handleBlur(`items[${itemId}].type`)}
-            value={items[itemId].type}
+          <FormInput
             autoCapitalize='none'
+            name={`items[${itemId}].type`}
+            value={type}
           />
         </FormField>
         <FormField label='Nama'>
-          <Input
-            onChangeText={handleChange(`items[${itemId}].name`)}
-            onBlur={handleBlur(`items[${itemId}].name`)}
-            value={items[itemId].name}
+          <FormInput
             autoCapitalize='none'
+            name={`items[${itemId}].name`}
+            value={name}
           />
         </FormField>
         <FormField label='Jumlah'>
-          <Input
-            keyboardType='number-pad'
-            onChangeText={handleChange(`items[${itemId}].amount`)}
-            onBlur={handleBlur(`items[${itemId}].amount`)}
-            value={items[itemId].amount}
+          <FormInput
+            autoCapitalize='none'
+            name={`items[${itemId}].amount`}
+            value={amount}
           />
         </FormField>
         <Button small transparent full onPress={this.removeItem}>
