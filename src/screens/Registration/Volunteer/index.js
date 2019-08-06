@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from 'react-native'
-import { IconInu, Screen } from 'src/components'
+import { Step1 } from './Step1'
 
 export class VolunteerRegistrationScreen extends React.Component {
   static navigationOptions = {
@@ -12,9 +12,7 @@ export class VolunteerRegistrationScreen extends React.Component {
 
   render() {
     return (
-      <Screen title='Daftar Sebagai Relawan' menu>
-        <Text>ini pendaftaran relawan</Text>
-      </Screen>
+      <Step1 />
     );
   }
 }
