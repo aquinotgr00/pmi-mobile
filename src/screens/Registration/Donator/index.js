@@ -34,7 +34,7 @@ export class DonatorRegistrationScreen extends React.Component {
           <Image source={require('assets/images/daftar-donatur.png')} style={{flex:1}}/>
           <View style={{alignItems:'center'}}>
             <View style={{alignItems:'center'}}>
-              <Text style={{fontWeight:500}}>BERDONASI UNTUK BANTU SESAMA</Text>
+              <Text style={{fontWeight:'500'}}>BERDONASI UNTUK BANTU SESAMA</Text>
               <Text>Lorem ipsum dolor sit amet,</Text>
               <Text>consectetur adipiscing</Text>
             </View>

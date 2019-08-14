@@ -1,18 +1,18 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import Color from 'src/constants/Color'
+import { withNavigation } from 'react-navigation'
 
-export default function DonationTypeButton (props) {
+export default withNavigation(function DonationButton (props) {
   return (
     <TouchableOpacity
-      style={[styles.button, props.isActive ? styles.buttonPressed : styles.buttonUnpressed]}
-      onPress={() => props.onPress(props.buttonId)}
+      style={styles.button}
+      onPress={() => props.navigation.navigate(props.donationForm)}
     >
       <Image source={props.buttonImage} style={{ marginVertical: 5 }} />
       <Text style={{ marginVertical: 3 }}>{props.buttonText}</Text>
     </TouchableOpacity>
   )
-}
+})
 
 const styles = StyleSheet.create({
   button: {
@@ -23,16 +23,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 7,
     shadowColor: '#000',
-    shadowOpacity: 0.5
-  },
-  buttonUnpressed: {
+    shadowOpacity: 0.5,
     shadowOffset: { height: 5, width: 5 },
     shadowRadius: 5
-  },
-  buttonPressed: {
-    borderWidth: 1,
-    borderColor: Color.red,
-    shadowOffset: { height: 1, width: 1 },
-    shadowRadius: 2
   }
 })

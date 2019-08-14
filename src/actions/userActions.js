@@ -47,7 +47,7 @@ export function registerDonator (user) {
 
       const { status, data } = registerDonatorResponse.data
       if (status === 'success') {
-        const { token } = data
+        const { access_token: token } = data
         dispatch({
           type: 'REGISTER_DONATOR_SUCCESS',
           token

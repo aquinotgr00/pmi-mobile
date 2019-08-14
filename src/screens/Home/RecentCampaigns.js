@@ -20,25 +20,22 @@ class RecentCampaigns extends Component {
   }
 
   componentDidMount () {
-    const { campaignType, donationType } = this.props
-    this.getCampaignList(campaignType, donationType)
+    this.getCampaignList(this.props.campaignType)
   }
 
   componentDidUpdate (prevProps) {
-    const { campaignType: prevCampaignType, donationType: prevDonationType, lastUpdate: prevLastUpdate } = prevProps
-    const { campaignType, donationType, lastUpdate } = this.props
-    if ((prevCampaignType !== campaignType) || (prevDonationType !== donationType) || (prevLastUpdate !== lastUpdate)) {
+    const { campaignType: prevCampaignType, lastUpdate: prevLastUpdate } = prevProps
+    const { campaignType, lastUpdate } = this.props
+    if ((prevCampaignType !== campaignType) || (prevLastUpdate !== lastUpdate)) {
       this.setState({ isLoading: true, campaigns: [], error: null })
-      this.getCampaignList(campaignType, donationType)
+      this.getCampaignList(campaignType)
     }
   }
 
-  async getCampaignList (campaignType, fundraising) {
+  async getCampaignList (campaignType) {
     const campaignParams = new URLSearchParams()
     campaignParams.append('t', campaignType)
-    if (fundraising !== undefined) {
-      campaignParams.append('f', fundraising)
-    }
+    campaignParams.append('page', 1)
     this.setState({ isLoading: true, campaigns: [], error: null })
     try {
       this.source && this.source.cancel()

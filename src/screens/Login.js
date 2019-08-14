@@ -25,7 +25,7 @@ class LoginScreen extends React.Component {
 
   render () {
     return (
-      <Screen title='Masuk Sebagai Donatur' back>
+      <Screen title='Masuk Sebagai Donatur' back verticalCenter>
         <Formik
           initialValues={{
             email: 'donatur1@mail.com',
@@ -34,7 +34,7 @@ class LoginScreen extends React.Component {
           onSubmit={values => this.handleLogin(values)}
         >
           {props => (
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <Image source={require('assets/images/login.png')} />
               <Item>
                 <Input

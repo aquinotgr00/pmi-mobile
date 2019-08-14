@@ -1,4 +1,4 @@
-const user = (state = { isLoggingIn: false, token: null, loginError: null }, action) => {
+const user = (state = { token: null, profile: { name: 'test' } }, action) => {
   switch (action.type) {
     case 'LOGIN_REQUEST':
     case 'REGISTER_DONATOR_REQUEST':

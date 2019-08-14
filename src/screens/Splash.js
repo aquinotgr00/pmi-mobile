@@ -7,11 +7,17 @@ class Splash extends Component {
   constructor (props) {
     super(props)
 
+    this.downloadSettings = this.downloadSettings.bind(this)
     this.userRedirection = this.userRedirection.bind(this)
   }
 
   componentDidMount () {
+    this.downloadSettings()
     this.userRedirection()
+  }
+
+  downloadSettings () {
+
   }
 
   userRedirection () {

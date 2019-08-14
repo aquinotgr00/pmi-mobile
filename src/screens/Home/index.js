@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, RefreshControl } from 'react-native'
 import { Screen } from 'src/components'
 import SearchBar from './SearchBar'
-import DonationTypeButtons from './DonationTypeButtons'
+import DonationButtons from './DonationButtons'
 import RecentCampaigns from './RecentCampaigns'
 import HomeBanner from './HomeBanner'
 
@@ -12,24 +12,14 @@ export default class HomeScreen extends React.Component {
 
     this.state = {
       refreshing: false,
-      donationType: undefined,
       timestamp: Date.now()
     }
 
-    this.handleChangeDonationType = this.handleChangeDonationType.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
   }
 
   onRefresh () {
     this.setState({ timestamp: Date.now() })
-  }
-
-  handleChangeDonationType (donationType) {
-    if (donationType === this.state.donationType) {
-      this.setState({ donationType: undefined })
-    } else {
-      this.setState({ donationType })
-    }
   }
 
   render () {
@@ -46,22 +36,17 @@ export default class HomeScreen extends React.Component {
         }
       >
         <SearchBar />
-        <DonationTypeButtons
-          activeButton={this.state.donationType}
-          onChange={this.handleChangeDonationType}
-        />
+        <DonationButtons />
         <RecentCampaigns
           title='Donasi Umum'
           numberOfCampaigns={3}
           campaignType={1}
-          donationType={this.state.donationType}
           lastUpdate={this.state.timestamp}
         />
         <RecentCampaigns
           title='Donasi Khusus'
           numberOfCampaigns={3}
           campaignType={2}
-          donationType={this.state.donationType}
           lastUpdate={this.state.timestamp}
         />
         <HomeBanner navigation={this.props.navigation} />

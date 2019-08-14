@@ -15,7 +15,7 @@ import UserProfileScreen from 'src/screens/UserProfile'
 import CheckoutScreen from 'src/screens/Checkout'
 
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
-import InKindDonationFormScreen from 'src/screens/Donation/InKind'
+import InKindDonationFormScreen from 'src/screens/Donation/InKindDonation'
 import FundDonationScreen from 'src/screens/Donation/FundDonation'
 
 import { IconInu } from 'src/components'
@@ -45,16 +45,16 @@ const GuestDrawerNavigator = createDrawerNavigator({
   Home,
   DonatorRegistration: {
     screen: DonatorRegistrationScreen
-  },
-  VolunteerRegistration
+  }
+  // VolunteerRegistration
 }, drawerContentOptions)
 
 const DonatorDrawerNavigator = createDrawerNavigator({
-  Home,
-  VolunteerRegistration,
+  Home
+  /* VolunteerRegistration,
   UserProfile: {
     screen: UserProfileScreen
-  }
+  } */
 }, drawerContentOptions)
 
 const MainNavigator = createStackNavigator({
@@ -102,7 +102,7 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  // initialRouteName: 'InKindDonationForm',
+  // initialRouteName: 'DonatorRegistrationForm',
   headerMode: 'none'
 })
 

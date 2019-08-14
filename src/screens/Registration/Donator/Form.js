@@ -2,10 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { View } from 'react-native'
 import { NavigationActions } from 'react-navigation'
-import { Icon, Input, Item, Picker, Text, Textarea } from 'native-base'
+import { DatePicker, Textarea } from 'native-base'
 import { Formik } from 'formik'
-import { RedButton, Screen } from 'src/components'
+import moment from 'moment'
+import { FormField, FormInput, FormSectionTitle, FormSelect, RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
+import { cities } from 'assets/jsons/cities.json'
 import { registerDonator } from 'src/actions'
 
 class DonatorRegistrationFormScreen extends React.Component {
@@ -20,18 +22,9 @@ class DonatorRegistrationFormScreen extends React.Component {
   }
 
   handleFormSubmit (user) {
-    const coba = {
-      name: 'Donatur satu',
-      email: 'donatur4@mail.com',
-      phone: '0804',
-      password: 'open1234',
-      password_confirmation: 'open1234',
-      url_action: 'dummy.frontend.com',
-      gender: 'male'
-    }
-    this.props.dispatch(registerDonator(coba))
-    // this.props.dispatch(registerDonator(user))
-    // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Main' })], 0)
+    console.log(user)
+    this.props.dispatch(registerDonator(user))
+    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
   }
 
   onValueChange (value) {
@@ -41,145 +34,120 @@ class DonatorRegistrationFormScreen extends React.Component {
   }
 
   render () {
+    const dummyData = {
+      name: 'Donatur Satu',
+      email: 'don1@mail.com',
+      phone: '081',
+      password: 'Open1234',
+      password_confirmation: 'Open1234',
+      dob: '2000-01-10',
+      address: 'Jalan Pelepah Kuning 2 Blok WV 2/11',
+      province: 'DKI JAKARTA',
+      city: 'Jakarta Utara',
+      subdistrict: 'Kelapa Gading',
+      subdivision: 'Kelapa',
+      postal_code: '12345',
+      gender: 'male'
+    }
+
     return (
       <Screen title='Daftar Sebagai Donatur' back>
         <Formik
           initialValues={{
-            name: 'Donatur ',
-            email: 'donatur@mail.com',
-            phone: '08',
-            password: 'Open1234',
-            password_confirmation: 'Open1234',
-            dob: '2000-01-10',
-            address: 'Jalan Pelepah Kuning 2 Blok WV 2/11',
-            province: 'DKI JAKARTA',
-            city: 'Jakarta Utara',
-            subdistrict: 'Kelapa Gading',
-            subdivision: 'Kelapa',
-            postal_code: '12345',
-            gender: 'male'
+            name: '',
+            email: '',
+            phone: '',
+            password: '',
+            password_confirmation: '',
+            dob: '',
+            address: '',
+            province: '',
+            city: '',
+            subdistrict: '',
+            subdivision: '',
+            postal_code: '',
+            gender: ''
           }}
           onSubmit={values => this.handleFormSubmit(values)}
         >
           {props => (
             <View style={{ paddingBottom: 30 }}>
-              <Text style={{ fontWeight: '600', fontSize: 16, marginVertical: 8 }}>Data Diri</Text>
-              <Item>
-                <Input
-                  placeholder='Nama'
-                  onChangeText={props.handleChange('name')}
-                  onBlur={props.handleBlur('name')}
-                  value={props.values.name}
+              <FormSectionTitle text='Data Diri' />
+              <FormField label='Nama' name='name'>
+                <FormInput autoCapitalize='words' name='name' />
+              </FormField>
+              <FormField label='Email' name='email'>
+                <FormInput
+                  keyboardType='email-address'
+                  autoCapitalize='none'
+                  name='email'
                 />
-              </Item>
-              <Item>
-                <Input
-                  placeholder='Email'
-                  onChangeText={props.handleChange('email')}
-                  onBlur={props.handleBlur('email')}
-                  value={props.values.email}
+              </FormField>
+              <FormField label='Nomor HP' name='phone'>
+                <FormInput keyboardType='phone-pad' name='phone' />
+              </FormField>
+              <FormField label='Password' name='password'>
+                <FormInput secureTextEntry name='password' />
+              </FormField>
+              <FormField label='Konfirmasi Password' name='password_confirmation'>
+                <FormInput secureTextEntry name='password_confirmation' />
+              </FormField>
+
+              <FormField label='Tanggal Lahir' name='dob'>
+                <DatePicker
+                  defaultDate={new Date()}
+                  maximumDate={new Date()}
+                  animationType='fade'
+                  textStyle={{ color: Color.black, marginVertical: 5 }}
+                  onDateChange={date => props.setFieldValue('dob', moment(date).format('YYYY-MM-DD'))}
+                  formatChosenDate={date => moment(date).format('DD MMM YYYY')}
                 />
-              </Item>
-              <Item>
-                <Input
-                  placeholder='Nomor HP'
-                  onChangeText={props.handleChange('phone')}
-                  onBlur={props.handleBlur('phone')}
-                  value={props.values.phone}
+              </FormField>
+
+              <FormField label='Jenis Kelamin' name='gender'>
+                <FormSelect
+                  style={{ width: undefined, marginVertical: 4 }}
+                  options={[
+                    { value: 'male', label: 'Pria' },
+                    { value: 'female', label: 'Wanita' }
+                  ]}
+                  name='gender'
                 />
-              </Item>
-              <Item>
-                <Input
-                  placeholder='Password'
-                  secureTextEntry
-                  onChangeText={props.handleChange('password')}
-                  onBlur={props.handleBlur('password')}
-                  value={props.values.password}
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder='Konfirmasi Password'
-                  secureTextEntry
-                  onChangeText={props.handleChange('password_confirmation')}
-                  onBlur={props.handleBlur('password_confirmation')}
-                  value={props.values.password_confirmation}
-                />
-              </Item>
-              <Item>
-                <Input
-                  placeholder='Tanggal Lahir'
-                  onChangeText={props.handleChange('dob')}
-                  onBlur={props.handleBlur('dob')}
-                  value={props.values.dob}
-                />
-              </Item>
-              <Picker
-                mode='dropdown'
-                iosIcon={<Icon name='arrow-down' />}
-                placeholder='Jenis Kelamin'
-                placeholderStyle={{ fontSize: 17, color: Color.black, paddingLeft: 10 }}
-                placeholderIconColor='#007aff'
-                style={{ marginVertical: 10, borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
-                selectedValue={this.state.selected}
-                onValueChange={this.onValueChange.bind(this)}
-              >
-                <Picker.Item label='Pria' value='male' />
-                <Picker.Item label='Wanita' value='female' />
-              </Picker>
-              <Text style={{ fontWeight: '600', fontSize: 16, marginVertical: 8 }}>Tempat Tinggal</Text>
+              </FormField>
+
+              <FormSectionTitle text='Tempat Tinggal' style={{ marginVertical: 20 }} />
+              <FormField label='Alamat' name='address' style={{ borderBottomWidth: 0 }} />
               <Textarea
                 rowSpan={3}
-                bordered
-                placeholder='Alamat'
                 onChangeText={props.handleChange('address')}
                 onBlur={props.handleBlur('address')}
                 value={props.values.address}
+                autoCapitalize='none'
+                style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
+                autoCompleteType='off'
               />
-              <Item>
-                <Input
-                  placeholder='Kelurahan'
-                  onChangeText={props.handleChange('subdivision')}
-                  onBlur={props.handleBlur('subdivision')}
-                  value={props.values.subdivision}
+
+              <FormField label='Kelurahan' name='subdivision'>
+                <FormInput name='subdivision' />
+              </FormField>
+              <FormField label='Kecamatan' name='subdistrict'>
+                <FormInput name='subdistrict' />
+              </FormField>
+              <FormField label='Kota' name='city'>
+                <FormSelect
+                  style={{ width: undefined, marginVertical: 4 }}
+                  options={cities}
+                  name='city'
                 />
-              </Item>
-              <Item>
-                <Input
-                  placeholder='Kecamatan'
-                  onChangeText={props.handleChange('subdistrict')}
-                  onBlur={props.handleBlur('subdistrict')}
-                  value={props.values.subdistrict}
-                />
-              </Item>
-              <Picker
-                mode='dropdown'
-                iosIcon={<Icon name='arrow-down' />}
-                placeholder='Kabupaten'
-                placeholderStyle={{ fontSize: 17, color: Color.black, paddingLeft: 10 }}
-                placeholderIconColor='#007aff'
-                style={{ marginVertical: 10, borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
-                selectedValue={this.state.selected}
-                onValueChange={this.onValueChange.bind(this)}
-              >
-                <Picker.Item label='Jakarta Pusat' value='male' />
-                <Picker.Item label='Jakarta Barat' value='female' />
-                <Picker.Item label='Jakarta Timur' value='male' />
-                <Picker.Item label='Jakarta Utara' value='female' />
-                <Picker.Item label='Jakarta Selatan' value='male' />
-                <Picker.Item label='Kepulauan Seribu' value='female' />
-              </Picker>
-              <Item>
-                <Input disabled placeholder='DKI JAKARTA' />
-              </Item>
-              <Item>
-                <Input
-                  placeholder='Kode Pos'
-                  onChangeText={props.handleChange('postal_code')}
-                  onBlur={props.handleBlur('postal_code')}
-                  value={props.values.postal_code}
-                />
-              </Item>
+              </FormField>
+              <FormField label='Propinsi'>
+                <FormInput disabled name='province' />
+              </FormField>
+
+              <FormField label='Kode Pos' name='postal_code'>
+                <FormInput keyboardType='number-pad' name='postal_code' />
+              </FormField>
+
               <RedButton text='Simpan' onPress={props.handleSubmit} style={{ marginTop: 30 }} />
             </View>
           )}
