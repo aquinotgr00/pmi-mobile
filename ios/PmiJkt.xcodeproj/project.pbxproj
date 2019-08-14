@@ -27,6 +27,8 @@
 		9083516B07164E84AC6B48EC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4872F39159B94F54AAB8B91E /* Octicons.ttf */; };
 		C044B04A8F82450C863933DF /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC28F9573F3548E583EA8684 /* EvilIcons.ttf */; };
 		D0317696EE5C429B9FDCA9E7 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0FF9060A0684A2DA6CEE9F8 /* FontAwesome5_Solid.ttf */; };
+		DA80B86122FA14C90039A7B4 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA80B86022FA14C90039A7B4 /* GameKit.framework */; };
+		DA80B86322FA14D60039A7B4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA80B86222FA14D60039A7B4 /* StoreKit.framework */; };
 		E80E236C37C14DD8BE2B7CC1 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31A05A44E8B4405B989898CB /* FontAwesome5_Brands.ttf */; };
 		E881DB559BF4AE41A392C905 /* libPods-PmiJkt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D32C650AC18815B422A9EC /* libPods-PmiJkt.a */; };
 		EB570B92509D482CA8A48BC6 /* fontello.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EB13A956C9249DA8E23BDE1 /* fontello.ttf */; };
@@ -83,6 +85,8 @@
 		BC28F9573F3548E583EA8684 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		C0FF9060A0684A2DA6CEE9F8 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		C82E8A915CFA53B1B835D1EE /* Pods-PmiJkt-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PmiJkt-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-PmiJkt-tvOSTests/Pods-PmiJkt-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DA80B86022FA14C90039A7B4 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		DA80B86222FA14D60039A7B4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		DAD7C99F22E85FBB00DFCC85 /* PmiJkt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PmiJkt.entitlements; path = PmiJkt/PmiJkt.entitlements; sourceTree = "<group>"; };
 		DAD7C9C522E9B46D00DFCC85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		E4F5FAE4F026961A1BC0E0D9 /* Pods-PmiJktTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PmiJktTests.release.xcconfig"; path = "Target Support Files/Pods-PmiJktTests/Pods-PmiJktTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -107,7 +111,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA80B86322FA14D60039A7B4 /* StoreKit.framework in Frameworks */,
 				E881DB559BF4AE41A392C905 /* libPods-PmiJkt.a in Frameworks */,
+				DA80B86122FA14C90039A7B4 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +181,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA80B86222FA14D60039A7B4 /* StoreKit.framework */,
+				DA80B86022FA14C90039A7B4 /* GameKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				79D32C650AC18815B422A9EC /* libPods-PmiJkt.a */,
@@ -288,13 +296,20 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = S4G4BK2VSQ;
+						DevelopmentTeam = FUAJDLJ2V9;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = S4G4BK2VSQ;
+						DevelopmentTeam = FUAJDLJ2V9;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.GameCenter.iOS = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -523,7 +538,7 @@
 			baseConfigurationReference = F91F960395D7873FC3DB6F42 /* Pods-PmiJktTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = S4G4BK2VSQ;
+				DEVELOPMENT_TEAM = FUAJDLJ2V9;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -548,7 +563,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = S4G4BK2VSQ;
+				DEVELOPMENT_TEAM = FUAJDLJ2V9;
 				INFOPLIST_FILE = PmiJktTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -570,9 +585,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = PmiJkt/PmiJkt.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = S4G4BK2VSQ;
+				DEVELOPMENT_TEAM = FUAJDLJ2V9;
 				INFOPLIST_FILE = PmiJkt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -580,8 +597,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = solutions.blm.test.ios.pmijkt;
+				PRODUCT_BUNDLE_IDENTIFIER = id.or.pmidkijakarta.pmi.ios;
 				PRODUCT_NAME = PmiJkt;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -593,8 +611,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = PmiJkt/PmiJkt.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = S4G4BK2VSQ;
+				DEVELOPMENT_TEAM = FUAJDLJ2V9;
 				INFOPLIST_FILE = PmiJkt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -602,8 +622,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = solutions.blm.test.ios.pmijkt;
+				PRODUCT_BUNDLE_IDENTIFIER = id.or.pmidkijakarta.pmi.ios;
 				PRODUCT_NAME = PmiJkt;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

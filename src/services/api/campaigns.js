@@ -6,7 +6,7 @@ let cancel
 
 export function getCampaignListApi (params, cancelToken) {
   params.append('p', 1) // published
-  params.append('h', 0) // visible
+  params.append('v', 1) // visible
 
   if (cancelToken === undefined) {
     cancel && cancel()

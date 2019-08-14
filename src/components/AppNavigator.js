@@ -45,16 +45,16 @@ const GuestDrawerNavigator = createDrawerNavigator({
   Home,
   DonatorRegistration: {
     screen: DonatorRegistrationScreen
-  },
-  VolunteerRegistration
+  }
+  // VolunteerRegistration
 }, drawerContentOptions)
 
 const DonatorDrawerNavigator = createDrawerNavigator({
-  Home,
-  VolunteerRegistration,
+  Home
+  /* VolunteerRegistration,
   UserProfile: {
     screen: UserProfileScreen
-  }
+  } */
 }, drawerContentOptions)
 
 const MainNavigator = createStackNavigator({
@@ -102,7 +102,7 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  initialRouteName: 'InKindDonationForm',
+  // initialRouteName: 'DonatorRegistrationForm',
   headerMode: 'none'
 })
 

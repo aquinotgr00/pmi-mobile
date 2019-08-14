@@ -38,6 +38,8 @@ target 'PmiJkt' do
 
   pod 'MidtransModule', :path => '../node_modules/react-native-payment-gateway'
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
   target 'PmiJktTests' do
     inherit! :search_paths
     # Pods for testing

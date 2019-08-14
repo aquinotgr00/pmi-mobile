@@ -5,6 +5,7 @@ import { Screen } from 'src/components'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
+import CampaignPicker from 'src/screens/Donation/CampaignPicker'
 
 const validationSchema = yup.object().shape({
 	name: yup
@@ -25,7 +26,7 @@ const validationSchema = yup.object().shape({
 export default class FundDonationScreen extends React.Component {
 	state = {
 		title: 'Berdonasi Uang',
-		id: this.props.navigation.state.params.id,
+		id: this.props.navigation.getParam('id'),
 		category: 1,
 		checked: false,
 		selected: ''
@@ -53,6 +54,8 @@ export default class FundDonationScreen extends React.Component {
 	}
 
 	handleSubmit = async values => {
+		console.log(values)
+		/*
 		try {
 			const response = await storeFundDonation(values)
 			const { status, data } = response.data
@@ -70,6 +73,7 @@ export default class FundDonationScreen extends React.Component {
 		} catch (error) {
 			console.log(error)
 		}
+		*/
 	}
 
 	render () {
@@ -92,6 +96,7 @@ export default class FundDonationScreen extends React.Component {
 				>
 					{formikProps => (
 						<React.Fragment>
+							<CampaignPicker fundraising={true} enabled={!this.state.id} />
 							<Item floatingLabel style={{marginLeft:0}}>
 								<Label>Nama</Label>
 								<Input onChangeText={formikProps.handleChange('name')} />

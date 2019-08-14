@@ -8,6 +8,7 @@ import DonationItem from './DonationItem'
 import InKindDonationSchema from 'src/validators/InKindDonation'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
 import Color from 'src/constants/Color'
+import CampaignPicker from 'src/screens/Donation/CampaignPicker'
 
 class InKindDonationFormScreen extends React.Component {
   constructor (props) {
@@ -19,8 +20,7 @@ class InKindDonationFormScreen extends React.Component {
   }
 
   async handleFormSubmit (values) {
-    console.log(values)
-    /* const { campaignId: campaign_id, name, email, phone, deliveryMethod: pick_method, anonym, items: donation_items } = values
+    const { campaignId: campaign_id, name, email, phone, deliveryMethod: pick_method, anonym, items: donation_items } = values
     try {
       this.setState({ isLoading: true })
       const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items, category: 1, amount: 0 })
@@ -34,13 +34,14 @@ class InKindDonationFormScreen extends React.Component {
       }
     } catch (error) {
       // TODO : handle error
-    } */
+    }
     // const { token } = this.props.user
   }
 
   render () {
     const { navigation } = this.props
-    const campaignId = navigation.getParam('id', '1')
+    const campaignId = navigation.getParam('id', '')
+
     return (
       <Screen title='Berdonasi Barang' back>
         <Formik
@@ -51,6 +52,7 @@ class InKindDonationFormScreen extends React.Component {
           {props => (
             <View style={{ paddingBottom: 30 }}>
               <FormSectionTitle text='Informasi Donasi' />
+              <CampaignPicker fundraising={false} enabled={!campaignId} />
               <FormField label='Nama' name='name'>
                 <FormInput autoCapitalize='words' name='name' />
               </FormField>

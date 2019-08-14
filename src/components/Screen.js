@@ -4,6 +4,7 @@ import { BackButton, MenuButton } from './HeaderButtons'
 
 export function Screen (props) {
   const contentStyle = props.unpadded ? { paddingHorizontal: 15 } : { padding: 15 }
+  const contentContainerStyle = props.verticalCenter ? { flexGrow: 1, justifyContent: 'center' } : {}
   return (
     <Container>
       <Header transparent>
@@ -24,6 +25,7 @@ export function Screen (props) {
       <Content
         style={contentStyle}
         refreshControl={props.refreshControl}
+        contentContainerStyle={contentContainerStyle}
       >
         {props.children}
       </Content>
