@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { NavigationActions } from 'react-navigation'
 import { Form, Item, Input, Label } from 'native-base'
 import { RedButton, Screen } from 'src/components'
 import PaymentGateway from 'react-native-payment-gateway'
@@ -14,7 +15,7 @@ export default class Checkout extends Component {
   pay () {
     const { navigation } = this.props
     const donation = navigation.getParam('donation')
-    const { name: fullName, email, phone: phoneNumber, amount } = donation
+    const { id, name: fullName, email, phone: phoneNumber, amount } = donation
     const optionConect = {
       clientKey: Config.MIDTRANS_CLIENT_KEY,
       urlMerchant: Config.SERVER_URL,
@@ -22,7 +23,7 @@ export default class Checkout extends Component {
     }
 
     const transRequest = {
-      transactionId: Math.random().toString(36).substring(7),
+      transactionId: `${id}`,
       totalAmount: amount
     }
 
@@ -60,8 +61,9 @@ export default class Checkout extends Component {
       boldText: 'open_sans_bold.ttf'
     }
 
-    const callback = (res) => {
-      console.log(res)
+    const callback = response => {
+      // console.log(response)
+      this.props.navigation.reset([NavigationActions.navigate({ routeName: 'ThankYou' })], 0)
     }
 
     PaymentGateway.checkOut(

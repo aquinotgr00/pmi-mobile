@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { DatePicker, Textarea } from 'native-base'
 import { Formik } from 'formik'
 import moment from 'moment'
 import { FormField, FormInput, FormSectionTitle, FormSelect, RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
-import { cities } from 'assets/jsons/cities.json'
+import cities from 'assets/jsons/cities.json'
 import { registerDonator } from 'src/actions'
 
 class DonatorRegistrationFormScreen extends React.Component {
@@ -61,7 +60,7 @@ class DonatorRegistrationFormScreen extends React.Component {
             password_confirmation: '',
             dob: '',
             address: '',
-            province: '',
+            province: 'DKI Jakarta',
             city: '',
             subdistrict: '',
             subdivision: '',
@@ -71,7 +70,7 @@ class DonatorRegistrationFormScreen extends React.Component {
           onSubmit={values => this.handleFormSubmit(values)}
         >
           {props => (
-            <View style={{ paddingBottom: 30 }}>
+            <>
               <FormSectionTitle text='Data Diri' />
               <FormField label='Nama' name='name'>
                 <FormInput autoCapitalize='words' name='name' />
@@ -148,8 +147,8 @@ class DonatorRegistrationFormScreen extends React.Component {
                 <FormInput keyboardType='number-pad' name='postal_code' />
               </FormField>
 
-              <RedButton text='Simpan' onPress={props.handleSubmit} style={{ marginTop: 30 }} />
-            </View>
+              <RedButton text='Simpan' onPress={props.handleSubmit} style={{ marginTop: 30, marginBottom: 55 }} />
+            </>
           )}
         </Formik>
       </Screen>

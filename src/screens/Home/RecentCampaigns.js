@@ -49,6 +49,7 @@ class RecentCampaigns extends Component {
         this.setState({ isLoading: false, campaigns })
       } else {
         // TODO: handle error
+        this.setState({ isLoading: false })
       }
     } catch (error) {
       if (!axios.isCancel(error)) {

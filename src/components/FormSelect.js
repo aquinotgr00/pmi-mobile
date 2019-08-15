@@ -10,10 +10,9 @@ export const FormSelect = connect(function (props) {
     <Picker
       enabled={props.enabled}
       mode='dropdown'
-      iosIcon={<Icon name='arrow-down' />}
+      iosIcon={<Icon name='arrow-down' style={{ color: Color.red }} />}
       placeholder={placeholder}
       placeholderStyle={{ color: Color.darkGray, paddingLeft: 2 }}
-      placeholderIconColor='#007aff'
       style={style}
       onValueChange={onChange || handleChange(name)}
       selectedValue={values[name]}

@@ -19,6 +19,7 @@ class CampaignCard extends React.Component {
 
   navigateToDonationScreen () {
     const { id, fundraising } = this.props.item
+    console.log(id)
     let routeName = 'InKindDonationForm'
     if (fundraising) {
       routeName = 'FundDonation'

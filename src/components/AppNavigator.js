@@ -102,7 +102,7 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  // initialRouteName: 'DonatorRegistrationForm',
+  initialRouteName: 'FundDonation',
   headerMode: 'none'
 })
 

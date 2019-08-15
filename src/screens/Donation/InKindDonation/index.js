@@ -20,7 +20,7 @@ class InKindDonationFormScreen extends React.Component {
   }
 
   async handleFormSubmit (values) {
-    const { campaignId: campaign_id, name, email, phone, deliveryMethod: pick_method, anonym, items: donation_items } = values
+    const { campaign_id, name, email, phone, deliveryMethod: pick_method, anonym, items: donation_items } = values
     try {
       this.setState({ isLoading: true })
       const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items, category: 1, amount: 0 })
@@ -40,19 +40,18 @@ class InKindDonationFormScreen extends React.Component {
 
   render () {
     const { navigation } = this.props
-    const campaignId = navigation.getParam('id', '')
-
+    const campaign_id = navigation.getParam('id', '')
     return (
       <Screen title='Berdonasi Barang' back>
         <Formik
-          initialValues={{ campaignId, name: '', email: '', phone: '', deliveryMethod: '', anonym: false, items: [] }}
+          initialValues={{ campaign_id, name: '', email: '', phone: '', deliveryMethod: '', anonym: false, items: [] }}
           validationSchema={InKindDonationSchema}
           onSubmit={this.handleFormSubmit}
         >
           {props => (
             <View style={{ paddingBottom: 30 }}>
               <FormSectionTitle text='Informasi Donasi' />
-              <CampaignPicker fundraising={false} enabled={!campaignId} />
+              <CampaignPicker fundraising={false} enabled={!campaign_id} />
               <FormField label='Nama' name='name'>
                 <FormInput autoCapitalize='words' name='name' />
               </FormField>
