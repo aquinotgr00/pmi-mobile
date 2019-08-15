@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Alert, ActivityIndicator } from 'react-native'
 import { Text, Item, Label, Input, Picker, Icon, CheckBox, Button } from 'native-base'
-import { Screen } from 'src/components'
+import { RedButton, Screen } from 'src/components'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
@@ -54,8 +54,6 @@ export default class FundDonationScreen extends React.Component {
 	}
 
 	handleSubmit = async values => {
-		console.log(values)
-		/*
 		try {
 			const response = await storeFundDonation(values)
 			const { status, data } = response.data
@@ -69,11 +67,13 @@ export default class FundDonationScreen extends React.Component {
 				}
 				
 			}
+			else {
+				// TODO : handle error
+			}
 			
 		} catch (error) {
-			console.log(error)
+			// TODO : handle error
 		}
-		*/
 	}
 
 	render () {
@@ -82,11 +82,11 @@ export default class FundDonationScreen extends React.Component {
 				<Text style={{fontWeight:'600',fontSize:16}}>Informasi Donasi</Text>
 				<Formik
 					initialValues={{
-						name: '',
-						email: '',
-						phone: '',
-						amount: '',
-						payment_method: '',
+						name: 'Test Test',
+						email: 'test@mail.com',
+						phone: '081',
+						amount: '10000',
+						payment_method: 'midtrans',
 						campaign_id: this.state.id,
 						category: 1,
 						anonym: false,
@@ -150,11 +150,12 @@ export default class FundDonationScreen extends React.Component {
 							{formikProps.isSubmitting ? (
 								<ActivityIndicator style={{marginTop:40}} />
 							) : (
-							<Button onPress={formikProps.handleSubmit} rounded style={{backgroundColor:'red', marginTop:55}}>
-								<View style={{width:'100%',borderRadius:50}}>
-									<Text style={{textAlign:'center',fontSize:18,fontWeight:'600'}}>Lanjutkan</Text>
-								</View>
-							</Button>
+								<RedButton
+                  onPress={formikProps.handleSubmit}
+                  text='Lanjutkan'
+                  style={{ marginTop: 55, marginBottom: 55 }}
+                  disabled={formikProps.isSubmitting}
+                />
 							)}
 						</React.Fragment>
 					)}
