@@ -1,4 +1,4 @@
-import { loginApi, logoutApi, registerDonatorApi } from 'src/services/api'
+import { loginApi, logoutApi, registerDonatorApi, registerVolunteerApi } from 'src/services/api'
 import { persistor } from 'src/store'
 import NavigationService from 'src/services/NavigationService'
 
@@ -14,12 +14,16 @@ export function login (credentials) {
 
       const { status, data } = loginResponse.data
       if (status === 'success') {
-        const { access_token: token } = data
+        const { access_token: token, volunteer_id } = data
         dispatch({
           type: 'LOGIN_SUCCESS',
           token
-        })
-        NavigationService.navigate('DonatorNavigator')
+				})
+				if (volunteer_id === null) {
+					NavigationService.navigate('DonatorNavigator')
+				} else if (volunteer_id !== null) {
+					NavigationService.navigate('VolunteerNavigator')
+				}
       } else {
         const { account } = data
         dispatch({
@@ -60,6 +64,37 @@ export function registerDonator (user) {
     } catch (error) {
       dispatch({
         type: 'REGISTER_DONATOR_FAILURE',
+        account: 'Server Error'
+      })
+    }
+  }
+}
+
+export function registerVolunteer (user) {
+  return async function (dispatch, getState) {
+    dispatch({
+      type: 'REGISTER_VOLUNTEER_REQUEST'
+    })
+
+    try {
+			const registerVolunteerResponse = await registerVolunteerApi(user)
+
+      const { status, data } = registerVolunteerResponse.data
+      if (status === 'success') {
+        const { access_token: token } = data
+        dispatch({
+          type: 'REGISTER_VOLUNTEER_SUCCESS',
+          token
+        })
+      } else {
+        dispatch({
+          type: 'REGISTER_VOLUNTEER_FAILURE'
+        })
+      }
+    } catch (error) {
+			console.log(error)
+      dispatch({
+        type: 'REGISTER_VOLUNTEER_FAILURE',
         account: 'Server Error'
       })
     }

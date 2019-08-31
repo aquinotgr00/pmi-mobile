@@ -9,6 +9,12 @@ const user = (state = { token: null, profile: { name: 'test' } }, action) => {
     case 'LOGIN_FAILURE':
     case 'REGISTER_DONATOR_FAILURE':
       return { ...state, isLoggingIn: false, loginError: action.account }
+    case 'REGISTER_VOLUNTEER_REQUEST':
+      return { ...state, isLoggingIn: true, loginError: null }
+    case 'REGISTER_VOLUNTEER_SUCCESS':
+      return { ...state, isLoggingIn: false, token: action.token }
+    case 'REGISTER_VOLUNTEER_FAILURE':
+      return { ...state, isLoggingIn: false, loginError: action.account }
     case 'LOGOUT_SUCCESS':
       return { token: null }
     default:
