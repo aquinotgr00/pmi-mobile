@@ -72,6 +72,8 @@ PODS:
     - React
   - react-native-image-picker (1.0.1):
     - React
+  - react-native-netinfo (4.1.4):
+    - React
   - react-native-onesignal (3.3.1):
     - OneSignal (= 2.10.0)
     - React (< 1.0.0, >= 0.13.0)
@@ -122,6 +124,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-onesignal (from `../node_modules/react-native-onesignal/react-native-onesignal.podspec`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -174,6 +177,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-config"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-onesignal:
     :path: "../node_modules/react-native-onesignal/react-native-onesignal.podspec"
   React-RCTActionSheet:
@@ -224,6 +229,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-config: 8f6b2b9e017f6a5e92a97353c768e19e67294bb1
   react-native-image-picker: c9bddc819f4fd46b6f37f2861712497e920192d9
+  react-native-netinfo: 2aa34e02a38ae66e583bcae8c489ae0edd32b31f
   react-native-onesignal: 05cbe20f8c7a12632465678bcd40932a919d0175
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
   React-RCTAnimation: 981d8c95b0e30918a9832ccac32af83562a27fae
@@ -240,6 +246,6 @@ SPEC CHECKSUMS:
   RNSnackbar: f6d5a0f66f5e75794e1d94b62827b78ce37bd530
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: 94625dff881c0e2c60cdb68985afda2d6af6b995
+PODFILE CHECKSUM: 5f0e844753838335af5e8b65469d16ece4c86e5f
 
 COCOAPODS: 1.7.4

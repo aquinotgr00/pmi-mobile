@@ -6,6 +6,7 @@ import CampaignDetailScreen from 'src/screens/Campaign/CampaignDetail'
 import CampaignListScreen from 'src/screens/Campaign/CampaignList'
 import SearchCampaignScreen from 'src/screens/Campaign/Search'
 import DonatorRegistrationFormScreen from 'src/screens/Registration/Donator/Form'
+import VolunteerRegistrationFormScreen from 'src/screens/Registration/Volunteer/Form'
 import LoginScreen from 'src/screens/Login'
 import ForgotPasswordScreen from 'src/screens/ForgotPassword'
 import ResetPasswordScreen from 'src/screens/ResetPassword'
@@ -45,16 +46,23 @@ const GuestDrawerNavigator = createDrawerNavigator({
   Home,
   DonatorRegistration: {
     screen: DonatorRegistrationScreen
-  }
-  // VolunteerRegistration
+  },
+  VolunteerRegistration
 }, drawerContentOptions)
 
 const DonatorDrawerNavigator = createDrawerNavigator({
-  Home
-  /* VolunteerRegistration,
+  Home,
+  VolunteerRegistration,
   UserProfile: {
     screen: UserProfileScreen
-  } */
+  }
+}, drawerContentOptions)
+
+const VolunteerDrawerNavigator = createDrawerNavigator({
+  Home,
+  UserProfile: {
+    screen: UserProfileScreen
+  }
 }, drawerContentOptions)
 
 const MainNavigator = createStackNavigator({
@@ -67,6 +75,9 @@ const MainNavigator = createStackNavigator({
   DonatorNavigator: {
     screen: DonatorDrawerNavigator
   },
+  VolunteerNavigator: {
+    screen: VolunteerDrawerNavigator
+  },
   Campaign: {
     screen: CampaignDetailScreen
   },
@@ -75,6 +86,9 @@ const MainNavigator = createStackNavigator({
   },
   DonatorRegistrationForm: {
     screen: DonatorRegistrationFormScreen
+  },
+  VolunteerRegistrationForm: {
+    screen: VolunteerRegistrationFormScreen
   },
   Login: {
     screen: LoginScreen
@@ -102,7 +116,7 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  initialRouteName: 'FundDonation',
+  initialRouteName: 'Splash',
   headerMode: 'none'
 })
 
