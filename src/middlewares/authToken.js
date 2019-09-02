@@ -3,6 +3,7 @@ import { setAuthToken } from 'src/utils/network'
 export default (store) => next => action => {
   switch (action['type']) {
     case 'LOGIN_SUCCESS':
+    case 'USER_REGISTRATION_SUCCESS':
       setAuthToken(action.token)
       return next(action)
     case 'persist/REHYDRATE':

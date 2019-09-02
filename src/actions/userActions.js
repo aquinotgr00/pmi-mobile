@@ -41,60 +41,30 @@ export function login (credentials) {
   }
 }
 
-export function registerDonator (user) {
+export function register (user, isVolunteer=false) {
   return async function (dispatch, getState) {
     dispatch({
-      type: 'REGISTER_DONATOR_REQUEST'
+      type: 'USER_REGISTRATION_REQUEST'
     })
 
     try {
-      const registerDonatorResponse = await registerDonatorApi(user)
+      const registrationResponse = await (isVolunteer?registerVolunteerApi(user):registerDonatorApi(user))
 
-      const { status, data } = registerDonatorResponse.data
+      const { status, data } = registrationResponse.data
       if (status === 'success') {
         const { access_token: token } = data
         dispatch({
-          type: 'REGISTER_DONATOR_SUCCESS',
+          type: 'USER_REGISTRATION_SUCCESS',
           token
         })
       } else {
         dispatch({
-          type: 'REGISTER_DONATOR_FAILURE'
+          type: 'USER_REGISTRATION_FAILURE'
         })
       }
     } catch (error) {
       dispatch({
-        type: 'REGISTER_DONATOR_FAILURE',
-        account: 'Server Error'
-      })
-    }
-  }
-}
-
-export function registerVolunteer (user) {
-  return async function (dispatch, getState) {
-    dispatch({
-      type: 'REGISTER_VOLUNTEER_REQUEST'
-    })
-
-    try {
-			const registerVolunteerResponse = await registerVolunteerApi(user)
-
-      const { status, data } = registerVolunteerResponse.data
-      if (status === 'success') {
-        const { access_token: token } = data
-        dispatch({
-          type: 'REGISTER_VOLUNTEER_SUCCESS',
-          token
-        })
-      } else {
-        dispatch({
-          type: 'REGISTER_VOLUNTEER_FAILURE'
-        })
-      }
-    } catch (error) {
-      dispatch({
-        type: 'REGISTER_VOLUNTEER_FAILURE',
+        type: 'USER_REGISTRATION_FAILURE',
         account: 'Server Error'
       })
     }

@@ -7,7 +7,7 @@ import moment from 'moment'
 import { FormField, FormInput, FormSectionTitle, FormSelect, RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
 import cities from 'assets/jsons/cities.json'
-import { registerDonator } from 'src/actions'
+import { register } from 'src/actions'
 
 class DonatorRegistrationFormScreen extends React.Component {
   constructor (props) {
@@ -20,8 +20,8 @@ class DonatorRegistrationFormScreen extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
 
-  handleFormSubmit (user) {
-    this.props.dispatch(registerDonator(user))
+  async handleFormSubmit (user) {
+    await this.props.dispatch(register(user))
     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
   }
 
@@ -51,46 +51,17 @@ class DonatorRegistrationFormScreen extends React.Component {
     return (
       <Screen title='Daftar Sebagai Donatur' back>
         <Formik
-          initialValues={{
-            name: '',
-            email: '',
-            phone: '',
-            password: '',
-            password_confirmation: '',
-            dob: '',
-            address: '',
-            province: 'DKI Jakarta',
-            city: '',
-            subdistrict: '',
-            subdivision: '',
-            postal_code: '',
-            gender: ''
-          }}
+          initialValues={dummyData}
           onSubmit={values => this.handleFormSubmit(values)}
         >
           {props => (
             <>
               <FormSectionTitle text='Data Diri' />
-              <FormField label='Nama' name='name'>
-                <FormInput autoCapitalize='words' name='name' />
-              </FormField>
-              <FormField label='Email' name='email'>
-                <FormInput
-                  keyboardType='email-address'
-                  autoCapitalize='none'
-                  name='email'
-                />
-              </FormField>
-              <FormField label='Nomor HP' name='phone'>
-                <FormInput keyboardType='phone-pad' name='phone' />
-              </FormField>
-              <FormField label='Password' name='password'>
-                <FormInput secureTextEntry name='password' />
-              </FormField>
-              <FormField label='Konfirmasi Password' name='password_confirmation'>
-                <FormInput secureTextEntry name='password_confirmation' />
-              </FormField>
-
+              <FormField label='Nama' name='name' autoCapitalize='words' />
+              <FormField label='Email' name='email' keyboardType='email-address' autoCapitalize='none' />
+              <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
+              <FormField label='Password' name='password' secureTextEntry />
+              <FormField label='Konfirmasi Password' name='password_confirmation' secureTextEntry />
               <FormField label='Tanggal Lahir' name='dob'>
                 <DatePicker
                   defaultDate={new Date()}
@@ -113,8 +84,8 @@ class DonatorRegistrationFormScreen extends React.Component {
                 />
               </FormField>
 
-              <FormSectionTitle text='Tempat Tinggal' style={{ marginVertical: 20 }} />
-              <FormField label='Alamat' name='address' style={{ borderBottomWidth: 0 }} />
+              <FormSectionTitle text='Tempat Tinggal' style={{ marginTop: 20 }} />
+              <FormField nofloat onlyLabel='Alamat' name='address' style={{ borderBottomWidth: 0 }} />
               <Textarea
                 rowSpan={3}
                 onChangeText={props.handleChange('address')}
@@ -125,12 +96,8 @@ class DonatorRegistrationFormScreen extends React.Component {
                 autoCompleteType='off'
               />
 
-              <FormField label='Kelurahan' name='subdivision'>
-                <FormInput name='subdivision' />
-              </FormField>
-              <FormField label='Kecamatan' name='subdistrict'>
-                <FormInput name='subdistrict' />
-              </FormField>
+              <FormField label='Kelurahan' name='subdivision' />
+              <FormField label='Kecamatan' name='subdistrict' />
               <FormField label='Kota' name='city'>
                 <FormSelect
                   style={{ width: undefined, marginVertical: 4 }}
@@ -138,13 +105,8 @@ class DonatorRegistrationFormScreen extends React.Component {
                   name='city'
                 />
               </FormField>
-              <FormField label='Propinsi'>
-                <FormInput disabled name='province' />
-              </FormField>
-
-              <FormField label='Kode Pos' name='postal_code'>
-                <FormInput keyboardType='number-pad' name='postal_code' />
-              </FormField>
+              <FormField label='Propinsi' disabled name='province' />
+              <FormField label='Kode Pos' name='postal_code' keyboardType='number-pad' />
 
               <RedButton text='Simpan' onPress={props.handleSubmit} style={{ marginTop: 30, marginBottom: 55 }} />
             </>

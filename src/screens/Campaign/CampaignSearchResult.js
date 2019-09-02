@@ -49,8 +49,7 @@ class CampaignSearchResult extends Component {
       const response = await getCampaignListApi(campaignParams)
       const { status } = response.data
       if (status === 'success') {
-        const { data } = response.data
-        const { data: campaignList } = data
+        const { data: campaignList } = response.data
         this.setState({ campaignType, fundraising, keywords, campaignList, loading: false })
       } else {
         // TODO : handle error

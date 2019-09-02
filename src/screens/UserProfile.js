@@ -14,13 +14,17 @@ class UserProfile extends Component {
 
   constructor(props) {
     super(props)
-  
+    this.state = {
+      isLoading:false
+    }
     this.logout = this.logout.bind(this)
   }
   
 
   async logout() {
+    this.setState({isLoading:true})
     await this.props.dispatch(logout())
+    this.setState({isLoading:false})
     const {token} = this.props.user
     if(token===null) {
       const {navigation} = this.props
@@ -38,6 +42,7 @@ class UserProfile extends Component {
       <Screen
         menu
         title='Profile'
+        isLoading={this.state.isLoading}
       >
         <RedButton text='Logout' onPress={this.logout} />
       </Screen>

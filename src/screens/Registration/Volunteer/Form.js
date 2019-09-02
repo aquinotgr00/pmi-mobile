@@ -1,7 +1,7 @@
 import React from 'react'
 import { Screen, IconInu } from 'src/components'
 import ImagePicker from 'react-native-image-picker'
-import { registerVolunteer, logout } from 'src/actions'
+import { register, logout } from 'src/actions'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 
@@ -47,8 +47,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 			values.image = this.state.photo
 		}
 
-		this.props.dispatch(registerVolunteer(values))
-		this.props.dispatch(logout())
+		this.props.dispatch(register(values, true))
     // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
 	}
 

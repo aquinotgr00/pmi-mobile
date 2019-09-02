@@ -5,13 +5,6 @@ import { IconInu, RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
 
 export class VolunteerRegistrationScreen extends React.Component {
-  static navigationOptions = {
-    drawerLabel: 'Login/Register Relawan',
-    drawerIcon: ({ tintColor }) => (
-      <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
-    ),
-  }
-
   constructor(props) {
     super(props)
   
@@ -28,8 +21,10 @@ export class VolunteerRegistrationScreen extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props
+    const showMenu = navigation.getParam('menu', true)
     return (
-      <Screen title='Daftar Sebagai Relawan' menu>
+      <Screen title='Daftar Sebagai Relawan' menu={showMenu} back={!showMenu}>
         <View style={{alignItems:'center'}}>
           <Image source={require('assets/images/daftar-donatur.png')} style={{flex:1,marginBottom:20}}/>
           <View style={{alignItems:'center'}}>
