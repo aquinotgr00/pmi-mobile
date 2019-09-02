@@ -23,7 +23,7 @@ class InKindDonationFormScreen extends React.Component {
     const { campaign_id, name, email, phone, deliveryMethod: pick_method, anonym, items: donation_items } = values
     try {
       this.setState({ isLoading: true })
-      const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items, category: 1, amount: 0 })
+      const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items })
       const { status } = response.data
       this.setState({ isLoading: false })
       if (status === 'success') {

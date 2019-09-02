@@ -28,8 +28,8 @@ class LoginScreen extends React.Component {
       <Screen title='Masuk Sebagai Donatur' back verticalCenter>
         <Formik
           initialValues={{
-            email: 'donatur1@mail.com',
-            password: 'open1234'
+            email: '@mail.com',
+            password: 'Open1234'
           }}
           onSubmit={values => this.handleLogin(values)}
         >

@@ -17,13 +17,14 @@ export function login (credentials) {
         const { access_token: token, volunteer_id } = data
         dispatch({
           type: 'LOGIN_SUCCESS',
-          token
-				})
-				if (volunteer_id === null) {
-					NavigationService.navigate('DonatorNavigator')
-				} else if (volunteer_id !== null) {
-					NavigationService.navigate('VolunteerNavigator')
+          token,
+          isVolunteer:volunteer_id!==null
+        })
+        let home = 'DonatorNavigator'
+				if (volunteer_id) {
+          home = 'VolunteerNavigator'
 				}
+        NavigationService.navigate(home)
       } else {
         const { account } = data
         dispatch({
@@ -92,7 +93,6 @@ export function registerVolunteer (user) {
         })
       }
     } catch (error) {
-			console.log(error)
       dispatch({
         type: 'REGISTER_VOLUNTEER_FAILURE',
         account: 'Server Error'
