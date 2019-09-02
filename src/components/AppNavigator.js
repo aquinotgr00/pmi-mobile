@@ -19,8 +19,18 @@ import { createDrawerNavigator, createAppContainer, createStackNavigator } from 
 import InKindDonationFormScreen from 'src/screens/Donation/InKindDonation'
 import FundDonationScreen from 'src/screens/Donation/FundDonation'
 
+import VolunteerHomeScreen from 'src/screens/Home/Volunteer'
+import EmergencyAndEventScreen from 'src/screens/EmergencyAndEvent'
+import RsvpScreen from 'src/screens/Rsvp'
+
 import { IconInu } from 'src/components'
 import Color from 'src/constants/Color'
+
+const drawerContentOptions = {
+  contentOptions: {
+    activeTintColor: Color.red
+  }
+}
 
 const Home = {
   screen: HomeScreen,
@@ -32,14 +42,18 @@ const Home = {
   })
 }
 
-const VolunteerRegistration = {
-  screen: VolunteerRegistrationScreen
+const UserProfile = {
+  screen: UserProfileScreen
 }
 
-const drawerContentOptions = {
-  contentOptions: {
-    activeTintColor: Color.red
-  }
+const VolunteerHome = {
+  screen: VolunteerHomeScreen,
+  navigationOptions: ({ navigation }) => ({
+    drawerLabel: 'Beranda',
+    drawerIcon: ({ tintColor }) => (
+      <IconInu name='icon-pmi-home' color={tintColor} />
+    )
+  })
 }
 
 const GuestDrawerNavigator = createDrawerNavigator({
@@ -47,22 +61,32 @@ const GuestDrawerNavigator = createDrawerNavigator({
   DonatorRegistration: {
     screen: DonatorRegistrationScreen
   },
-  VolunteerRegistration
+  VolunteerRegistration: {
+    screen: VolunteerRegistrationScreen
+  }
 }, drawerContentOptions)
 
 const DonatorDrawerNavigator = createDrawerNavigator({
   Home,
-  VolunteerRegistration,
-  UserProfile: {
-    screen: UserProfileScreen
+  UserProfile,
+  /*
+  DonationHistory: {
+    screen: DonationHistoryScreen
   }
+  */
 }, drawerContentOptions)
 
 const VolunteerDrawerNavigator = createDrawerNavigator({
-  Home,
-  UserProfile: {
-    screen: UserProfileScreen
+  VolunteerHome,
+  EmergencyAndEvent: {
+    screen: EmergencyAndEventScreen
+  },
+  UserProfile
+  /*
+  ,VolunteerProfile: {
+    screen: VolunteerProfileScreen
   }
+  */
 }, drawerContentOptions)
 
 const MainNavigator = createStackNavigator({
@@ -113,10 +137,14 @@ const MainNavigator = createStackNavigator({
   },
   Checkout: {
     screen: CheckoutScreen
+  },
+  Rsvp: {
+    screen: RsvpScreen
   }
 
 }, {
   initialRouteName: 'Splash',
+  //initialRouteName: 'VolunteerNavigator',
   headerMode: 'none'
 })
 

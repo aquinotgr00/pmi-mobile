@@ -19,7 +19,9 @@ export function Screen (props) {
             : props.title
           }
         </Body>
-        <Right />
+        <Right>
+          { props.right }
+        </Right>
       </Header>
 
       <Content

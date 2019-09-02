@@ -21,7 +21,6 @@ class DonatorRegistrationFormScreen extends React.Component {
   }
 
   handleFormSubmit (user) {
-    console.log(user)
     this.props.dispatch(registerDonator(user))
     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
   }

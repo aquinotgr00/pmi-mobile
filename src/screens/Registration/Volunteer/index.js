@@ -8,7 +8,7 @@ export class VolunteerRegistrationScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: 'Login/Register Relawan',
     drawerIcon: ({ tintColor }) => (
-      <IconInu name='icon-pmi-donatur-regist' color={tintColor} />
+      <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
     ),
   }
 

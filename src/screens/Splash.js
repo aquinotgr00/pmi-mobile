@@ -25,6 +25,9 @@ class Splash extends Component {
     let routeName = 'GuestNavigator'
     if (user.token) {
       routeName = 'DonatorNavigator'
+      if(user.isVolunteer) {
+        routeName = 'VolunteerNavigator'
+      }
     }
     navigation.reset([NavigationActions.navigate({ routeName })], 0)
   }
