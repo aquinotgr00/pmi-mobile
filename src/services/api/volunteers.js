@@ -1,4 +1,4 @@
-import { basicRequest } from 'src/utils/network'
+import { authRequest, basicRequest } from 'src/utils/network'
 
 export function registerVolunteerApi (data) {
 	console.log(data)
@@ -8,4 +8,8 @@ export function registerVolunteerApi (data) {
 	}
 	console.log(formData)
   return basicRequest().post('/volunteer/signup', data)
+}
+
+export function getProfileApi () {
+	return authRequest().get('/volunteer/profile')
 }
