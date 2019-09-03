@@ -45,6 +45,6 @@ export class DonatorRegistrationScreen extends React.Component {
           </View>
         </View>
       </Screen>
-    );
+    )
   }
 }
