@@ -15,7 +15,7 @@ import ThankYouScreen from 'src/screens/ThankYou'
 import CheckoutScreen from 'src/screens/Checkout'
 
 import UserProfileScreen from 'src/screens/UserProfile'
-import { UserFormScreen } from 'src/screens/User/Form'
+import UserFormScreen from 'src/screens/User/Form'
 
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import InKindDonationFormScreen from 'src/screens/Donation/InKindDonation'
@@ -155,7 +155,7 @@ const MainNavigator = createStackNavigator({
     screen: RsvpScreen
   },
   UserForm: {
-      screen: UserFormScreen
+    screen: UserFormScreen
   }
 
 }, {

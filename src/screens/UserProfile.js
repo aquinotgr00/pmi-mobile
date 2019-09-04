@@ -66,7 +66,8 @@ class UserProfile extends Component {
 	}
 	
 	navigateToForm (title) {
-		this.props.navigation.navigate('UserForm', {title})
+		const { user } = this.state
+		this.props.navigation.navigate('UserForm', {title, user, loadProfile: this.loadProfile})
 	}
 
   render () {
@@ -95,9 +96,9 @@ class UserProfile extends Component {
 						</Text>
 						<Icon style={style.profileIconBtn} name="arrow-forward" />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => this.navigateToForm('Keanggotaan')} style={style.profileBtn}>
+					<TouchableOpacity onPress={() => this.navigateToForm('Pengalaman')} style={style.profileBtn}>
 						<Text style={style.profileTextBtn}>
-							Keanggotaan
+							Pengalaman
 						</Text>
 						<Icon style={style.profileIconBtn} name="arrow-forward" />
 					</TouchableOpacity>
