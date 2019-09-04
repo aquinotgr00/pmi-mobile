@@ -115,7 +115,6 @@ function Step1 () {
 				/>
 			{/* </FormField> */}
 
-
 			<FormSectionTitle text='Pengalaman' />
 			{/* {achievementFields.map((field, idx) => {
 				return (
