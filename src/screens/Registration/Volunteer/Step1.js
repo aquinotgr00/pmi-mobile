@@ -115,7 +115,6 @@ function Step1 () {
 				/>
 			</FormField>
 
-
 			<FormSectionTitle text='Pengalaman' />
 			{achievementFields.map((field, idx) => {
 				return (
@@ -156,12 +155,8 @@ function Step1 () {
 					</FormField>
 				)
 			})}
-			<FormField label='Spesialisasi' name='specialization'>
-				<FormInput name='specialization' />
-			</FormField>
-			<FormField label='Keterampilan Khusus' name='skill'>
-				<FormInput name='skill' />
-			</FormField>
+			<FormField label='Spesialisasi' name='specialization' />
+			<FormField label='Keterampilan Khusus' name='skill' />
     </Wizard.Page>
   )
 }

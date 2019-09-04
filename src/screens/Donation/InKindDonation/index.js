@@ -52,19 +52,9 @@ class InKindDonationFormScreen extends React.Component {
             <View style={{ paddingBottom: 30 }}>
               <FormSectionTitle text='Informasi Donasi' />
               <CampaignPicker fundraising={false} enabled={!campaign_id} />
-              <FormField label='Nama' name='name'>
-                <FormInput autoCapitalize='words' name='name' />
-              </FormField>
-              <FormField label='Email' name='email'>
-                <FormInput
-                  keyboardType='email-address'
-                  autoCapitalize='none'
-                  name='email'
-                />
-              </FormField>
-              <FormField label='Nomor HP' name='phone'>
-                <FormInput keyboardType='phone-pad' name='phone' />
-              </FormField>
+              <FormField label='Nama' name='name' autoCapitalize='words' />
+              <FormField label='Email' name='email' keyboardType='email-address' autoCapitalize='none' />
+              <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
               <FormSelect
                 placeholder='Metode Penyerahan'
                 style={{ marginVertical: 15, width: undefined, borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
