@@ -68,11 +68,9 @@ export default class Rsvp extends Component {
         >
           {props => (
             <View style={{ paddingBottom: 30 }}>
-              <FormField label='Judul Kejadian' name='title'>
-                <FormInput name='title' />
-              </FormField>
+              <FormField label='Judul Kejadian' name='title' />
 
-              <FormField label='Deskripsi Kejadian' name='description' style={{ borderBottomWidth: 0, marginTop:20 }} />
+              <FormField nofloat onlyLabel='Deskripsi Kejadian' name='description' style={{ borderBottomWidth: 0, marginTop:20 }} />
               <Textarea
                 rowSpan={3}
                 onChangeText={props.handleChange('description')}
@@ -83,9 +81,7 @@ export default class Rsvp extends Component {
                 autoCompleteType='off'
               />
 
-              <FormField />
-
-              <Button onPress={this.handleImage} >
+              <Button transparent onPress={this.handleImage} >
                 {
                   this.state.avatarSource
                   ?<Image source={this.state.avatarSource} style={{width: 50, height: 50}} />

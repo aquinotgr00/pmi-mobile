@@ -6,7 +6,7 @@ import { FormInput } from './FormInput';
 
 export const FormField = connect(function (props) {
   const { name, formik, nofloat, stackedLabel, style, label, onlyLabel, disabled, value, children } = props
-  const useFloatingLabel = Config.IS_PRODUCTION==='1' && !nofloat
+  const useFloatingLabel = !nofloat
   const { errors } = formik
   const error = getIn(errors, name)
   

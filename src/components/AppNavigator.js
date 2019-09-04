@@ -18,6 +18,7 @@ import CheckoutScreen from 'src/screens/Checkout'
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import InKindDonationFormScreen from 'src/screens/Donation/InKindDonation'
 import FundDonationScreen from 'src/screens/Donation/FundDonation'
+import DonationHistoryScreen from 'src/screens/Donation/History'
 
 import VolunteerHomeScreen from 'src/screens/Home/Volunteer'
 import EmergencyAndEventScreen from 'src/screens/EmergencyAndEvent'
@@ -76,12 +77,10 @@ const GuestDrawerNavigator = createDrawerNavigator({
 
 const DonatorDrawerNavigator = createDrawerNavigator({
   Home,
-  UserProfile,
-  /*
   DonationHistory: {
     screen: DonationHistoryScreen
-  }
-  */
+  },
+  UserProfile
 }, drawerContentOptions)
 
 const VolunteerDrawerNavigator = createDrawerNavigator({

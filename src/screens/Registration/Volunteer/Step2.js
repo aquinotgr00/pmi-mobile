@@ -11,24 +11,12 @@ function Step2 (props) {
 	return (
 		<Wizard.Page>
 			<FormSectionTitle text='Data Diri' />
-			<FormField label='Nama' name='name'>
-				<FormInput name='name' />
-			</FormField>
-			<FormField label='E-mail' name='email'>
-				<FormInput name='email' />
-			</FormField>
-			<FormField label='Nomor HP' name='phone'>
-				<FormInput name='phone' />
-			</FormField>
-			<FormField label='Password' name='password'>
-				<FormInput type="password" name='password' />
-			</FormField>
-			<FormField label='Konfirmasi Password' name='password_confirmation'>
-				<FormInput type="password" name='password_confirmation' />
-			</FormField>
-			<FormField label='Tempat Lahir' name='birthplace'>
-				<FormInput name='birthplace' />
-			</FormField>
+			<FormField label='Nama' name='name' autoCapitalize='words' />
+			<FormField label='E-mail' name='email' keyboardType='email-address' />
+			<FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
+			<FormField label='Password' name='password' secureTextEntry />
+			<FormField label='Konfirmasi Password' name='password_confirmation' secureTextEntry />
+			<FormField label='Tempat Lahir' name='birthplace' />
 			<FormField label='Tanggal Lahir' name='dob'>
 				<DatePicker
 					defaultDate={new Date()}
@@ -49,9 +37,7 @@ function Step2 (props) {
 					name='gender'
 				/>
 			</FormField>
-			<FormField label='Golongan Darah' name='blood_type'>
-				<FormInput name='blood_type' />
-			</FormField>
+			<FormField label='Golongan Darah' name='blood_type' />
 			<FormField label='Agama' name='religion'>
 				<FormSelect
 					style={{ width: undefined, marginVertical: 4 }}
@@ -76,15 +62,9 @@ function Step2 (props) {
 				autoCompleteType='off'
 				name='address'
 			/>
-			<FormField label='Propinsi'>
-				<FormInput disabled name='province' />
-			</FormField>
-			<FormField label='Kecamatan' name='subdistrict'>
-				<FormInput name='subdistrict' />
-			</FormField>
-			<FormField label='Kelurahan/Desa' name='subdivision'>
-				<FormInput name='subdivision' />
-			</FormField>
+			<FormField label='Propinsi' disabled />
+			<FormField label='Kecamatan' name='subdistrict' />
+			<FormField label='Kelurahan/Desa' name='subdivision' />
 			<FormField label='Kabupaten/Kota' name='city'>
 				<FormSelect
 					style={{ width: undefined, marginVertical: 4 }}
@@ -92,9 +72,7 @@ function Step2 (props) {
 					name='city'
 				/>
 			</FormField>
-			<FormField label='Kode Pos' name='postal_code'>
-				<FormInput keyboardType='number-pad' name='postal_code' />
-			</FormField>
+			<FormField label='Kode Pos' name='postal_code' keyboardType='number-pad' name='postal_code' />
 		</Wizard.Page>
 	)
 }
