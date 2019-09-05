@@ -8,7 +8,7 @@ export const FormField = connect(function (props) {
   const { name, formik, nofloat, stackedLabel, style, label, onlyLabel, disabled, value, children } = props
   const useFloatingLabel = !nofloat
   const { errors } = formik
-  const error = getIn(errors, name)
+	const error = getIn(errors, name)
   
   if(useFloatingLabel) {
     if(typeof children==='undefined') {
@@ -19,7 +19,11 @@ export const FormField = connect(function (props) {
           style={[{marginTop:14}, style]}
         >
           <Label>{label}</Label>
-          <Input {...props} value={disabled?formik.values[name]:null} />
+					<Input
+						{...props}
+						onChangeText={formik.handleChange(name)}
+						value={!disabled && formik.values[name]}
+					/>
           {typeof error === 'string' && <Icon name='alert' />}
         </Item>
       )

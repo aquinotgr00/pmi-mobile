@@ -106,8 +106,12 @@ class VolunteerRegistrationFormScreen extends React.Component {
 					onSubmit={this.handleFormSubmit}
 				>
 					<Step1 />
-					<Step2 />
-					<Step3 photo={this.state.photo} loading={this.state.loading} handleChoosePhoto={this.handleChoosePhoto} />
+					{/* <Step2 /> */}
+					{/* <Step3
+						photo={this.state.photo}
+						loading={this.state.loading}
+						handleChoosePhoto={this.handleChoosePhoto}
+					/> */}
 				</Wizard>
 
       </Screen>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { FormSectionTitle, FormField, FormInput, FormSelect } from 'src/components'
-import { Icon } from 'native-base'
+import { Icon, Text } from 'native-base'
 import Color from 'src/constants/Color'
 
 import Wizard from './Wizard'
@@ -67,7 +67,7 @@ function Step1 () {
   return (
     <Wizard.Page>
 			<FormSectionTitle text='Keanggotaan' />
-			<FormField label='Pilih Jenis Anggota'>
+			{/* <FormField label='Pilih Jenis Anggota'> */}
 				<FormSelect
 					options={[
 						{ value: 'palang merah remaja', label: 'Palang Merah Remaja' },
@@ -77,8 +77,8 @@ function Step1 () {
 					]}
 					name='parentMember'
 				/>
-			</FormField>
-			<FormField label='Pilih Sub Jenis Anggota'>
+			{/* </FormField> */}
+			{/* <FormField label='Pilih Sub Jenis Anggota'> */}
 				<FormSelect
 					options={[
 						{ value: 'mula', label: 'Mula' },
@@ -87,11 +87,11 @@ function Step1 () {
 					]}
 					name='subMember'
 				/>
-			</FormField>
+			{/* </FormField> */}
 
 
 			<FormSectionTitle text='Unit PMI Kab-Kota' />
-			<FormField label='Kabupaten/Kota'>
+			{/* <FormField label='Kabupaten/Kota'> */}
 				<FormSelect
 					options={[
 						{ value: 'Jakarta Barat', label: 'Jakarta Barat' },
@@ -103,8 +103,8 @@ function Step1 () {
 					]}
 					name='city'
 				/>
-			</FormField>
-			<FormField label='Unit'>
+			{/* </FormField> */}
+			{/* <FormField label='Unit'> */}
 				<FormSelect
 					options={[
 						{ value: 'SDN 1 JKT', label: 'SDN 1 JKT' },
@@ -113,10 +113,10 @@ function Step1 () {
 					]}
 					name='unit'
 				/>
-			</FormField>
+			{/* </FormField> */}
 
 			<FormSectionTitle text='Pengalaman' />
-			{achievementFields.map((field, idx) => {
+			{/* {achievementFields.map((field, idx) => {
 				return (
 					<FormField key={`${field}-${idx}`} label='Penghargaan' name={`achievements[${idx}]`}>
 						<FormInput name={`achievements[${idx}]`} />
@@ -154,9 +154,13 @@ function Step1 () {
 						</TouchableOpacity>
 					</FormField>
 				)
-			})}
-			<FormField label='Spesialisasi' name='specialization' />
-			<FormField label='Keterampilan Khusus' name='skill' />
+			})} */}
+			{/* <FormField label='Spesialisasi' name='specialization'> */}
+				<FormInput name='specialization' />
+			{/* </FormField> */}
+			{/* <FormField label='Keterampilan Khusus' name='skill'> */}
+				<FormInput name='skill' />
+			{/* </FormField> */}
     </Wizard.Page>
   )
 }

@@ -12,8 +12,10 @@ import ForgotPasswordScreen from 'src/screens/ForgotPassword'
 import ResetPasswordScreen from 'src/screens/ResetPassword'
 import ManualTransferScreen from 'src/screens/ManualTransfer'
 import ThankYouScreen from 'src/screens/ThankYou'
-import UserProfileScreen from 'src/screens/UserProfile'
 import CheckoutScreen from 'src/screens/Checkout'
+
+import UserProfileScreen from 'src/screens/UserProfile'
+import UserFormScreen from 'src/screens/User/Form'
 
 import { createDrawerNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
 import InKindDonationFormScreen from 'src/screens/Donation/InKindDonation'
@@ -150,6 +152,9 @@ const MainNavigator = createStackNavigator({
   },
   Rsvp: {
     screen: RsvpScreen
+  },
+  UserForm: {
+    screen: UserFormScreen
   }
 
 }, {
