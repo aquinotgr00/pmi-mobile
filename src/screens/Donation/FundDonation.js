@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Alert, ActivityIndicator } from 'react-native'
-import { Text, Item, Label, Input, Picker, Icon, CheckBox, Button } from 'native-base'
-import { RedButton, Screen } from 'src/components'
+import { ActivityIndicator } from 'react-native'
+import { Text } from 'native-base'
+import { RedButton, Screen, FormField, FormSelect, FormCheckBox } from 'src/components'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
@@ -27,16 +27,13 @@ export default class FundDonationScreen extends React.Component {
 	state = {
 		title: 'Berdonasi Uang',
 		id: this.props.navigation.getParam('id'),
-		category: 1,
-		checked: false,
-		selected: ''
 	}
 
 	constructor (props) {
 		super(props)
 
 		this.getCampaignDetail = this.getCampaignDetail.bind(this)
-		// this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
 	}
 
 	componentDidMount () {
@@ -54,6 +51,8 @@ export default class FundDonationScreen extends React.Component {
 	}
 
 	handleSubmit = async values => {
+		values.category = 1
+		console.log(values)
 		try {
 			const response = await storeFundDonation(values)
 			const { status, data } = response.data
@@ -73,6 +72,7 @@ export default class FundDonationScreen extends React.Component {
 			
 		} catch (error) {
 			// TODO : handle error
+			console.log(error.response)
 		}
 	}
 
@@ -86,7 +86,7 @@ export default class FundDonationScreen extends React.Component {
 						email: 'test@mail.com',
 						phone: '081',
 						amount: '10000',
-						payment_method: 'midtrans',
+						payment_method: 'manual',
 						campaign_id: this.state.id,
 						category: 1,
 						anonym: false,
@@ -96,57 +96,40 @@ export default class FundDonationScreen extends React.Component {
 				>
 					{formikProps => (
 						<React.Fragment>
-							<CampaignPicker type={this.props.navigation.getParam('type_id')} fundraising={true} enabled={!this.state.id} />
-							<Item floatingLabel style={{marginLeft:0}}>
-								<Label>Nama</Label>
-								<Input onChangeText={formikProps.handleChange('name')} />
-							</Item>
+							<CampaignPicker
+								type={this.props.navigation.getParam('type_id')}
+								fundraising={true}
+								enabled={!this.state.id}
+							/>
+
+							<FormField label='Nama' name='name' floatingLabel />
 							<Text style={{ color: 'red' }}>{formikProps.errors.name}</Text>
-							<Item floatingLabel style={{marginLeft:0}}>
-								<Label>E-mail</Label>
-								<Input email onChangeText={formikProps.handleChange('email')} />
-							</Item>
+
+							<FormField label='E-mail' name='email' floatingLabel />
 							<Text style={{ color: 'red' }}>{formikProps.errors.email}</Text>
-							<Item floatingLabel style={{marginLeft:0}}>
-								<Label>No Telepon</Label>
-								<Input number onChangeText={formikProps.handleChange('phone')} />
-							</Item>
+
+							<FormField label='No Telepon' name='phone' floatingLabel />
 							<Text style={{ color: 'red' }}>{formikProps.errors.phone}</Text>
-							<Item floatingLabel style={{marginLeft:0}}>
-								<Label>Besar Donasi (min Rp.10,000)</Label>
-								<Input number onChangeText={formikProps.handleChange('amount')} />
-							</Item>
+
+							<FormField label='Besar Donasi (min Rp.10,000)' name='amount' floatingLabel />
 							<Text style={{ color: 'red' }}>{formikProps.errors.amount}</Text>
-							<Picker
-								iosIcon={<Icon name='arrow-down' />}
-								placeholder='Metode Transfer'
-								placeholderStyle={{ fontSize:17, color:'black', paddingLeft:0}}
-								itemStyle={{paddingHorizontal:0}}
-								placeholderIconColor='#007aff'
-								selectedValue={this.state.selected}
-								onValueChange={(value) => {
-									formikProps.setFieldValue('payment_method', value)
-									// formikProps.handleChange('payment_method')
-									this.setState({selected:value})
-								}}
-								style={{marginTop:10, borderBottomWidth:1,borderBottomColor: 'black', opacity:.6,paddingHorizontal:0}}
-							>
-								<Picker.Item label='Transfer Manual' value='manual' />
-								<Picker.Item label='Transfer Virtual Akun' value='midtrans' />
-							</Picker>
-							<View style={{marginTop:30, flex:1,flexDirection:'row',paddingLeft:0}}>
-								<CheckBox
-									checked={this.state.checked}
-									onPress={(value) => {
-										formikProps.setFieldValue('anonym', !this.state.checked)
-										// formikProps.handleChange('anonym')
-										this.setState({ checked: !this.state.checked })
-									}}
-									color='red'
-									style={{borderRadius:3,left:0}}
+
+							<FormField label='Metode Transfer' name='payment_method' floatingLabel>
+								<FormSelect
+									name='payment_method'
+									options={[
+										{ value: 'manual', label: 'Transfer Manual' },
+										{ value: 'midtrans', label: 'Transfer Virtual Akun' },
+									]}
 								/>
-								<Text style={{flex:1,marginLeft:15,fontSize:16,textAlignVertical:'bottom'}}>Sembunyikan Nama Saya (Anonim)</Text>
-							</View>
+							</FormField>
+
+							<FormCheckBox
+                label='Sembunyikan nama saya (Anonim)'
+                style={{ marginTop: 10 }}
+                name='anonym'
+              />
+
 							{formikProps.isSubmitting ? (
 								<ActivityIndicator style={{marginTop:40}} />
 							) : (

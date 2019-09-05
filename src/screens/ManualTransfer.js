@@ -44,7 +44,7 @@ export default class ManualTransferScreen extends React.Component {
         console.log('there\'s something wrong. please try again later.')
       }
     } catch (err) {
-      console.log(err)
+      console.log(err.response)
     }
 	}
 
