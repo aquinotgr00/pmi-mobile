@@ -96,7 +96,7 @@ export default class FundDonationScreen extends React.Component {
 				>
 					{formikProps => (
 						<React.Fragment>
-							<CampaignPicker fundraising={true} enabled={!this.state.id} />
+							<CampaignPicker type={this.props.navigation.getParam('type_id')} fundraising={true} enabled={!this.state.id} />
 							<Item floatingLabel style={{marginLeft:0}}>
 								<Label>Nama</Label>
 								<Input onChangeText={formikProps.handleChange('name')} />

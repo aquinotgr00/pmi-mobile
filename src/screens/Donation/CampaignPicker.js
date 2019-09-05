@@ -21,13 +21,16 @@ export default class CampaignPicker extends Component {
   }
 
   async getCampaigns (fundraisingOnly) {
-    const campaignParams = new URLSearchParams()
-    campaignParams.append('f', fundraisingOnly ? 1 : 0)
+		const campaignParams = new URLSearchParams()
+		campaignParams.append('f', fundraisingOnly ? 1 : 0)
+		if (this.props.type !== undefined) {
+			campaignParams.append('t', this.props.type)
+		}
     try {
       const response = await getCampaignListApi(campaignParams)
       const { status } = response.data
       if (status === 'success') {
-        const { data: campaigns } = response.data
+				const { data: campaigns } = response.data
         this.setState({
           isLoading: false,
           campaigns: campaigns.map(campaign => ({ value: campaign.id, label: campaign.formatted_title }))
