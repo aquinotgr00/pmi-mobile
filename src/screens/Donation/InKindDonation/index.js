@@ -23,7 +23,7 @@ class InKindDonationFormScreen extends React.Component {
     const { campaign_id, name, email, phone, deliveryMethod: pick_method, anonym, items: donation_items } = values
     try {
       this.setState({ isLoading: true })
-      const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items })
+      const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items, amount: 10000 })
       const { status } = response.data
       this.setState({ isLoading: false })
       if (status === 'success') {
@@ -34,6 +34,7 @@ class InKindDonationFormScreen extends React.Component {
       }
     } catch (error) {
       // TODO : handle error
+      console.log(error.response)
     }
     // const { token } = this.props.user
   }
@@ -44,7 +45,21 @@ class InKindDonationFormScreen extends React.Component {
     return (
       <Screen title='Berdonasi Barang' back>
         <Formik
-          initialValues={{ campaign_id, name: '', email: '', phone: '', deliveryMethod: '', anonym: false, items: [] }}
+          initialValues={{
+              campaign_id,
+              name: 'Item Donatorr',
+              email: 'itemdi@mail.com',
+              phone: '085522',
+              deliveryMethod: 'kirim',
+              anonym: false,
+              items: [
+                  {
+                      type: 'maeman',
+                      name: 'indomei',
+                      amount: '10 slop'
+                  }
+              ]
+          }}
           validationSchema={InKindDonationSchema}
           onSubmit={this.handleFormSubmit}
         >
@@ -59,8 +74,8 @@ class InKindDonationFormScreen extends React.Component {
                 placeholder='Metode Penyerahan'
                 style={{ marginVertical: 15, width: undefined, borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
                 options={[
-                  { value: 'Kirim', label: 'Barang dikirim' },
-                  { value: 'Antar', label: 'Barang diantar' }
+                  { value: 'kirim', label: 'Barang dikirim' },
+                  { value: 'antar', label: 'Barang diantar' }
                 ]}
                 name='deliveryMethod'
               />

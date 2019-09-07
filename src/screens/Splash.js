@@ -17,7 +17,7 @@ class Splash extends Component {
   }
 
   downloadSettings () {
-
+    console.log('the requested data has been start.')
   }
 
   userRedirection () {

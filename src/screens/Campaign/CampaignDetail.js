@@ -1,7 +1,7 @@
 import React from 'react'
 import { ProgressBar } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
-import { Card, CardItem, Thumbnail, Body, Content } from 'native-base'
+import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
 import HTML from 'react-native-render-html'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail } from 'src/services/api'
@@ -32,12 +32,14 @@ export default class CampaignScreen extends React.Component {
       get_donations: [],
       finish_campaign: '',
       type_id: 0,
-      modalVisible: false,
+			modalVisible: false,
+			fundraising: 1,
     }
 
     this.getDetailCampaign = this.getDetailCampaign.bind(this)
     this.toggleReadMoreBtn = this.toggleReadMoreBtn.bind(this)
-    this.setModalVisible = this.setModalVisible.bind(this)
+		this.setModalVisible = this.setModalVisible.bind(this)
+		this.navigateToDonationScreen = this.navigateToDonationScreen.bind(this)
 
     this.animatedHeight = new Animated.Value(0)
     this.animatedHeaderHeight = this.animatedHeight.interpolate({
@@ -71,13 +73,13 @@ export default class CampaignScreen extends React.Component {
       const response = await getCampaignDetail(this.state.id)
       const { status } = response.data
       if(status==='success') {
-        const { image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id } = response.data.data
+        const { image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising } = response.data.data
         const days = daysRemaining(finish_campaign)
         const percentage = amount_real/amount_goal*100
         const loading = false
         const showAllDonationsText = get_donations.length > 4 ? true:false 
         this.setState({
-          image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, days, percentage, loading, showAllDonationsText
+          image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
         })
       }
     } catch (err) {
@@ -95,6 +97,15 @@ export default class CampaignScreen extends React.Component {
 
   setModalVisible(visible) {
     this.setState({donatorListModalVisible: visible});
+	}
+	
+	navigateToDonationScreen () {
+    const { id, fundraising, type_id } = this.state
+    let routeName = 'InKindDonationForm'
+    if (fundraising) {
+      routeName = 'FundDonation'
+    }
+    this.props.navigation.navigate(routeName, { id, type_id })
   }
 
   render () {
@@ -138,6 +149,7 @@ export default class CampaignScreen extends React.Component {
             </Animated.Text>
           </Animated.View>
         </Animated.View>
+
         <ScrollView
           scrollEventThrottle={16}
           style={{ padding: 20 }}
@@ -151,6 +163,7 @@ export default class CampaignScreen extends React.Component {
 			    }
 			  ])}
         >
+					<Container>
           <Text style={{ marginBottom: 10 }}>{this.state.title}</Text>
 
           <ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
@@ -197,7 +210,7 @@ export default class CampaignScreen extends React.Component {
           }
 
           <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
-				
+
           <FlatList
 						style={{ marginBottom:this.state.showAllDonationsText ? 0:45 }}
             data={this.state.get_donations.slice(0, 4)}
@@ -274,15 +287,17 @@ export default class CampaignScreen extends React.Component {
                 />
             </View>
           </Modal>
+					</Container>
         </ScrollView>
-        <View style={{backgroundColor: 'white', bottom: 25}}>
+
+        <View style={{backgroundColor: 'white', bottom: 15}}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('FundDonation', { id:this.state.id })}
+            onPress={this.navigateToDonationScreen}
             style={{
               backgroundColor:'red',
               borderRadius:60,
               paddingVertical:15,
-              marginVertical:15,
+              marginVertical:5,
               marginHorizontal: 15,
             }}
           >
