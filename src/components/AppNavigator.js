@@ -26,6 +26,9 @@ import VolunteerHomeScreen from 'src/screens/Home/Volunteer'
 import EmergencyAndEventScreen from 'src/screens/EmergencyAndEvent'
 import RsvpScreen from 'src/screens/Rsvp'
 
+import ChatScreen from 'src/screens/Chat'
+import ChatInfoScreen from 'src/screens/Chat/Info'
+
 import { IconInu } from 'src/components'
 import Color from 'src/constants/Color'
 
@@ -66,14 +69,13 @@ const GuestDrawerNavigator = createDrawerNavigator({
   },
   VolunteerRegistration: {
     screen: VolunteerRegistrationScreen,
-    navigationOptions:({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       drawerLabel: 'Login/Register Relawan',
       drawerIcon: ({ tintColor }) => (
         <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
-      ),
+      )
     })
-  
-    
+
   }
 }, drawerContentOptions)
 
@@ -126,6 +128,12 @@ const MainNavigator = createStackNavigator({
   VolunteerRegistrationForm: {
     screen: VolunteerRegistrationFormScreen
   },
+  Chat: {
+    screen: ChatScreen
+  },
+  ChatInfo: {
+    screen: ChatInfoScreen
+  },
   Login: {
     screen: LoginScreen
   },
@@ -158,8 +166,8 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  initialRouteName: 'Splash',
-  //initialRouteName: 'VolunteerNavigator',
+  // initialRouteName: 'Splash',
+  initialRouteName: 'VolunteerNavigator',
   headerMode: 'none'
 })
 

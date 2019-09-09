@@ -5,10 +5,10 @@ import { BackButton, MenuButton } from './HeaderButtons'
 import Color from 'src/constants/Color'
 
 export function Screen (props) {
-  const {menu, back, title, right, refreshControl, isLoading, children, unpadded, verticalCenter} = props
+  const { menu, back, title, right, refreshControl, isLoading, children, unpadded, verticalCenter, style, containerStyle, noBounce } = props
   const contentStyle = unpadded ? { paddingHorizontal: 15 } : { padding: 15 }
-  const contentContainerStyle = verticalCenter ? { flexGrow: 1, justifyContent: 'center' } : {}
-  
+  const contentContainerStyle = verticalCenter ? { flexGrow: 1, justifyContent: 'center' } : containerStyle
+
   return (
     <Container>
       <Header transparent>
@@ -29,15 +29,16 @@ export function Screen (props) {
       </Header>
 
       <Content
-        style={contentStyle}
+        bounces={!noBounce}
+        style={[contentStyle,style]}
         refreshControl={refreshControl}
         contentContainerStyle={contentContainerStyle}
       >
         {children}
-        
+
       </Content>
-      {isLoading && 
-        <ActivityIndicator size='large' color={Color.red} style={{position:'absolute',top:0, bottom:0, right:0, left:0}} />
+      {isLoading &&
+        <ActivityIndicator size='large' color={Color.red} style={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }} />
       }
     </Container>
   )
