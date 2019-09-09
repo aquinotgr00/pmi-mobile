@@ -34,6 +34,7 @@ class InKindDonationFormScreen extends React.Component {
       }
     } catch (error) {
       // TODO : handle error
+      console.log(error.response)
     }
     // const { token } = this.props.user
   }
@@ -44,14 +45,28 @@ class InKindDonationFormScreen extends React.Component {
     return (
       <Screen title='Berdonasi Barang' back>
         <Formik
-          initialValues={{ campaign_id, name: '', email: '', phone: '', deliveryMethod: '', anonym: false, items: [] }}
+          initialValues={{
+						campaign_id,
+						name: 'Item Donatorr',
+						email: 'itemdi@mail.com',
+						phone: '085522',
+						deliveryMethod: 'kirim',
+						anonym: false,
+						items: [
+							{
+									type: 'maeman',
+									name: 'indomei',
+									amount: '10 slop'
+							}
+						]
+          }}
           validationSchema={InKindDonationSchema}
           onSubmit={this.handleFormSubmit}
         >
           {props => (
             <View style={{ paddingBottom: 30 }}>
               <FormSectionTitle text='Informasi Donasi' />
-              <CampaignPicker fundraising={false} enabled={!campaign_id} />
+              <CampaignPicker type={this.props.navigation.getParam('type_id')} fundraising={false} enabled={!campaign_id} />
               <FormField label='Nama' name='name' autoCapitalize='words' />
               <FormField label='Email' name='email' keyboardType='email-address' autoCapitalize='none' />
               <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
@@ -59,8 +74,8 @@ class InKindDonationFormScreen extends React.Component {
                 placeholder='Metode Penyerahan'
                 style={{ marginVertical: 15, width: undefined, borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
                 options={[
-                  { value: 'Kirim', label: 'Barang dikirim' },
-                  { value: 'Antar', label: 'Barang diantar' }
+                  { value: 'kirim', label: 'Barang dikirim' },
+                  { value: 'antar', label: 'Barang diantar' }
                 ]}
                 name='deliveryMethod'
               />
