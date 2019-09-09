@@ -23,7 +23,7 @@ class InKindDonationFormScreen extends React.Component {
     const { campaign_id, name, email, phone, deliveryMethod: pick_method, anonym, items: donation_items } = values
     try {
       this.setState({ isLoading: true })
-      const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items, amount: 10000 })
+      const response = await storeFundDonation({ campaign_id, name, email, phone, pick_method, anonym, donation_items })
       const { status } = response.data
       this.setState({ isLoading: false })
       if (status === 'success') {
@@ -46,19 +46,19 @@ class InKindDonationFormScreen extends React.Component {
       <Screen title='Berdonasi Barang' back>
         <Formik
           initialValues={{
-              campaign_id,
-              name: 'Item Donatorr',
-              email: 'itemdi@mail.com',
-              phone: '085522',
-              deliveryMethod: 'kirim',
-              anonym: false,
-              items: [
-                  {
-                      type: 'maeman',
-                      name: 'indomei',
-                      amount: '10 slop'
-                  }
-              ]
+						campaign_id,
+						name: 'Item Donatorr',
+						email: 'itemdi@mail.com',
+						phone: '085522',
+						deliveryMethod: 'kirim',
+						anonym: false,
+						items: [
+							{
+									type: 'maeman',
+									name: 'indomei',
+									amount: '10 slop'
+							}
+						]
           }}
           validationSchema={InKindDonationSchema}
           onSubmit={this.handleFormSubmit}
