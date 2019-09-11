@@ -65,8 +65,8 @@ class Splash extends Component {
 		const response = await downloadAreaData(name)
 		const { status } = response.data
 		if (status === 'success') {
-			const { data } = response.data
-			console.log(data)
+      const { data } = response.data
+      AsyncStorage.setItem(`${name}_data`, JSON.stringify(data))
 		}
 	}
 
