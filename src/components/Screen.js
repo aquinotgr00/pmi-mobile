@@ -19,7 +19,7 @@ export function Screen (props) {
 
         <Body style={{ flex: 6 }}>
           {typeof title === 'string'
-            ? <Title style={{ fontWeight: '300' }}>{title}</Title>
+            ? <Title style={{ fontWeight: '600' }}>{title}</Title>
             : title
           }
         </Body>
