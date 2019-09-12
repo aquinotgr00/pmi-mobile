@@ -166,8 +166,8 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  // initialRouteName: 'Splash',
-  initialRouteName: 'VolunteerNavigator',
+  initialRouteName: 'Splash',
+  // initialRouteName: 'VolunteerNavigator',
   headerMode: 'none'
 })
 

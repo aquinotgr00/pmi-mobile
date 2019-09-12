@@ -1,8 +1,11 @@
 import React from 'react'
-import { Text } from 'native-base'
+import { View } from 'react-native'
+import { FormSectionTitle, FormSelect, RedButton, Screen } from 'src/components'
 
 export default function NewlyPublishedEvents () {
   return (
-    <Text>Newly Published Events</Text>
+    <View>
+      <FormSectionTitle text='Grup Request' />
+    </View>
   )
 }

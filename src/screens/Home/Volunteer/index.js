@@ -6,6 +6,21 @@ import NewlyPublishedEvents from './NewlyPublishedEvents'
 import MyParticipations from './MyParticipations'
 
 export default class HomeScreen extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      refreshing: false,
+      timestamp: Date.now()
+    }
+
+    this.onRefresh = this.onRefresh.bind(this)
+  }
+
+  onRefresh () {
+    this.setState({ timestamp: Date.now() })
+  }
+  
   render () {
     return (
       <Screen
@@ -13,11 +28,12 @@ export default class HomeScreen extends Component {
         title={<Image source={require('assets/images/logo-home.png')} />}
         refreshControl={
           <RefreshControl
-
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
           />
         }
       >
-        <GeneralDiscussion />
+        <GeneralDiscussion lastUpdate={this.state.timestamp} />
         <NewlyPublishedEvents numberOfEvents={3} />
         <MyParticipations />
       </Screen>
