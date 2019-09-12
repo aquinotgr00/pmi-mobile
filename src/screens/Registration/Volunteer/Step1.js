@@ -1,168 +1,235 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TouchableOpacity } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import { FormSectionTitle, FormField, FormInput, FormSelect } from 'src/components'
 import { Icon, Text } from 'native-base'
 import Color from 'src/constants/Color'
-
+import { connect } from 'formik'
 import Wizard from './Wizard'
 
-function Step1 () {
-	const [ achievementFields, setAchievementFields ] = useState([{ value: null }])
-	const [ assignmentFields, setAssignmentFields ] = useState([{ value: null }])
-	const [ trainingFields, setTrainingFields ] = useState([{ value: null }])
+class Step1 extends React.Component {
+	constructor (props) {
+		super(props)
+		this.state = {
+			achievementFields: [{ value: null }],
+			assignmentFields: [{ value: null }],
+      trainingFields: [{ value: null }],
+      membershipData: [],
+      subMemberData: [],
+      subMemberOptions: [],
+      cityData: [],
+      unitData: [],
+      unitOptions: [],
+		}
 
-	function handleAdd(type) {
+		this.handleAdd = this.handleAdd.bind(this)
+		this.handleRemove = this.handleRemove.bind(this)
+		this.handlePressed = this.handlePressed.bind(this)
+    this.getParentMemberData = this.getParentMemberData.bind(this)
+    this.embbedMembership = this.embbedMembership.bind(this)
+    this.embbedCity = this.embbedCity.bind(this)
+	}
+
+	componentDidMount () {
+		this.getParentMemberData()
+	}
+
+	handleAdd (type) {
 		let values = null
 		switch (type) {
 			case 1:
-				values = [...achievementFields]
-				values.push({ value: null });
-				setAchievementFields(values);
+				values = [...this.state.achievementFields]
+        values.push({ value: null });
+        this.setState({achievementFields: values})
 				break
 			
 			case 2:
-				values = [...assignmentFields]
-				values.push({ value: null });
-				setAssignmentFields(values);
+				values = [...this.state.assignmentFields]
+				values.push({ value: null })
+        this.setState({assignmentFields: values})
 				break
 		
 			default:
-				values = [...trainingFields]
-				values.push({ value: null });
-				setTrainingFields(values);
+				values = [...this.state.trainingFields]
+				values.push({ value: null })
+        this.setState({trainingFields: values})
 				break;
 		}
 	}
 
-  function handleRemove(type, i) {
+	handleRemove (type, i) {
 		let values = null
 		switch (type) {
 			case 1:
-				values = [...achievementFields];
+				values = [...this.state.achievementFields]
 				values.splice(i, 1);
-				setAchievementFields(values);
+        this.setState({achievementFields: values})
 				break
 			
 			case 2:
-				values = [...assignmentFields]
+				values = [...this.state.assignmentFields]
 				values.splice(i, 1);
-				setAssignmentFields(values);
+        this.setState({assignmentFields: values})
 				break
 		
 			default:
-				values = [...trainingFields]
+				values = [...this.state.trainingFields]
 				values.splice(i, 1);
-				setTrainingFields(values);
+        this.setState({trainingFields: values})
 				break;
 		}
 	}
 	
-	function handlePressed (i, type) {
+	handlePressed (i, type) {
 		if (i === 0) {
-			return handleAdd(type)
+			return this.handleAdd(type)
 		}
-		return handleRemove(type, i)
+		return this.handleRemove(type, i)
 	}
 
-  return (
-    <Wizard.Page>
-			<FormSectionTitle text='Keanggotaan' />
-			{/* <FormField label='Pilih Jenis Anggota'> */}
-				<FormSelect
-					options={[
-						{ value: 'palang merah remaja', label: 'Palang Merah Remaja' },
-						{ value: 'korps sukarela', label: 'Korps Sukarela' },
-						{ value: 'tenaga sukarela', label: 'Tenaga Sukarela' },
-						{ value: 'pengurus', label: 'Pengurus' }
-					]}
-					name='parentMember'
-				/>
-			{/* </FormField> */}
-			{/* <FormField label='Pilih Sub Jenis Anggota'> */}
-				<FormSelect
-					options={[
-						{ value: 'mula', label: 'Mula' },
-						{ value: 'madya', label: 'Madya' },
-						{ value: 'wira', label: 'Wira' },
-					]}
-					name='subMember'
-				/>
-			{/* </FormField> */}
+	getParentMemberData = async () => {
+		try {
+			const memberResponse = await AsyncStorage.getItem('memberships_data')
+			const cityResponse = await AsyncStorage.getItem('cities_data')
+			this.embbedMembership(JSON.parse(memberResponse))
+			this.embbedCity(JSON.parse(cityResponse))
+		} catch (err) {
+			console.log(err.response)
+		}
+  }
+
+  embbedMembership (parsedValue) {
+    const membershipData = []
+    const subMemberData = []
+    parsedValue.filter(member => {
+      if (member.parent_id === null) {
+        membershipData.push({
+          label: member.name,
+          value: member.name
+        })
+        subMemberData[member.name] = []
+        member.sub_member.filter(sub => {
+          subMemberData[member.name].push({
+            label: sub.name,
+            value: sub.name
+          })
+        })
+      }
+    })
+    this.setState({ membershipData, subMemberData })
+  }
+
+  embbedCity (parsedValue) {
+    const cityData = []
+    const unitData = []
+    parsedValue.filter(area => {
+      cityData.push({
+        label: area.name,
+        value: area.name
+      })
+      unitData[area.name] = []
+      area.units.filter(unit => {
+        unitData[area.name].push({
+          label: unit.name,
+          value: unit.name
+        })
+      })
+    })
+    this.setState({ cityData, unitData })
+  }
+
+	render () {
+    const { setFieldValue, errors } = this.props.formik
+		return (
+      <Wizard.Page>
+				<FormSectionTitle text='Keanggotaan' />
+        <FormSelect
+          onChange={val => {
+            setFieldValue('parentMember', val)
+            this.setState({ subMemberOptions: this.state.subMemberData[val] })
+          }}
+          placeholder='Pilih Jenis Anggota'
+          placeholderStyle={{color: errors.parentMember !== undefined ? Color.red : Color.darkGray}}
+          style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
+          options={this.state.membershipData}
+          iconName={errors.parentMember ? 'alert':'arrow-down'}
+          name='parentMember'
+        />
+        {errors.parentMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.parentMember}</Text>}
+        <FormSelect
+          options={this.state.subMemberOptions}
+          placeholder='Pilih Sub Jenis Anggota'
+          placeholderStyle={{color: errors.subMember !== undefined ? Color.red : Color.darkGray}}
+          style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
+          iconName={errors.subMember ? 'alert':'arrow-down'}
+          name='subMember'
+        />
+        {errors.subMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.subMember}</Text>}
 
 
-			<FormSectionTitle text='Unit PMI Kab-Kota' />
-			{/* <FormField label='Kabupaten/Kota'> */}
-				<FormSelect
-					options={[
-						{ value: 'Jakarta Barat', label: 'Jakarta Barat' },
-						{ value: 'Jakarta Pusat', label: 'Jakarta Pusat' },
-						{ value: 'Jakarta Selatan', label: 'Jakarta Selatan' },
-						{ value: 'Jakarta Timur', label: 'Jakarta Timur' },
-						{ value: 'Jakarta Utara', label: 'Jakarta Utara' },
-						{ value: 'Kepulauan Seribu', label: 'Kepulauan Seribu' },
-					]}
-					name='city'
-				/>
-			{/* </FormField> */}
-			{/* <FormField label='Unit'> */}
-				<FormSelect
-					options={[
-						{ value: 'SDN 1 JKT', label: 'SDN 1 JKT' },
-						{ value: 'madya', label: 'Madya' },
-						{ value: 'wira', label: 'Wira' },
-					]}
-					name='unit'
-				/>
-			{/* </FormField> */}
+				<FormSectionTitle text='Unit PMI Kab-Kota' style={{marginTop: 15}} />
+				<FormField label='Kabupaten/Kota' name='unitCity'>
+					<FormSelect
+            onChange={val => {
+              setFieldValue('unitCity', val)
+              this.setState({ unitOptions: this.state.unitData[val] })
+            }}
+						options={this.state.cityData}
+						name='unitCity'
+					/>
+				</FormField>
+				<FormField label='Unit' name='unit'>
+					<FormSelect
+						options={this.state.unitOptions}
+						name='unit'
+					/>
+				</FormField>
 
-			<FormSectionTitle text='Pengalaman' />
-			{/* {achievementFields.map((field, idx) => {
-				return (
-					<FormField key={`${field}-${idx}`} label='Penghargaan' name={`achievements[${idx}]`}>
-						<FormInput name={`achievements[${idx}]`} />
-						<TouchableOpacity onPress={() => handlePressed(idx, 1)}>
-							<Icon
-								name={idx === 0 ? 'md-add':'md-close'}
-								style={{ color: idx === 0 ? Color.green:Color.red }}
-							/>
-						</TouchableOpacity>
-					</FormField>
-				)
-			})}
-			{assignmentFields.map((field, idx) => {
-				return (
-					<FormField key={`${field}-${idx}`} label='Penugasan' name={`assignments[${idx}]`}>
-						<FormInput name={`assignments[${idx}]`} />
-						<TouchableOpacity onPress={() => handlePressed(idx, 2)}>
-							<Icon
-								name={idx === 0 ? 'md-add':'md-close'}
-								style={{ color: idx === 0 ? Color.green:Color.red }}
-							/>
-						</TouchableOpacity>
-					</FormField>
-				)
-			})}
-			{trainingFields.map((field, idx) => {
-				return (
-					<FormField key={`${field}-${idx}`} label='Pelatihan' name={`trainings[${idx}]`}>
-						<FormInput name={`trainings[${idx}]`} />
-						<TouchableOpacity onPress={() => handlePressed(idx, 3)}>
-							<Icon
-								name={idx === 0 ? 'md-add':'md-close'}
-								style={{ color: idx === 0 ? Color.green:Color.red }}
-							/>
-						</TouchableOpacity>
-					</FormField>
-				)
-			})} */}
-			{/* <FormField label='Spesialisasi' name='specialization'> */}
-				<FormInput name='specialization' />
-			{/* </FormField> */}
-			{/* <FormField label='Keterampilan Khusus' name='skill'> */}
-				<FormInput name='skill' />
-			{/* </FormField> */}
-    </Wizard.Page>
-  )
+				<FormSectionTitle text='Pengalaman' />
+				{this.state.achievementFields.map((field, idx) => {
+					return (
+            <FormField key={`${field}-${idx}`} label='Penghargaan' name={`achievements[${idx}]`}>
+							<FormInput name={`achievements[${idx}]`} />
+							<TouchableOpacity onPress={() => this.handlePressed(idx, 1)}>
+								<Icon
+									name={idx === 0 ? 'md-add':'md-close'}
+									style={{ color: idx === 0 ? Color.green:Color.red }}
+								/>
+							</TouchableOpacity>
+						</FormField>
+					)
+				})}
+				{this.state.assignmentFields.map((field, idx) => {
+					return (
+						<FormField key={`${field}-${idx}`} label='Penugasan' name={`assignments[${idx}]`}>
+							<FormInput name={`assignments[${idx}]`} />
+							<TouchableOpacity onPress={() => this.handlePressed(idx, 2)}>
+								<Icon
+									name={idx === 0 ? 'md-add':'md-close'}
+									style={{ color: idx === 0 ? Color.green:Color.red }}
+								/>
+							</TouchableOpacity>
+						</FormField>
+					)
+				})}
+				{this.state.trainingFields.map((field, idx) => {
+					return (
+						<FormField key={`${field}-${idx}`} label='Pelatihan' name={`trainings[${idx}]`}>
+							<FormInput name={`trainings[${idx}]`} />
+							<TouchableOpacity onPress={() => this.handlePressed(idx, 3)}>
+								<Icon
+									name={idx === 0 ? 'md-add':'md-close'}
+									style={{ color: idx === 0 ? Color.green:Color.red }}
+								/>
+							</TouchableOpacity>
+						</FormField>
+					)
+				})}
+				<FormField floatingLabel label='Spesialisasi' name='specialization' />
+				<FormField floatingLabel label='Keterampilan Khusus' name='skill' />
+			</Wizard.Page>
+		)
+	}
 }
 
-export default Step1
+export default connect(Step1)

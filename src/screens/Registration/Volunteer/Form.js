@@ -47,8 +47,9 @@ class VolunteerRegistrationFormScreen extends React.Component {
 			values.image = this.state.photo
 		}
 
+    // console.log(values)
 		this.props.dispatch(register(values, true))
-    // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
+    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
 	}
 
 	addQualifications (listArr, data, idx, category) {
@@ -81,11 +82,12 @@ class VolunteerRegistrationFormScreen extends React.Component {
 
 				<Wizard
 					initialValues={{
-						parentMember: 'palang merah remaja',
-						subMember: 'mula',
+						parentMember: '',
+						subMember: '',
 						name: 'Volu One',
-						city: 'Jakarta Barat',
-						unit: 'SDN 1 JKT',
+						city: '',
+						unitCity: '',
+						unit: '',
 						specialization: 'menggambar',
 						skill: 'menggambar',
 						email: 'volu@one.com',
@@ -96,22 +98,22 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						dob: '2000-01-10',
 						gender: 'male',
 						religion: 'Islam',
-						province: 'JAKARTA',
-						subdistrict: 'jakarta barat',
-						subdivision: 'desa betawi',
-						postal_code: '12344',
+						province: 'DKI JAKARTA',
+						subdistrict: '',
+						subdivision: '',
+						postal_code: '',
 						blood_type: 'O',
 						address: 'jalan betawi rt 5',
 					}}
 					onSubmit={this.handleFormSubmit}
 				>
 					<Step1 />
-					{/* <Step2 /> */}
-					{/* <Step3
+					<Step2 />
+					<Step3
 						photo={this.state.photo}
 						loading={this.state.loading}
 						handleChoosePhoto={this.handleChoosePhoto}
-					/> */}
+					/>
 				</Wizard>
 
       </Screen>

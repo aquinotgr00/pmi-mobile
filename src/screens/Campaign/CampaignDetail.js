@@ -1,12 +1,13 @@
 import React from 'react'
 import { ProgressBar } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
-import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
+import { Card, CardItem, Thumbnail, Body, Container, Content } from 'native-base'
 import HTML from 'react-native-render-html'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
 import Modal from "react-native-modal"
+import Config from 'react-native-config'
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
@@ -113,7 +114,7 @@ export default class CampaignScreen extends React.Component {
       <>
         <Animated.View>
           <Animated.Image
-            source={{ uri: this.state.image }}
+            source={{ uri: Config.SERVER_URL + '/' + this.state.image }}
             style={{
 			      width: 380,
 			      height: this.animatedHeaderHeight,
@@ -151,7 +152,7 @@ export default class CampaignScreen extends React.Component {
         </Animated.View>
 
         <ScrollView
-          scrollEventThrottle={16}
+          scrollEventThrottle={14}
           style={{ padding: 20 }}
           onScroll={Animated.event([
 			    {
@@ -163,131 +164,144 @@ export default class CampaignScreen extends React.Component {
 			    }
 			  ])}
         >
-					<Container>
-          <Text style={{ marginBottom: 10 }}>{this.state.title}</Text>
+					{/* <Container> */}
+            {/* <Content> */}
+            <Text style={{ marginBottom: 10 }}>{this.state.title}</Text>
 
-          <ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
+            <ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
 
-          <View style={{ flex: 1, flexDirection: 'row', marginTop: 10, marginBottom: 20 }}>
-            <View style={{ flex: 1 }}>
-              <Text style={{ marginBottom: 5, fontSize: 11, color: 'grey' }}>Terkumpul</Text>
-              <Text style={{ fontWeight: '500' }}>Rp. {this.state.amount_real ? this.state.amount_real : 0}</Text>
-            </View>
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
-              <Text style={{ marginBottom: 5, fontSize: 11, color: 'grey' }}>Sisa Hari</Text>
-              <Text style={{ fontWeight: '500' }}>{isNaN(this.state.days) ? '-':this.state.days}</Text>
-            </View>
-          </View>
-
-					{!this.state.loading && 
-            // <Text
-            //   numberOfLines={this.state.lineNumber}
-            //   style={{ marginBottom: 20 }}
-            //   onLayout={(ev) => { 
-            //     if (this.state.lineNumber !== 999)
-            //       this.setState({
-            //         showReadMore: ev.nativeEvent.layout.height > 16*this.state.lineNumber ? true:false
-            //       })
-            //   }}
-            // >
-							<HTML baseFontStyle={{fontSize:17}} html={this.state.description} />
-            // </Text>
-          }
-
-          {this.state.showReadMore &&
             <View style={{
-              borderTopWidth: 1,
-              borderBottomWidth: 1,
-              borderColor: 'rgba(60, 58, 57, 0.15)',
-              marginBottom: 35
-            }}>
-              <TouchableOpacity onPress={this.toggleReadMoreBtn}>
-                <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
-                  {this.state.readMoreText}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          }
-
-          <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
-
-          <FlatList
-						style={{ marginBottom:this.state.showAllDonationsText ? 0:45 }}
-            data={this.state.get_donations.slice(0, 4)}
-            renderItem={({ item }) =>
-              <Card transparent>
-                <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
-                  <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
-                  <Body style={{ marginLeft: 20 }}>
-                    <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-                      <Text style={{ flex: 1 }}>{item.name}</Text>
-                      <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
-                    </View>
-                    <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
-                    <Text note>Rp. {item.amount}</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-            }
-          />
-
-          {this.state.showAllDonationsText &&
-            <View style={{
-              borderTopWidth: 1,
-              borderBottomWidth: 1,
-              borderColor: 'rgba(60, 58, 57, 0.15)',
-              marginBottom: 45
-            }}>
-              {/* <TouchableOpacity onPress={() => this.setModalVisible(true)}> */}
-              <TouchableOpacity onPress={() => this.setState({modalVisible:true})}>
-                <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
-                Lihat Semua
-                </Text>
-              </TouchableOpacity>
-            </View>
-          }
-          <Modal
-            isVisible={this.state.modalVisible}
-            onBackdropPress={() => this.setState({ modalVisible: false })}
-            style={{width: '100%',marginHorizontal:0, marginBottom:0, marginTop:260}}
-            swipeDirection='down'
-            propagateSwipe={true}
-          >
-            <View style={{
-                bottom:0,
-                height:550,
-                // marginTop:200,
-                marginBottom:0,
-                paddingHorizontal: 15,
-                backgroundColor:'white',
-                shadowOffset: { width: 3, height: -5 },
-                shadowOpacity: .5,
-                shadowRadius: 8,
-                elevation: 1,
+                flex: 1,
+                flexDirection: 'row',
+                marginTop: 10,
               }}
             >
-                <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
-                <FlatList
-                  data={this.state.get_donations}
-                  renderItem={({ item }) =>
-                    <Card transparent>
-                      <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
-                        <Body style={{ marginLeft: 20 }}>
-                          <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-                            <Text style={{ flex: 1 }}>{item.name}</Text>
-                            <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
-                          </View>
-                          <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
-                          <Text note>Rp. {item.amount}</Text>
-                        </Body>
-                      </CardItem>
-                    </Card>
-                  }
-                />
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 11, color: 'grey' }}>Terkumpul</Text>
+                <Text style={{ fontWeight: '500' }}>Rp. {this.state.amount_real ? this.state.amount_real : 0}</Text>
+              </View>
+              <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                <Text style={{ fontSize: 11, color: 'grey' }}>Sisa Hari</Text>
+                <Text style={{ fontWeight: '500' }}>{isNaN(this.state.days) ? '-':this.state.days}</Text>
+              </View>
             </View>
-          </Modal>
-					</Container>
+
+            {/* {!this.state.loading && 
+              // <Text
+              //   numberOfLines={this.state.lineNumber}
+              //   style={{ marginBottom: 20 }}
+              //   onLayout={(ev) => { 
+              //     if (this.state.lineNumber !== 999)
+              //       this.setState({
+              //         showReadMore: ev.nativeEvent.layout.height > 16*this.state.lineNumber ? true:false
+              //       })
+              //   }}
+              // >
+              // </Text>
+            } */}
+            <HTML
+              baseFontStyle={{fontSize:17}}
+              customWrapper={content => <View>{content}</View>}
+              html={this.state.description}
+            />
+
+            {this.state.showReadMore &&
+              <View style={{
+                  borderTopWidth: 1,
+                  borderBottomWidth: 1,
+                  borderColor: 'rgba(60, 58, 57, 0.15)',
+                  marginBottom: 35,
+                }}
+              >
+                <TouchableOpacity onPress={this.toggleReadMoreBtn}>
+                  <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
+                    {this.state.readMoreText}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            }
+
+            <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
+
+            <FlatList
+              style={{ marginBottom:this.state.showAllDonationsText ? 0:45 }}
+              data={this.state.get_donations.slice(0, 4)}
+              renderItem={({ item }) =>
+                <Card transparent>
+                  <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
+                    <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
+                    <Body style={{ marginLeft: 20 }}>
+                      <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+                        <Text style={{ flex: 1 }}>{item.name}</Text>
+                        <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
+                      </View>
+                      <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
+                      <Text note>Rp. {item.amount}</Text>
+                    </Body>
+                  </CardItem>
+                </Card>
+              }
+            />
+
+            {this.state.showAllDonationsText &&
+              <View style={{
+                borderTopWidth: 1,
+                borderBottomWidth: 1,
+                borderColor: 'rgba(60, 58, 57, 0.15)',
+                marginBottom: 45
+              }}>
+                {/* <TouchableOpacity onPress={() => this.setModalVisible(true)}> */}
+                <TouchableOpacity onPress={() => this.setState({modalVisible:true})}>
+                  <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
+                  Lihat Semua
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            }
+
+            <Modal
+              isVisible={this.state.modalVisible}
+              onBackdropPress={() => this.setState({ modalVisible: false })}
+              style={{width: '100%',marginHorizontal:0, marginBottom:0, marginTop:260}}
+              swipeDirection='down'
+              propagateSwipe={true}
+            >
+              <View style={{
+                  bottom:0,
+                  height:550,
+                  // marginTop:200,
+                  marginBottom:0,
+                  paddingHorizontal: 15,
+                  backgroundColor:'white',
+                  shadowOffset: { width: 3, height: -5 },
+                  shadowOpacity: .5,
+                  shadowRadius: 8,
+                  elevation: 1,
+                }}
+              >
+                  <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
+                  <FlatList
+                    data={this.state.get_donations}
+                    renderItem={({ item }) =>
+                      <Card transparent>
+                        <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
+                          <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
+                          <Body style={{ marginLeft: 20 }}>
+                            <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+                              <Text style={{ flex: 1 }}>{item.name}</Text>
+                              <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
+                            </View>
+                            <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
+                            <Text note>Rp. {item.amount}</Text>
+                          </Body>
+                        </CardItem>
+                      </Card>
+                    }
+                  />
+              </View>
+            </Modal>
+            {/* </Content> */}
+					{/* </Container> */}
         </ScrollView>
 
         <View style={{backgroundColor: 'white', bottom: 15}}>

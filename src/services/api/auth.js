@@ -7,3 +7,7 @@ export function loginApi (credentials) {
 export function logoutApi () {
   return authRequest().get('/logout')
 }
+
+export function resetPasswordApi (data) {
+  return basicRequest().post('/password/reset', data)
+}
