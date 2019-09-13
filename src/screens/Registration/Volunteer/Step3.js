@@ -8,7 +8,6 @@ import Color from 'src/constants/Color'
 function Step2 (props) {
 	return (
 		<Wizard.Page>
-			
 			{props.photo === null
 			? props.loading
 				? <ActivityIndicator />

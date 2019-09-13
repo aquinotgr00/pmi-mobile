@@ -62,13 +62,13 @@ class Splash extends Component {
   }
 
   async downloadAreaData (name) {
-    const response = await downloadAreaData(name)
-    const { status } = response.data
-    if (status === 'success') {
+		const response = await downloadAreaData(name)
+		const { status } = response.data
+		if (status === 'success') {
       const { data } = response.data
-      console.log(data)
-    }
-  }
+      AsyncStorage.setItem(`${name}_data`, JSON.stringify(data))
+		}
+	}
 
   userRedirection () {
     const { navigation, user } = this.props

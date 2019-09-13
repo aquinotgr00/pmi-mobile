@@ -33,9 +33,14 @@ import { IconInu } from 'src/components'
 import Color from 'src/constants/Color'
 
 const drawerContentOptions = {
+  overlayColor: 'rgba(0, 0, 0, 0.60)',
   contentOptions: {
-    activeTintColor: Color.red
+    activeTintColor: Color.red,
+    itemsContainerStyle: {
+      marginTop: 110,
+    },
   }
+  
 }
 
 const Home = {
@@ -168,6 +173,7 @@ const MainNavigator = createStackNavigator({
 }, {
   initialRouteName: 'Splash',
   // initialRouteName: 'VolunteerNavigator',
+  // initialRouteName: 'ForgotPassword',
   headerMode: 'none'
 })
 
