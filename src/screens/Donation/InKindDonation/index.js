@@ -94,7 +94,7 @@ class InKindDonationFormScreen extends React.Component {
                       />
                     ))}
                     <Button transparent full onPress={() => arrayHelpers.push({ type: '', name: '', amount: '1' })}>
-                      <Text style={{ color: Color.red }}>Tambah Barang +</Text>
+                      <Text style={{ color: Color.red, fontWeight: '600' }}>Tambah Barang +</Text>
                     </Button>
                   </View>
                 )}
@@ -105,7 +105,7 @@ class InKindDonationFormScreen extends React.Component {
                 name='anonym'
               />
 
-              { props.values.items.length > 0 &&
+              { props.values.items.length > 0 && 
                 <RedButton
                   onPress={props.handleSubmit}
                   text='Lanjutkan'
