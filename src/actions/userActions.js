@@ -53,22 +53,24 @@ export function register (user, isVolunteer=false) {
       const { status, data } = registrationResponse.data
       if (status === 'success') {
         const { access_token: token } = data
-        dispatch({
-          type: 'USER_REGISTRATION_SUCCESS',
-          token
-        })
-        let home = 'DonatorNavigator'
-				if (isVolunteer) {
-          home = 'VolunteerNavigator'
-				}
-        NavigationService.navigate(home)
+        if (isVolunteer) {
+          dispatch({
+            type: 'REGISTER_VOLUNTEER_SUCCESS'
+          })
+          NavigationService.navigate('GuestNavigator')
+        } else {
+          dispatch({
+            type: 'USER_REGISTRATION_SUCCESS',
+            token
+          })
+          NavigationService.navigate('DonatorNavigator')
+        }
       } else {
         dispatch({
           type: 'USER_REGISTRATION_FAILURE'
         })
       }
     } catch (error) {
-      console.log(error.response)
       dispatch({
         type: 'USER_REGISTRATION_FAILURE',
         account: 'Server Error'
