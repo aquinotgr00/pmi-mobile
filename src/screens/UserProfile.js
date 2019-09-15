@@ -20,7 +20,7 @@ class UserProfile extends Component {
     super(props)
     this.state = {
 			isLoading: false,
-			user: null
+			user: null,
 		}
 
     this.logout = this.logout.bind(this)
@@ -36,14 +36,12 @@ class UserProfile extends Component {
 		try {
 			const response = await getProfileApi()
 			const { status } = response.data
-
 			if (status === 'success') {
-				const { data } = response.data
+				const { user } = response.data.data
 				this.setState({
-					user: data
+					user
 				})
 			}
-			console.log(this.state.user)
 		} catch (err) {
 			console.log(err)			
 		}
@@ -66,7 +64,7 @@ class UserProfile extends Component {
 	}
 	
 	navigateToForm (title) {
-		const { user } = this.state
+    const { user } = this.state
 		this.props.navigation.navigate('UserForm', {title, user, loadProfile: this.loadProfile})
 	}
 

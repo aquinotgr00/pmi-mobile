@@ -18,7 +18,7 @@ export const FormCheckBox = connect(function (props) {
         onPress={handleTick}
       />
       <TouchableWithoutFeedback onPress={handleTick}>
-        <Text style={{ marginLeft: 20, paddingVertical: 10 }}>{props.label}</Text>
+        <Text style={{ marginLeft: 20, paddingVertical: 10, color: Color.darkGray }}>{props.label}</Text>
       </TouchableWithoutFeedback>
     </View>
   )

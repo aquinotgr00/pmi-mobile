@@ -131,7 +131,7 @@ class Step1 extends React.Component {
       area.units.filter(unit => {
         unitData[area.name].push({
           label: unit.name,
-          value: unit.name
+          value: unit.id
         })
       })
     })
@@ -178,10 +178,10 @@ class Step1 extends React.Component {
 						name='unitCity'
 					/>
 				</FormField>
-				<FormField label='Unit' name='unit'>
+				<FormField label='Unit' name='unit_id'>
 					<FormSelect
 						options={this.state.unitOptions}
-						name='unit'
+						name='unit_id'
 					/>
 				</FormField>
 

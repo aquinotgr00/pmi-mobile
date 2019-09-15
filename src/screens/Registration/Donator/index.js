@@ -24,7 +24,7 @@ export class DonatorRegistrationScreen extends React.Component {
   }
   
   navigateToLogin() {
-    this.props.navigation.navigate('Login')
+    this.props.navigation.navigate('Login', 'Donator')
   }
 
   render() {

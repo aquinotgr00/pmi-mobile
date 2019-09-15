@@ -52,22 +52,30 @@ class Splash extends Component {
 		}
 	}
 	
-	getSettingsData (name) {
-		AsyncStorage.getItem(name, (error, result) => {
-			if (result) {
-				return result
-			}
-			return 'null'
-		})
+	async getSettingsData (name) {
+    try {
+      AsyncStorage.getItem(name, (error, result) => {
+        if (result) {
+          return result
+        }
+        return 'null'
+      })
+    } catch (err) {
+      console.log(err.response)
+    }
 	}
 
 	async downloadAreaData (name) {
-		const response = await downloadAreaData(name)
-		const { status } = response.data
-		if (status === 'success') {
-      const { data } = response.data
-      AsyncStorage.setItem(`${name}_data`, JSON.stringify(data))
-		}
+    try {
+      const response = await downloadAreaData(name)
+      const { status } = response.data
+      if (status === 'success') {
+        const { data } = response.data
+        AsyncStorage.setItem(`${name}_data`, JSON.stringify(data))
+      }
+    } catch (err) {
+      console.log(err.response)
+    }
 	}
 
   userRedirection () {
