@@ -49,7 +49,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 
     // console.log(values)
 		this.props.dispatch(register(values, true))
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
+    // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
 	}
 
 	addQualifications (listArr, data, idx, category) {

@@ -57,12 +57,18 @@ export function register (user, isVolunteer=false) {
           type: 'USER_REGISTRATION_SUCCESS',
           token
         })
+        let home = 'DonatorNavigator'
+				if (isVolunteer) {
+          home = 'VolunteerNavigator'
+				}
+        NavigationService.navigate(home)
       } else {
         dispatch({
           type: 'USER_REGISTRATION_FAILURE'
         })
       }
     } catch (error) {
+      console.log(error.response)
       dispatch({
         type: 'USER_REGISTRATION_FAILURE',
         account: 'Server Error'

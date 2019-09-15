@@ -25,6 +25,7 @@ export default class UserFormScreen extends React.Component {
 	}
 
 	componentDidMount () {
+    console.log(this.state.user)
 		this.loadInitialValues()
 	}
 
@@ -46,16 +47,16 @@ export default class UserFormScreen extends React.Component {
 	loadInitialValues = () => {
 		switch (this.state.title) {
 			case 'Data Diri':
-				this.setState(state => ({
+				this.setState({
 					initialValues: {
-						name: state.user.name,
-						email: state.user.user.email,
-						phone: state.user.phone,
-						birthplace: state.user.birthplace,
-						dob: state.user.dob,
-						gender: state.user.gender,
+						name: this.state.user.name,
+						email: this.state.user.email,
+						phone: this.state.user.phone,
+						birthplace: this.state.user.birthplace,
+						dob: this.state.user.dob,
+						gender: this.state.user.gender,
 					}
-				}))
+				})
 				break
 
 			case 'Tempat Tinggal':

@@ -21,8 +21,12 @@ class DonatorRegistrationFormScreen extends React.Component {
   }
 
   async handleFormSubmit (user) {
-    await this.props.dispatch(register(user))
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
+    try {
+      const response = await this.props.dispatch(register(user))
+      // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
+    } catch (err) {
+      console.log(err.response)
+    }
   }
 
   onValueChange (value) {
@@ -33,9 +37,9 @@ class DonatorRegistrationFormScreen extends React.Component {
 
   render () {
     const dummyData = {
-      name: 'Donatur Satu',
-      email: 'don1@mail.com',
-      phone: '081',
+      name: 'Ini Donator 8',
+      email: 'don88@mail.com',
+      phone: '0819282',
       password: 'Open1234',
       password_confirmation: 'Open1234',
       dob: '2000-01-10',
