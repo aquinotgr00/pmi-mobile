@@ -4,6 +4,7 @@ import CampaignCard from 'src/screens/Campaign/CampaignCard'
 import { cancellableRequest, getCampaignListApi } from 'src/services/api'
 import { withNavigation } from 'react-navigation'
 import axios from 'axios'
+import HorizontalScroller from './HorizontalScroller'
 
 class RecentCampaigns extends Component {
   constructor (props) {
@@ -66,38 +67,13 @@ class RecentCampaigns extends Component {
 
   render () {
     return (
-      <>
-        <View style={{
-          flex: 1,
-          flexDirection: 'row',
-          marginBottom: 15
-        }}>
-          <Text style={{ width: '50%', fontWeight: '500', fontSize: 17 }}>{this.props.title}</Text>
-          <TouchableOpacity
-            onPress={this.navigateToCampaignList}
-            style={{ width: '50%', justifyContent: 'center' }}
-          >
-            <Text style={{ textAlign: 'right', color: 'red', fontSize: 12, fontWeight: '500' }}>Lihat Semua</Text>
-          </TouchableOpacity>
-        </View>
-        {this.state.isLoading
-          ? <View style={{ height: '10%', justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator />
-          </View>
-          : <FlatList
-            horizontal
-            data={this.state.campaigns.slice(0, this.props.numberOfCampaigns)}
-            style={{ marginBottom: 25, paddingBottom: 10 }}
-            keyExtractor={(item, index) => `${item.id}`}
-            renderItem={(item) =>
-              <CampaignCard
-                {...item}
-                width={245}
-              />
-            }
-          />
-        }
-      </>
+      <HorizontalScroller
+        title={this.props.title}
+        onShowMore={this.navigateToCampaignList}
+        isLoading={this.state.isLoading}
+        data={this.state.campaigns.slice(0, this.props.numberOfCampaigns)}
+        renderItem={ (item) => <CampaignCard {...item} width={245} /> }
+      />
     )
   }
 }

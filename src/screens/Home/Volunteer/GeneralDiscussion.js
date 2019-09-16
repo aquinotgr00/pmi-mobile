@@ -66,7 +66,7 @@ class GeneralDiscussion extends Component {
           resizeMode='contain'
         />
         <Text style={styles.title}>PMI DKI Jakarta</Text>
-        { isLoading && <ActivityIndicator size='large' style={styles.absoluteCenter} /> }
+        { isLoading && <ActivityIndicator style={styles.absoluteCenter} /> }
       </TouchableOpacity>
     )
   }
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     alignItems: 'flex-start',
-    margin: 4,
+    marginBottom:20,
     backgroundColor: '#fff',
     borderRadius: 7,
     shadowColor: '#000',

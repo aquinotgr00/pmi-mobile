@@ -49,7 +49,8 @@ class UserProfile extends Component {
 
   async logout() {
     this.setState({isLoading:true})
-    await this.props.dispatch(logout())
+		const loggingOut = await this.props.dispatch(logout())
+		console.log(loggingOut)
     this.setState({isLoading:false})
     const {token} = this.props.user
     if(token===null) {

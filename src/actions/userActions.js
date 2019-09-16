@@ -1,3 +1,4 @@
+import OneSignal from 'react-native-onesignal'
 import { loginApi, logoutApi, registerDonatorApi, registerVolunteerApi } from 'src/services/api'
 import { persistor } from 'src/store'
 import NavigationService from 'src/services/NavigationService'
@@ -22,6 +23,7 @@ export function login (credentials) {
         })
         let home = 'DonatorNavigator'
 				if (volunteer_id) {
+          OneSignal.sendTag('volunteer', 1)
           home = 'VolunteerNavigator'
 				}
         NavigationService.navigate(home)
@@ -84,14 +86,31 @@ export function logout () {
     dispatch({
       type: 'LOGOUT_REQUEST'
     })
-
-    const logoutResponse = await logoutApi()
-    const { status } = logoutResponse.data
-    if (status === 'success') {
+    try {
+      // attempting to revoke auth token
+      const logoutResponse = await logoutApi()
+      const { status } = logoutResponse.data
+      if (status === 'success') {
+        
+      } else {
+        // TODO : handle error!
+      }
+    } catch (error) {
+      console.log(error)
+      // TODO : handle error!
+    } finally {
+      OneSignal.deleteTag('volunteer')
       persistor.purge()
       dispatch({
         type: 'LOGOUT_SUCCESS'
       })
     }
+  }
+}
+
+export function setPushNotificationUserId(userId) {
+  return {
+    type: 'SET_PUSH_NOTIFICATION_ID',
+    payload: userId
   }
 }

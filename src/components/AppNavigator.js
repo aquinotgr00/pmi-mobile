@@ -24,7 +24,7 @@ import DonationHistoryScreen from 'src/screens/Donation/History'
 
 import VolunteerHomeScreen from 'src/screens/Home/Volunteer'
 import EmergencyAndEventScreen from 'src/screens/EmergencyAndEvent'
-import RsvpScreen from 'src/screens/Rsvp'
+import RsvpScreen from 'src/screens/Rsvp/Form'
 
 import ChatScreen from 'src/screens/Chat'
 import ChatInfoScreen from 'src/screens/Chat/Info'
