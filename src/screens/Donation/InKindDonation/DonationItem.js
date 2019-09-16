@@ -20,7 +20,7 @@ class DonationItem extends React.Component {
     const { itemId, item } = this.props
     const { type, name, amount } = item
     return (
-      <View style={{ borderRadius: 10, borderWidth: 1, borderColor: Color.lightGray, padding: 5, marginVertical: 10 }}>
+      <View style={{ borderRadius: 10, borderWidth: 1, borderColor: Color.lightGray, paddingTop: 10, paddingHorizontal: 20, marginVertical: 10 }}>
         <FormField label='Jenis'>
           <FormInput
             autoCapitalize='none'
@@ -42,8 +42,8 @@ class DonationItem extends React.Component {
             value={amount}
           />
         </FormField>
-        <Button small transparent full onPress={this.removeItem}>
-          <Text style={{ color: Color.red }}>Hapus</Text>
+        <Button full transparent onPress={this.removeItem}>
+          <Text style={{ color: Color.red, fontSize: 14 }}>Hapus</Text>
         </Button>
       </View>
     )

@@ -37,37 +37,45 @@ class Splash extends Component {
     }
   }
 
-  updateSetting (setting) {
-    let oldSettingDate = this.getSettingsData(setting.settings)
-    if (oldSettingDate === 'null') {
-      this.downloadAreaData(setting.settings)
-      AsyncStorage.setItem(setting.settings, JSON.stringify(setting.last_updated))
-      oldSettingDate = setting.last_updated
-    }
-    oldSettingDate = moment(oldSettingDate)
-    const newSettingDate = moment(setting.last_updated)
-    const diff = oldSettingDate.diff(newSettingDate, 'days')
-    if (diff > 0) {
-      this.downloadAreaData(setting.settings)
-    }
-  }
-
-  getSettingsData (name) {
-    AsyncStorage.getItem(name, (error, result) => {
-      if (result) {
-        return result
-      }
-      return 'null'
-    })
-  }
-
-  async downloadAreaData (name) {
-		const response = await downloadAreaData(name)
-		const { status } = response.data
-		if (status === 'success') {
-      const { data } = response.data
-      AsyncStorage.setItem(`${name}_data`, JSON.stringify(data))
+	updateSetting (setting) {
+		let oldSettingDate = this.getSettingsData(setting.settings)
+		if (oldSettingDate === 'null') {
+			this.downloadAreaData(setting.settings)
+			AsyncStorage.setItem(setting.settings, JSON.stringify(setting.last_updated))
+			oldSettingDate = setting.last_updated
 		}
+		oldSettingDate = moment(oldSettingDate)
+		const newSettingDate = moment(setting.last_updated)
+		const diff = oldSettingDate.diff(newSettingDate, 'days')
+		if (diff > 0) {
+			this.downloadAreaData(setting.settings)
+		}
+	}
+	
+	async getSettingsData (name) {
+    try {
+      AsyncStorage.getItem(name, (error, result) => {
+        if (result) {
+          return result
+        }
+        return 'null'
+      })
+    } catch (err) {
+      console.log(err.response)
+    }
+	}
+
+	async downloadAreaData (name) {
+    try {
+      const response = await downloadAreaData(name)
+      const { status } = response.data
+      if (status === 'success') {
+        const { data } = response.data
+        AsyncStorage.setItem(`${name}_data`, JSON.stringify(data))
+      }
+    } catch (err) {
+      console.log(err.response)
+    }
 	}
 
   userRedirection () {

@@ -24,8 +24,9 @@ class LoginScreen extends React.Component {
   }
 
   render () {
+    const title = this.props.navigation.state.params
     return (
-      <Screen title='Masuk Sebagai Donatur' back verticalCenter>
+      <Screen title={`Masuk Sebagai ${title}`} back verticalCenter>
         <Formik
           initialValues={{
             email: '@mail.com',

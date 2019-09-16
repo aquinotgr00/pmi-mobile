@@ -17,7 +17,7 @@ export class VolunteerRegistrationScreen extends React.Component {
   }
   
   navigateToLogin() {
-    this.props.navigation.navigate('Login')
+    this.props.navigation.navigate('Login', 'Volunteer')
   }
 
   render() {
@@ -26,7 +26,7 @@ export class VolunteerRegistrationScreen extends React.Component {
     return (
       <Screen title='Daftar Sebagai Relawan' menu={showMenu} back={!showMenu}>
         <View style={{alignItems:'center'}}>
-          <Image source={require('assets/images/daftar-donatur.png')} style={{flex:1,marginBottom:20}}/>
+          <Image source={require('assets/images/daftar-relawan.png')} style={{flex:1,marginBottom:20}}/>
           <View style={{alignItems:'center'}}>
             <View style={{alignItems:'center'}}>
               <Text style={{fontWeight:'500'}}>BERSAMA KITA BANTU SESAMA</Text>

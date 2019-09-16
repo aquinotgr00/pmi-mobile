@@ -1,10 +1,10 @@
 import React from 'react'
-import { ProgressBar } from 'src/components'
+import { ProgressBar, Loader } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Container, Content } from 'native-base'
 import HTML from 'react-native-render-html'
 import { BackButton } from 'src/components/HeaderButtons'
-import { getCampaignDetail } from 'src/services/api'
+import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
 import Modal from "react-native-modal"
 import Config from 'react-native-config'
@@ -31,16 +31,21 @@ export default class CampaignScreen extends React.Component {
       amount_goal: 0,
       amount_real: 0,
       get_donations: [],
+      donators: [],
       finish_campaign: '',
       type_id: 0,
 			modalVisible: false,
-			fundraising: 1,
+      fundraising: 1,
+      modalPage: 1,
+      modalLastPage: 999,
     }
 
     this.getDetailCampaign = this.getDetailCampaign.bind(this)
     this.toggleReadMoreBtn = this.toggleReadMoreBtn.bind(this)
 		this.setModalVisible = this.setModalVisible.bind(this)
-		this.navigateToDonationScreen = this.navigateToDonationScreen.bind(this)
+    this.navigateToDonationScreen = this.navigateToDonationScreen.bind(this)
+    this.fetchDonators = this.fetchDonators.bind(this)
+    this.renderDonatorList = this.renderDonatorList.bind(this)
 
     this.animatedHeight = new Animated.Value(0)
     this.animatedHeaderHeight = this.animatedHeight.interpolate({
@@ -109,9 +114,50 @@ export default class CampaignScreen extends React.Component {
     this.props.navigation.navigate(routeName, { id, type_id })
   }
 
+  async fetchDonators () {
+    if (this.state.modalPage < this.state.modalLastPage) {
+      try {
+        const response = await getDonatorsByCampaignApi(this.state.id, this.state.modalPage)
+        const { status } = response.data
+        if (status === 'success') {
+          const { data, last_page } = response.data.data
+          this.setState(prevState => ({
+            modalPage: prevState.modalPage+1,
+            donators: [...prevState.donators, ...data],
+            modalLastPage: last_page
+          }))
+        }
+      } catch (err) {
+        console.log(err.response)
+      }
+    }
+  }
+
+  renderDonatorList = item => {
+    return (
+      <Card transparent>
+        <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
+          <Thumbnail source={(item.anonym || item.image === null)
+            ? require('assets/images/avatar-default.png')
+            : { uri: Config.SERVER_URL + '/' + item.image }}
+          />
+          <Body style={{ marginLeft: 20 }}>
+            <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+              <Text style={{ flex: 1 }}>{item.anonym ? 'Anonym':item.name}</Text>
+              <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
+            </View>
+            <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
+            <Text note>Rp. {item.amount}</Text>
+          </Body>
+        </CardItem>
+      </Card>
+    )
+  }
+
   render () {
     return (
       <>
+        <Loader loading={this.state.loading} />
         <Animated.View>
           <Animated.Image
             source={{ uri: Config.SERVER_URL + '/' + this.state.image }}
@@ -226,21 +272,7 @@ export default class CampaignScreen extends React.Component {
             <FlatList
               style={{ marginBottom:this.state.showAllDonationsText ? 0:45 }}
               data={this.state.get_donations.slice(0, 4)}
-              renderItem={({ item }) =>
-                <Card transparent>
-                  <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
-                    <Body style={{ marginLeft: 20 }}>
-                      <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-                        <Text style={{ flex: 1 }}>{item.name}</Text>
-                        <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
-                      </View>
-                      <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
-                      <Text note>Rp. {item.amount}</Text>
-                    </Body>
-                  </CardItem>
-                </Card>
-              }
+              renderItem={({item}) => this.renderDonatorList(item)}
             />
 
             {this.state.showAllDonationsText &&
@@ -260,43 +292,27 @@ export default class CampaignScreen extends React.Component {
             }
 
             <Modal
+              onShow={this.fetchDonators}
               isVisible={this.state.modalVisible}
               onBackdropPress={() => this.setState({ modalVisible: false })}
-              style={{width: '100%',marginHorizontal:0, marginBottom:0, marginTop:260}}
-              swipeDirection='down'
+              style={{
+                marginHorizontal: 0,
+              }}
+              // swipeDirection='down'
               propagateSwipe={true}
             >
               <View style={{
-                  bottom:0,
-                  height:550,
-                  // marginTop:200,
-                  marginBottom:0,
+                  marginTop:200,
                   paddingHorizontal: 15,
                   backgroundColor:'white',
-                  shadowOffset: { width: 3, height: -5 },
-                  shadowOpacity: .5,
-                  shadowRadius: 8,
-                  elevation: 1,
                 }}
               >
                   <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
                   <FlatList
-                    data={this.state.get_donations}
-                    renderItem={({ item }) =>
-                      <Card transparent>
-                        <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
-                          <Thumbnail source={item.image === null ? require('assets/images/avatar-default.png'):{ uri: item.image }} />
-                          <Body style={{ marginLeft: 20 }}>
-                            <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-                              <Text style={{ flex: 1 }}>{item.name}</Text>
-                              <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
-                            </View>
-                            <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
-                            <Text note>Rp. {item.amount}</Text>
-                          </Body>
-                        </CardItem>
-                      </Card>
-                    }
+                    onEndReached={this.fetchDonators}
+                    onEndReachedThreshold={0.7}
+                    data={this.state.donators}
+                    renderItem={({item}) => this.renderDonatorList(item)}
                   />
               </View>
             </Modal>
@@ -305,18 +321,20 @@ export default class CampaignScreen extends React.Component {
         </ScrollView>
 
         <View style={{backgroundColor: 'white', bottom: 15}}>
-          <TouchableOpacity
-            onPress={this.navigateToDonationScreen}
-            style={{
-              backgroundColor:'red',
-              borderRadius:60,
-              paddingVertical:15,
-              marginVertical:5,
-              marginHorizontal: 15,
-            }}
-          >
-            <Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
-          </TouchableOpacity>
+          {!this.state.loading &&
+            <TouchableOpacity
+              onPress={this.navigateToDonationScreen}
+              style={{
+                backgroundColor:'red',
+                borderRadius:60,
+                paddingVertical:15,
+                marginVertical:5,
+                marginHorizontal: 15,
+              }}
+            >
+              <Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
+            </TouchableOpacity>
+          }
         </View>
       </>
     )

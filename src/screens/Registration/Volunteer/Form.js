@@ -49,7 +49,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 
     // console.log(values)
 		this.props.dispatch(register(values, true))
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
+    // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
 	}
 
 	addQualifications (listArr, data, idx, category) {
@@ -87,10 +87,10 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						name: 'Volu One',
 						city: '',
 						unitCity: '',
-						unit: '',
+						unit_id: '',
 						specialization: 'menggambar',
 						skill: 'menggambar',
-						email: 'volu@one.com',
+						email: 'volu2don@mail.com',
 						phone: '0811',
 						password: 'open1234',
 						password_confirmation: 'open1234',

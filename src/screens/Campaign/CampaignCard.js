@@ -61,10 +61,15 @@ class CampaignCard extends React.Component {
               }}
             />
           </View>
-          <CardItem>
-            <Left style={{ paddingHorizontal: 10 }}>
-              <Text numberOfLines={2} style={{ fontWeight: '500', minHeight: 30, lineHeight: 20 }}>{title}</Text>
-            </Left>
+          <CardItem style={{ paddingBottom: 5 }}>
+            {/* <Left style={{ minHeight: 50 }}> */}
+              <Text numberOfLines={2} style={{
+                paddingHorizontal: 10,
+                fontWeight: '500',
+                lineHeight: 20,
+                minHeight: 40,
+              }}>{title}</Text>
+            {/* </Left> */}
           </CardItem>
           <View style={{ marginHorizontal: 25 }}>
             <ProgressBar left={20} height={10} percentage={amountReal / amountGoal * 100} />
@@ -93,7 +98,7 @@ class CampaignCard extends React.Component {
             style={{
               borderBottomLeftRadius: 5,
               borderBottomRightRadius: 5,
-              paddingVertical: 18
+              paddingVertical: 18,
             }}
           >
             <Text style={{ color: 'red', textAlign: 'center', fontWeight: '500' }}>Berdonasi</Text>
