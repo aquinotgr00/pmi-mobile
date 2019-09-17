@@ -36,7 +36,6 @@ class CampaignCard extends React.Component {
       finish_campaign: finishCampaign
     } = this.props.item
     const days = daysRemaining(finishCampaign)
-    console.log(`${title} - ${amount_real}`)
     return (
       <Card
         style={{
