@@ -8,6 +8,7 @@ import { FormField, FormInput, FormSectionTitle, FormSelect, RedButton, Screen }
 import Color from 'src/constants/Color'
 import cities from 'assets/jsons/cities.json'
 import { register } from 'src/actions'
+import DonatorRegistration from 'src/validators/DonatorRegistration'
 
 class DonatorRegistrationFormScreen extends React.Component {
   constructor (props) {
@@ -18,6 +19,7 @@ class DonatorRegistrationFormScreen extends React.Component {
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.handleEmailBlur = this.handleEmailBlur.bind(this)
   }
 
   async handleFormSubmit (user) {
@@ -33,6 +35,10 @@ class DonatorRegistrationFormScreen extends React.Component {
     this.setState({
       selected: value
     })
+  }
+
+  handleEmailBlur = e => {
+    console.log(e)
   }
 
   render () {
@@ -57,12 +63,19 @@ class DonatorRegistrationFormScreen extends React.Component {
         <Formik
           initialValues={dummyData}
           onSubmit={values => this.handleFormSubmit(values)}
+          validationSchema={DonatorRegistration}
         >
           {props => (
             <>
               <FormSectionTitle text='Data Diri' />
               <FormField label='Nama' name='name' autoCapitalize='words' />
-              <FormField label='Email' name='email' keyboardType='email-address' autoCapitalize='none' />
+              <FormField
+                label='Email'
+                name='email'
+                keyboardType='email-address'
+                autoCapitalize='none'
+                onBlur={this.handleEmailBlur}
+              />
               <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
               <FormField label='Password' name='password' secureTextEntry />
               <FormField label='Konfirmasi Password' name='password_confirmation' secureTextEntry />

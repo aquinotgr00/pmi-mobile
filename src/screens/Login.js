@@ -6,6 +6,7 @@ import { Button, Input, Item, Text } from 'native-base'
 import { RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
 import { login } from 'src/actions'
+import Login from 'src/validators/Login'
 
 class LoginScreen extends React.Component {
   constructor (props) {
@@ -22,7 +23,7 @@ class LoginScreen extends React.Component {
   forgotPassword () {
     this.props.navigation.navigate('ForgotPassword')
   }
-
+  
   render () {
     const title = this.props.navigation.state.params
     return (
@@ -32,6 +33,7 @@ class LoginScreen extends React.Component {
             email: '@mail.com',
             password: 'Open1234'
           }}
+          validationSchema={Login}
           onSubmit={values => this.handleLogin(values)}
         >
           {props => (
@@ -45,6 +47,7 @@ class LoginScreen extends React.Component {
                   value={props.values.email}
                 />
               </Item>
+              {props.errors.email && <Text style={{ fontSize: 10, color: 'red' }}>{props.errors.email}</Text>}
               <Item>
                 <Input
                   placeholder='Password'
@@ -54,6 +57,7 @@ class LoginScreen extends React.Component {
                   value={props.values.password}
                 />
               </Item>
+              {props.errors.password && <Text style={{ fontSize: 10, color: 'red' }}>{props.errors.password}</Text>}
 
               <RedButton text='Masuk' onPress={props.handleSubmit} style={{ marginTop: 30 }} />
               <Button full transparent onPress={this.forgotPassword} style={{ marginTop: 30 }}>

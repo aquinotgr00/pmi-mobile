@@ -60,7 +60,7 @@ export function register (user, isVolunteer=false) {
           NavigationService.navigate('GuestNavigator')
         } else {
           dispatch({
-            type: 'USER_REGISTRATION_SUCCESS',
+            type: 'REGISTER_DONATOR_SUCCESS',
             token
           })
           NavigationService.navigate('DonatorNavigator')
