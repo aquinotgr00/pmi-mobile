@@ -140,7 +140,7 @@ export default class CampaignScreen extends React.Component {
         <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
           <Thumbnail source={(item.anonym || item.image === null)
             ? require('assets/images/avatar-default.png')
-            : { uri: item.image }}
+            : { uri: item.image_url }}
           />
           <Body style={{ marginLeft: 20 }}>
             <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
