@@ -3,25 +3,9 @@ import { ActivityIndicator } from 'react-native'
 import { Text } from 'native-base'
 import { RedButton, Screen, FormField, FormSelect, FormCheckBox } from 'src/components'
 import { Formik } from 'formik'
-import * as yup from 'yup'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
 import CampaignPicker from 'src/screens/Donation/CampaignPicker'
-
-const validationSchema = yup.object().shape({
-	name: yup
-		.string()
-		.required(),
-	email: yup
-		.string()
-		.email()
-		.required(),
-	phone: yup
-		.string()
-		.required(),
-	amount: yup
-		.number()
-		.required(),
-})
+import FundDonation from 'src/validators/FundDonation'
 
 export default class FundDonationScreen extends React.Component {
 	state = {
@@ -92,7 +76,7 @@ export default class FundDonationScreen extends React.Component {
 						anonym: false,
 					}}
 					onSubmit={this.handleSubmit}
-					validationSchema={validationSchema}
+					validationSchema={FundDonation}
 				>
 					{formikProps => (
 						<React.Fragment>
