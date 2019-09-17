@@ -8,6 +8,7 @@ import { FormField, FormInput, FormSectionTitle, FormSelect, RedButton, Screen }
 import Color from 'src/constants/Color'
 import cities from 'assets/jsons/cities.json'
 import { register } from 'src/actions'
+import * as Yup from "yup"
 
 class DonatorRegistrationFormScreen extends React.Component {
   constructor (props) {
@@ -18,6 +19,7 @@ class DonatorRegistrationFormScreen extends React.Component {
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.handleEmailBlur = this.handleEmailBlur.bind(this)
   }
 
   async handleFormSubmit (user) {
@@ -34,6 +36,26 @@ class DonatorRegistrationFormScreen extends React.Component {
       selected: value
     })
   }
+
+  handleEmailBlur = e => {
+    console.log(e)
+  }
+  
+  loginSchema = Yup.object().shape({
+    name: Yup.string().required(),
+    email: Yup.string().required(),
+    phone: Yup.string().required(),
+    password: Yup.string().required(),
+    password_confirmation: Yup.string().required(),
+    dob: Yup.string().required(),
+    address: Yup.string().required(),
+    province: Yup.string().required(),
+    city: Yup.string().required(),
+    subdistrict: Yup.string().required(),
+    subdivision: Yup.string().required(),
+    postal_code: Yup.string().required(),
+    gender: Yup.string().required(),
+  })
 
   render () {
     const dummyData = {
@@ -57,12 +79,19 @@ class DonatorRegistrationFormScreen extends React.Component {
         <Formik
           initialValues={dummyData}
           onSubmit={values => this.handleFormSubmit(values)}
+          validationSchema={this.loginSchema}
         >
           {props => (
             <>
               <FormSectionTitle text='Data Diri' />
               <FormField label='Nama' name='name' autoCapitalize='words' />
-              <FormField label='Email' name='email' keyboardType='email-address' autoCapitalize='none' />
+              <FormField
+                label='Email'
+                name='email'
+                keyboardType='email-address'
+                autoCapitalize='none'
+                onBlur={this.handleEmailBlur}
+              />
               <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
               <FormField label='Password' name='password' secureTextEntry />
               <FormField label='Konfirmasi Password' name='password_confirmation' secureTextEntry />

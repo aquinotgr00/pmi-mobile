@@ -167,7 +167,7 @@ class Step1 extends React.Component {
         {errors.subMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.subMember}</Text>}
 
 
-				<FormSectionTitle text='Unit PMI Kab-Kota' style={{marginTop: 15}} />
+				<FormSectionTitle text='Unit PMI Kab-Kota' style={{marginTop: 40}} />
 				<FormField label='Kabupaten/Kota' name='unitCity'>
 					<FormSelect
             onChange={val => {
@@ -185,7 +185,7 @@ class Step1 extends React.Component {
 					/>
 				</FormField>
 
-				<FormSectionTitle text='Pengalaman' />
+				<FormSectionTitle text='Pengalaman' style={{marginTop: 40}} />
 				{this.state.achievementFields.map((field, idx) => {
 					return (
             <FormField key={`${field}-${idx}`} label='Penghargaan' name={`achievements[${idx}]`}>

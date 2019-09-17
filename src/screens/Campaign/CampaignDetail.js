@@ -8,6 +8,7 @@ import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
 import Modal from "react-native-modal"
 import Config from 'react-native-config'
+import moment from 'moment'
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
@@ -24,7 +25,7 @@ export default class CampaignScreen extends React.Component {
       showAllDonationsText: false,
       donatorListModalVisible: false,
       id: this.props.navigation.state.params.id,
-      image: '',
+      image_url: '',
       title: '...',
       description: 'loading...',
       loading: true,
@@ -79,13 +80,13 @@ export default class CampaignScreen extends React.Component {
       const response = await getCampaignDetail(this.state.id)
       const { status } = response.data
       if(status==='success') {
-        const { image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising } = response.data.data
+        const { image_url, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising } = response.data.data
         const days = daysRemaining(finish_campaign)
         const percentage = amount_real/amount_goal*100
         const loading = false
         const showAllDonationsText = get_donations.length > 4 ? true:false 
         this.setState({
-          image, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
+          image_url, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
         })
       }
     } catch (err) {
@@ -139,12 +140,12 @@ export default class CampaignScreen extends React.Component {
         <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
           <Thumbnail source={(item.anonym || item.image === null)
             ? require('assets/images/avatar-default.png')
-            : { uri: Config.SERVER_URL + '/' + item.image }}
+            : { uri: item.image }}
           />
           <Body style={{ marginLeft: 20 }}>
             <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
               <Text style={{ flex: 1 }}>{item.anonym ? 'Anonym':item.name}</Text>
-              <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>2:16 PM</Text>
+              <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>{moment(item.created_at).format('DD MMM YYYY')}</Text>
             </View>
             <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
             <Text note>Rp. {item.amount}</Text>
@@ -155,19 +156,20 @@ export default class CampaignScreen extends React.Component {
   }
 
   render () {
+    const { fundraising } = this.state
     return (
       <>
         <Loader loading={this.state.loading} />
         <Animated.View>
           <Animated.Image
-            source={{ uri: Config.SERVER_URL + '/' + this.state.image }}
+            source={{ uri: this.state.image_url }}
             style={{
-			      width: 380,
-			      height: this.animatedHeaderHeight,
-			      opacity: this.animatedImageOpacity,
-			      position: 'relative'
-			    }}
-			  />
+              width: 380,
+              height: this.animatedHeaderHeight,
+              opacity: this.animatedImageOpacity,
+              position: 'relative'
+            }}
+          />
           <TouchableOpacity
             onPress={() => { this.props.navigation.goBack() }}
             style={{
@@ -198,35 +200,34 @@ export default class CampaignScreen extends React.Component {
         </Animated.View>
 
         <ScrollView
-          scrollEventThrottle={14}
+          scrollEventThrottle={8}
           style={{ padding: 20 }}
           onScroll={Animated.event([
-			    {
-			      nativeEvent: {
-			        contentOffset: {
-			          y: this.animatedHeight
-			        }
-			      }
-			    }
-			  ])}
+            { nativeEvent: { contentOffset: { y: this.animatedHeight } } },
+          ])}
         >
-					{/* <Container> */}
+					<Container style={{height:'100%', minHeight: 665}}>
             {/* <Content> */}
             <Text style={{ marginBottom: 10 }}>{this.state.title}</Text>
 
-            <ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
+            {fundraising === 1 &&
+              <ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
+            }
 
             <View style={{
                 flex: 1,
                 flexDirection: 'row',
-                marginTop: 10,
+                marginVertical: 10,
+                maxHeight: 45,
               }}
             >
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 11, color: 'grey' }}>Terkumpul</Text>
-                <Text style={{ fontWeight: '500' }}>Rp. {this.state.amount_real ? this.state.amount_real : 0}</Text>
-              </View>
-              <View style={{ flex: 1, alignItems: 'flex-end' }}>
+              {fundraising === 1 &&
+                <View style={{ flex: 1 }}>
+                  <Text style={{ fontSize: 11, color: 'grey' }}>Terkumpul</Text>
+                  <Text style={{ fontWeight: '500' }}>Rp. {this.state.amount_real ? this.state.amount_real : 0}</Text>
+                </View>
+              }
+              <View style={{ flex: 1, alignItems: fundraising === 1 ? 'flex-end':'' }}>
                 <Text style={{ fontSize: 11, color: 'grey' }}>Sisa Hari</Text>
                 <Text style={{ fontWeight: '500' }}>{isNaN(this.state.days) ? '-':this.state.days}</Text>
               </View>
@@ -247,7 +248,7 @@ export default class CampaignScreen extends React.Component {
             } */}
             <HTML
               baseFontStyle={{fontSize:17}}
-              customWrapper={content => <View>{content}</View>}
+              customWrapper={content => <View style={{paddingVertical: 15}}><Text style={{lineHeight: 30}}>{content}</Text></View>}
               html={this.state.description}
             />
 
@@ -317,7 +318,7 @@ export default class CampaignScreen extends React.Component {
               </View>
             </Modal>
             {/* </Content> */}
-					{/* </Container> */}
+					</Container>
         </ScrollView>
 
         <View style={{backgroundColor: 'white', bottom: 15}}>

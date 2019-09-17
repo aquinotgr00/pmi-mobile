@@ -130,7 +130,7 @@ class Step2 extends React.Component {
           />
         </FormField>
 
-        <FormSectionTitle text='Tempat Tinggal' />
+        <FormSectionTitle text='Tempat Tinggal' style={{marginTop: 40}} />
         <FormField label='Alamat' name='address' style={{ borderBottomWidth: 0 }} />
         {/* <Textarea
           rowSpan={3}
