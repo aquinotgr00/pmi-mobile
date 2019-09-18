@@ -1,21 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { NavigationActions } from 'react-navigation'
 import { DatePicker, Textarea } from 'native-base'
 import { Formik } from 'formik'
 import moment from 'moment'
-import { FormField, FormInput, FormSectionTitle, FormSelect, RedButton, Screen } from 'src/components'
+import { FormField, FormSectionTitle, FormSelect, RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
-import cities from 'assets/jsons/cities.json'
 import { register } from 'src/actions'
 import DonatorRegistration from 'src/validators/DonatorRegistration'
+import AddressField from 'src/components/AddressField'
 
 class DonatorRegistrationFormScreen extends React.Component {
   constructor (props) {
     super(props)
-
     this.state = {
-      selected: undefined
+      //
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -25,16 +23,9 @@ class DonatorRegistrationFormScreen extends React.Component {
   async handleFormSubmit (user) {
     try {
       const response = await this.props.dispatch(register(user))
-      // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
     } catch (err) {
       console.log(err.response)
     }
-  }
-
-  onValueChange (value) {
-    this.setState({
-      selected: value
-    })
   }
 
   handleEmailBlur = e => {
@@ -49,13 +40,13 @@ class DonatorRegistrationFormScreen extends React.Component {
       password: 'Open1234',
       password_confirmation: 'Open1234',
       dob: '2000-01-10',
+      gender: 'male',
       address: 'Jalan Pelepah Kuning 2 Blok WV 2/11',
       province: 'DKI JAKARTA',
-      city: 'Jakarta Utara',
-      subdistrict: 'Kelapa Gading',
-      subdivision: 'Kelapa',
-      postal_code: '12345',
-      gender: 'male'
+      city: '',
+      subdistrict: '',
+      subdivision: '',
+      postal_code: '',
     }
 
     return (
@@ -113,17 +104,7 @@ class DonatorRegistrationFormScreen extends React.Component {
                 autoCompleteType='off'
               />
 
-              <FormField label='Kelurahan' name='subdivision' />
-              <FormField label='Kecamatan' name='subdistrict' />
-              <FormField label='Kota' name='city'>
-                <FormSelect
-                  style={{ width: undefined, marginVertical: 4 }}
-                  options={cities}
-                  name='city'
-                />
-              </FormField>
-              <FormField label='Propinsi' disabled name='province' />
-              <FormField label='Kode Pos' name='postal_code' keyboardType='number-pad' />
+              <AddressField />
 
               <RedButton text='Simpan' onPress={props.handleSubmit} style={{ marginTop: 30, marginBottom: 55 }} />
             </>

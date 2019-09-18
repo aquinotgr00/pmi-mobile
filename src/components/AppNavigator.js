@@ -165,7 +165,7 @@ const MainNavigator = createStackNavigator({
 
 }, {
   initialRouteName: 'Splash',
-  // initialRouteName: 'DonatorRegistrationForm',
+  // initialRouteName: 'VolunteerRegistrationForm',
   headerMode: 'none'
 })
 

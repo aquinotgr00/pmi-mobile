@@ -36,7 +36,6 @@ export default class FundDonationScreen extends React.Component {
 
 	handleSubmit = async values => {
 		values.category = 1
-		console.log(values)
 		try {
 			const response = await storeFundDonation(values)
 			const { status, data } = response.data

@@ -35,8 +35,8 @@ export class DonatorRegistrationScreen extends React.Component {
           <View style={{alignItems:'center'}}>
             <View style={{alignItems:'center'}}>
               <Text style={{fontWeight:'500'}}>BERDONASI UNTUK BANTU SESAMA</Text>
-              <Text style={{marginTop:20}}>Lorem ipsum dolor sit amet,</Text>
-              <Text>consectetur adipiscing</Text>
+              <Text style={{marginTop:20}}>Bersama kita bantu kurangi</Text>
+              <Text>beban mereka</Text>
             </View>
             <RedButton text='Daftar' onPress={this.navigateToRegistrationForm} style={{marginTop:30}} />
             <Button full transparent onPress={this.navigateToLogin} style={{marginTop:20}} >

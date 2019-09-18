@@ -1,13 +1,12 @@
 import React from 'react'
 import { ProgressBar, Loader } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
-import { Card, CardItem, Thumbnail, Body, Container, Content } from 'native-base'
+import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
 import HTML from 'react-native-render-html'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
 import Modal from "react-native-modal"
-import Config from 'react-native-config'
 import moment from 'moment'
 import 'moment/min/locales'
 
@@ -219,7 +218,6 @@ export default class CampaignScreen extends React.Component {
           ])}
         >
 					<Container style={{height:'100%', minHeight: 665}}>
-            {/* <Content> */}
             <Text style={{ marginBottom: 10 }}>{this.state.title}</Text>
 
             {fundraising === 1 &&
@@ -329,7 +327,6 @@ export default class CampaignScreen extends React.Component {
                   />
               </View>
             </Modal>
-            {/* </Content> */}
 					</Container>
         </ScrollView>
 
