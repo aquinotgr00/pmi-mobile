@@ -11,13 +11,18 @@ import Login from 'src/validators/Login'
 class LoginScreen extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      loading: false
+    }
 
     this.forgotPassword = this.forgotPassword.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
   }
 
-  handleLogin (credentials) {
-    this.props.dispatch(login(credentials))
+  async handleLogin (credentials) {
+    this.setState({loading: true})
+    await this.props.dispatch(login(credentials))
+    this.setState({loading: false})
   }
 
   forgotPassword () {
@@ -27,11 +32,17 @@ class LoginScreen extends React.Component {
   render () {
     const title = this.props.navigation.state.params
     return (
-      <Screen title={`Masuk Sebagai ${title}`} back verticalCenter>
+      <Screen
+        title={`Masuk Sebagai ${title}`}
+        back
+        verticalCenter
+        isLoading={this.state.loading}
+      >
         <Formik
           initialValues={{
             email: '@mail.com',
-            password: 'Open1234'
+            password: 'Open1234',
+            mode: title
           }}
           validationSchema={Login}
           onSubmit={values => this.handleLogin(values)}

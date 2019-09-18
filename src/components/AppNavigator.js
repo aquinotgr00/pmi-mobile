@@ -71,15 +71,7 @@ const GuestDrawerNavigator = createDrawerNavigator({
     screen: DonatorRegistrationScreen
   },
   VolunteerRegistration: {
-    screen: VolunteerRegistrationScreen,
-    navigationOptions:({navigation}) => ({
-      drawerLabel: 'Login/Register Relawan',
-      drawerIcon: ({ tintColor }) => (
-        <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
-      ),
-    })
-  
-    
+    screen: VolunteerRegistrationScreen
   }
 }, drawerContentOptions)
 
