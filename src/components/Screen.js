@@ -3,6 +3,7 @@ import { ActivityIndicator } from 'react-native'
 import { Container, Content, Header, Left, Body, Right, Title } from 'native-base'
 import { BackButton, MenuButton } from './HeaderButtons'
 import Color from 'src/constants/Color'
+import { Loader } from 'src/components'
 
 export function Screen (props) {
   const { menu, back, title, right, refreshControl, isLoading, children, unpadded, verticalCenter, style, containerStyle, noBounce } = props
@@ -30,15 +31,14 @@ export function Screen (props) {
 
       <Content
         bounces={!noBounce}
-        style={[contentStyle,style]}
+        style={[contentStyle, style]}
         refreshControl={refreshControl}
         contentContainerStyle={contentContainerStyle}
       >
         {children}
 
       </Content>
-      {isLoading &&
-        <ActivityIndicator size='large' color={Color.red} style={{ position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }} />
+      {isLoading && <Loader loading={isLoading} />
       }
     </Container>
   )

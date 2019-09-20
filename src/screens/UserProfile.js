@@ -76,13 +76,17 @@ class UserProfile extends Component {
         title='Profile'
         isLoading={this.state.isLoading}
       >
-				<View style={{padding: 25}}>
+				<View style={{padding: 25, height: '63%', marginBottom: 20}}>
 					<Image
 						source={require('assets/images/avatar-default.png')}
-						style={{alignSelf: 'center'}}
+						style={{
+              alignSelf: 'center',
+              width: '55%',
+              height: '100%'
+            }}
 						/>
 				</View>
-				<View>
+				<View style={{marginBottom: 20}}>
 					<TouchableOpacity onPress={() => this.navigateToForm('Data Diri')} style={style.profileBtn}>
 						<Text style={style.profileTextBtn}>
 							Data Diri

@@ -1,36 +1,19 @@
 import React from 'react'
-import { ActivityIndicator } from 'react-native'
 import { Text } from 'native-base'
 import { RedButton, Screen, FormField, FormSelect, FormCheckBox } from 'src/components'
 import { Formik } from 'formik'
-import * as yup from 'yup'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
 import CampaignPicker from 'src/screens/Donation/CampaignPicker'
-
-const validationSchema = yup.object().shape({
-	name: yup
-		.string()
-		.required(),
-	email: yup
-		.string()
-		.email()
-		.required(),
-	phone: yup
-		.string()
-		.required(),
-	amount: yup
-		.number()
-		.required(),
-})
+import FundDonation from 'src/validators/FundDonation'
 
 export default class FundDonationScreen extends React.Component {
-	state = {
-		title: 'Berdonasi Uang',
-		id: this.props.navigation.getParam('id'),
-	}
-
 	constructor (props) {
-		super(props)
+    super(props)
+    this.state = {
+      title: 'Berdonasi Uang',
+      id: this.props.navigation.getParam('id'),
+      loading: false,
+    }
 
 		this.getCampaignDetail = this.getCampaignDetail.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -52,8 +35,8 @@ export default class FundDonationScreen extends React.Component {
 
 	handleSubmit = async values => {
 		values.category = 1
-		console.log(values)
 		try {
+      this.setState({loading:true})
 			const response = await storeFundDonation(values)
 			const { status, data } = response.data
 			if (status === 'success') {
@@ -64,21 +47,20 @@ export default class FundDonationScreen extends React.Component {
 					const { donation } = data
 					this.props.navigation.navigate('Checkout', {donation})
 				}
-				
 			}
-			else {
-				// TODO : handle error
-			}
-			
+      this.setState({loading:false})
 		} catch (error) {
-			// TODO : handle error
 			console.log(error.response)
 		}
 	}
 
 	render () {
 		return (
-			<Screen title={this.state.title} back>
+      <Screen
+        title={this.state.title}
+        back
+        isLoading={this.state.loading}
+      >
 				<Text style={{fontWeight:'600',fontSize:16}}>Informasi Donasi</Text>
 				<Formik
 					initialValues={{
@@ -92,7 +74,7 @@ export default class FundDonationScreen extends React.Component {
 						anonym: false,
 					}}
 					onSubmit={this.handleSubmit}
-					validationSchema={validationSchema}
+					validationSchema={FundDonation}
 				>
 					{formikProps => (
 						<React.Fragment>
@@ -130,16 +112,12 @@ export default class FundDonationScreen extends React.Component {
                 name='anonym'
               />
 
-							{formikProps.isSubmitting ? (
-								<ActivityIndicator style={{marginTop:40}} />
-							) : (
-								<RedButton
-                  onPress={formikProps.handleSubmit}
-                  text='Lanjutkan'
-                  style={{ marginTop: 55, marginBottom: 55 }}
-                  disabled={formikProps.isSubmitting}
-                />
-							)}
+              <RedButton
+                onPress={formikProps.handleSubmit}
+                text='Lanjutkan'
+                style={{ marginTop: 55, marginBottom: 55 }}
+                disabled={formikProps.isSubmitting}
+              />
 						</React.Fragment>
 					)}
 				</Formik>

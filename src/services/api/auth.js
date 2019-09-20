@@ -11,3 +11,7 @@ export function logoutApi () {
 export function resetPasswordApi (data) {
   return basicRequest().post('/password/reset', data)
 }
+
+export function emailValidationApi (data) {
+  return basicRequest().post('/email-validate', data)
+}

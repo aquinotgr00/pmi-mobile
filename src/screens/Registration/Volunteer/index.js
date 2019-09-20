@@ -17,7 +17,7 @@ export class VolunteerRegistrationScreen extends React.Component {
   }
   
   navigateToLogin() {
-    this.props.navigation.navigate('Login', 'Volunteer')
+    this.props.navigation.navigate('Login', 'Relawan')
   }
 
   render() {
@@ -30,8 +30,8 @@ export class VolunteerRegistrationScreen extends React.Component {
           <View style={{alignItems:'center'}}>
             <View style={{alignItems:'center'}}>
               <Text style={{fontWeight:'500'}}>BERSAMA KITA BANTU SESAMA</Text>
-              <Text style={{marginTop: 20}}>Lorem ipsum dolor sit amet,</Text>
-              <Text>consectetur adipiscing</Text>
+              <Text style={{marginTop: 20}}>Ayo kita ringankan beban mereka</Text>
+              <Text>Lewat gerakan nyata</Text>
             </View>
             <RedButton text='Daftar' onPress={this.navigateToRegistrationForm} style={{marginTop:30}} />
             <Button full transparent onPress={this.navigateToLogin} style={{marginTop:20}} >

@@ -31,12 +31,11 @@ class CampaignCard extends React.Component {
     const {
       image,
       title,
-      amount_real: amountReal,
-      amount_goal: amountGoal,
+      amount_real,
+      amount_goal,
       finish_campaign: finishCampaign
     } = this.props.item
     const days = daysRemaining(finishCampaign)
-
     return (
       <Card
         style={{
@@ -72,13 +71,13 @@ class CampaignCard extends React.Component {
             {/* </Left> */}
           </CardItem>
           <View style={{ marginHorizontal: 25 }}>
-            <ProgressBar left={20} height={10} percentage={amountReal / amountGoal * 100} />
+            <ProgressBar left={20} height={10} percentage={amount_real / amount_goal * 100} />
           </View>
           <CardItem>
             <Left style={{ paddingHorizontal: 10 }}>
               <View style={{ flex: 1 }}>
                 <Text style={{ fontSize: 11, color: 'grey' }}>Terkumpul</Text>
-                <Text style={{ fontWeight: '500' }}>Rp. {amountReal || 0}</Text>
+                <Text style={{ fontWeight: '500' }}>Rp. {amount_real || 0}</Text>
               </View>
             </Left>
             <Right style={{ paddingHorizontal: 10 }}>

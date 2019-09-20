@@ -5,7 +5,6 @@ export function registerVolunteerApi (data) {
 	for (const key in data) {
 		formData.append(key, data[key])
 	}
-	console.log(formData)
   return basicRequest().post('/volunteer/signup', data)
 }
 

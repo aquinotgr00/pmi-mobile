@@ -36,11 +36,12 @@ const drawerContentOptions = {
   overlayColor: 'rgba(0, 0, 0, 0.60)',
   contentOptions: {
     activeTintColor: Color.red,
-    itemsContainerStyle: {
-      marginTop: 110,
-    },
+    itemStyle: {
+      paddingVertical: 7,
+      marginBottom: 3
+    }
   }
-  
+
 }
 
 const Home = {
@@ -80,7 +81,6 @@ const GuestDrawerNavigator = createDrawerNavigator({
         <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
       )
     })
-
   }
 }, drawerContentOptions)
 
@@ -172,8 +172,7 @@ const MainNavigator = createStackNavigator({
 
 }, {
   initialRouteName: 'Splash',
-  // initialRouteName: 'VolunteerNavigator',
-  // initialRouteName: 'ForgotPassword',
+  // initialRouteName: 'DonatorRegistrationForm',
   headerMode: 'none'
 })
 

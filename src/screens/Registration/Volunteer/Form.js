@@ -1,14 +1,11 @@
 import React from 'react'
 import { Screen, IconInu } from 'src/components'
 import ImagePicker from 'react-native-image-picker'
-import { register, logout } from 'src/actions'
+import { register } from 'src/actions'
 import { connect } from 'react-redux'
-import { NavigationActions } from 'react-navigation'
-
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
-
 import Wizard from './Wizard'
 
 class VolunteerRegistrationFormScreen extends React.Component {
@@ -47,9 +44,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 			values.image = this.state.photo
 		}
 
-    // console.log(values)
 		this.props.dispatch(register(values, true))
-    // this.props.navigation.reset([NavigationActions.navigate({ routeName: 'DonatorNavigator' })], 0)
 	}
 
 	addQualifications (listArr, data, idx, category) {
@@ -73,7 +68,6 @@ class VolunteerRegistrationFormScreen extends React.Component {
         this.setState({ photo: response, loading: false })
       }
 		})
-		console.log(this.state.photo)
   }
 
   render() {
@@ -90,10 +84,10 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						unit_id: '',
 						specialization: 'menggambar',
 						skill: 'menggambar',
-						email: 'volu2don@mail.com',
+						email: 'v2@mail.com',
 						phone: '0811',
-						password: 'open1234',
-						password_confirmation: 'open1234',
+						password: 'Open1234',
+						password_confirmation: 'Open1234',
 						birthplace: 'jakarta',
 						dob: '2000-01-10',
 						gender: 'male',
