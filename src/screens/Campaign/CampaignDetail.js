@@ -3,6 +3,7 @@ import { ProgressBar, Loader } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
 import HTML from 'react-native-render-html'
+import { WebView } from 'react-native-webview'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
@@ -20,8 +21,6 @@ export default class CampaignScreen extends React.Component {
       percentage: 0,
       days: 0,
       lineNumber: 9,
-      showReadMore: false,
-      readMoreText: 'Baca Selengkapnya',
       showAllDonationsText: false,
       donatorListModalVisible: false,
       id: this.props.navigation.state.params.id,
@@ -42,7 +41,6 @@ export default class CampaignScreen extends React.Component {
     }
 
     this.getDetailCampaign = this.getDetailCampaign.bind(this)
-    this.toggleReadMoreBtn = this.toggleReadMoreBtn.bind(this)
 		this.setModalVisible = this.setModalVisible.bind(this)
     this.navigateToDonationScreen = this.navigateToDonationScreen.bind(this)
     this.fetchDonators = this.fetchDonators.bind(this)
@@ -98,14 +96,6 @@ export default class CampaignScreen extends React.Component {
       }
     } catch (err) {
       console.log(err)
-    }
-  }
-
-  toggleReadMoreBtn = () => {
-    if (this.state.lineNumber !== 999) {
-      this.setState({ lineNumber: 999, readMoreText: 'Persingkat' })
-    } else if (this.state.lineNumber === 999) {
-      this.setState({ lineNumber: 9, readMoreText: 'Baca Selengkapnya' })
     }
   }
 
@@ -243,39 +233,14 @@ export default class CampaignScreen extends React.Component {
               </View>
             </View>
 
-            {/* {!this.state.loading && 
-              // <Text
-              //   numberOfLines={this.state.lineNumber}
-              //   style={{ marginBottom: 20 }}
-              //   onLayout={(ev) => { 
-              //     if (this.state.lineNumber !== 999)
-              //       this.setState({
-              //         showReadMore: ev.nativeEvent.layout.height > 16*this.state.lineNumber ? true:false
-              //       })
-              //   }}
-              // >
-              // </Text>
-            } */}
             <HTML
               baseFontStyle={{fontSize:14, lineHeight: 25}}
               html={this.state.description}
             />
-
-            {this.state.showReadMore &&
-              <View style={{
-                  borderTopWidth: 1,
-                  borderBottomWidth: 1,
-                  borderColor: 'rgba(60, 58, 57, 0.15)',
-                  marginBottom: 35,
-                }}
-              >
-                <TouchableOpacity onPress={this.toggleReadMoreBtn}>
-                  <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
-                    {this.state.readMoreText}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            }
+            {/* <WebView
+              source={{ html: this.state.description }}
+              style={{ fontSize:14, lineHeight: 25 }}
+            /> */}
 
             <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
 
@@ -292,7 +257,6 @@ export default class CampaignScreen extends React.Component {
                 borderColor: 'rgba(60, 58, 57, 0.15)',
                 marginBottom: 45
               }}>
-                {/* <TouchableOpacity onPress={() => this.setModalVisible(true)}> */}
                 <TouchableOpacity onPress={() => this.setState({modalVisible:true})}>
                   <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
                   Lihat Semua
@@ -308,7 +272,6 @@ export default class CampaignScreen extends React.Component {
               style={{
                 marginHorizontal: 0,
               }}
-              // swipeDirection='down'
               propagateSwipe={true}
             >
               <View style={{
