@@ -76,7 +76,7 @@ class UserProfile extends Component {
         title='Profile'
         isLoading={this.state.isLoading}
       >
-				<View style={{padding: 25, height: '63%', marginBottom: 20}}>
+				<View style={{padding: 25, height: '45%', marginBottom: 20}}>
 					<Image
 						source={require('assets/images/avatar-default.png')}
 						style={{
