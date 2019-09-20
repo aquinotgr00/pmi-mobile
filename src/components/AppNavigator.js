@@ -71,7 +71,13 @@ const GuestDrawerNavigator = createDrawerNavigator({
     screen: DonatorRegistrationScreen
   },
   VolunteerRegistration: {
-    screen: VolunteerRegistrationScreen
+    screen: VolunteerRegistrationScreen,
+    navigationOptions:({navigation}) => ({
+      drawerLabel: 'Login/Register Relawan',
+      drawerIcon: ({ tintColor }) => (
+        <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
+      ),
+    })
   }
 }, drawerContentOptions)
 
@@ -157,7 +163,7 @@ const MainNavigator = createStackNavigator({
 
 }, {
   initialRouteName: 'Splash',
-  // initialRouteName: 'VolunteerRegistrationForm',
+  // initialRouteName: 'DonatorRegistrationForm',
   headerMode: 'none'
 })
 
