@@ -79,10 +79,6 @@ class AddressField extends React.Component {
     const { errors } = this.props.formik
     return (
       <>
-      <FormField label='Propinsi' name='province'>
-        <FormInput name='province' disabled />
-      </FormField>
-
       <FormField label='Kabupaten/Kota' name='city'>
         <FormSelect
           onChange={this.handleCityChange}
@@ -107,10 +103,6 @@ class AddressField extends React.Component {
           options={this.state.villageOptions}
           name='subdivision'
         />
-      </FormField>
-
-      <FormField label='Kode Pos' name='postal_code' keyboardType='number-pad'>
-        <FormInput name='postal_code' value={this.state.postalCodeValue} />
       </FormField>
       </>
     )

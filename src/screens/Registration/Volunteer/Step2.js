@@ -1,6 +1,6 @@
 import React from 'react'
 import { DatePicker, Textarea } from 'native-base'
-import { FormSectionTitle, FormField, FormSelect } from 'src/components'
+import { FormSectionTitle, FormField, FormSelect, FormInput } from 'src/components'
 import Wizard from './Wizard'
 import Color from 'src/constants/Color'
 import moment from 'moment'
@@ -10,19 +10,12 @@ import AddressField from 'src/components/AddressField'
 class Step2 extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      //
-    }
-
-  }
-
-  componentDidMount () {
   }
 
   render () {
     return (
       <Wizard.Page>
-        <FormSectionTitle text='Data Diri' />
+        <FormSectionTitle text='Data Diri' style={{marginTop: 0}} />
         <FormField label='Nama' name='name' autoCapitalize='words' />
         <FormField label='E-mail' name='email' keyboardType='email-address' />
         <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
@@ -64,16 +57,23 @@ class Step2 extends React.Component {
           />
         </FormField>
 
-        <FormSectionTitle text='Tempat Tinggal' style={{marginTop: 40}} />
-        <FormField label='Alamat' name='address' style={{ borderBottomWidth: 0 }} />
-        {/* <Textarea
+        <FormSectionTitle text='Tempat Tinggal' />
+        <FormField nofloat onlyLabel='Alamat' name='address' style={{ borderBottomWidth: 0 }} />
+        <Textarea
           rowSpan={3}
           autoCapitalize='none'
           style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
           autoCompleteType='off'
           name='address'
-        /> */}
+        />
+
+        <FormField label='Propinsi' name='province'>
+          <FormInput name='province' disabled />
+        </FormField>
+
         <AddressField />
+
+        <FormField label='Kode Pos' name='postal_code' keyboardType='number-pad' />
 
       </Wizard.Page>
     )
