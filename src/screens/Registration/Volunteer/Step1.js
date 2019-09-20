@@ -142,32 +142,32 @@ class Step1 extends React.Component {
     const { setFieldValue, errors } = this.props.formik
 		return (
       <Wizard.Page>
-				<FormSectionTitle text='Keanggotaan' />
+				<FormSectionTitle text='Keanggotaan' style={{marginTop: 0}} />
         <FormSelect
           onChange={val => {
             setFieldValue('parentMember', val)
             this.setState({ subMemberOptions: this.state.subMemberData[val] })
           }}
           placeholder='Pilih Jenis Anggota'
-          placeholderStyle={{color: errors.parentMember !== undefined ? Color.red : Color.darkGray}}
+          // placeholderStyle={{color: errors.parentMember !== undefined ? Color.red : Color.darkGray}}
           style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
           options={this.state.membershipData}
-          iconName={errors.parentMember ? 'alert':'arrow-down'}
+          // iconName={errors.parentMember ? 'alert':'arrow-down'}
           name='parentMember'
         />
-        {errors.parentMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.parentMember}</Text>}
+        {/* {errors.parentMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.parentMember}</Text>} */}
         <FormSelect
           options={this.state.subMemberOptions}
           placeholder='Pilih Sub Jenis Anggota'
-          placeholderStyle={{color: errors.subMember !== undefined ? Color.red : Color.darkGray}}
+          // placeholderStyle={{color: errors.subMember !== undefined ? Color.red : Color.darkGray}}
           style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
-          iconName={errors.subMember ? 'alert':'arrow-down'}
+          // iconName={errors.subMember ? 'alert':'arrow-down'}
           name='subMember'
         />
-        {errors.subMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.subMember}</Text>}
+        {/* {errors.subMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.subMember}</Text>} */}
 
 
-				<FormSectionTitle text='Unit PMI Kab-Kota' style={{marginTop: 40}} />
+				<FormSectionTitle text='Unit PMI Kab-Kota' />
 				<FormField label='Kabupaten/Kota' name='unitCity'>
 					<FormSelect
             onChange={val => {
@@ -185,7 +185,7 @@ class Step1 extends React.Component {
 					/>
 				</FormField>
 
-				<FormSectionTitle text='Pengalaman' style={{marginTop: 40}} />
+				<FormSectionTitle text='Pengalaman' />
 				{this.state.achievementFields.map((field, idx) => {
 					return (
             <FormField key={`${field}-${idx}`} label='Penghargaan' name={`achievements[${idx}]`}>

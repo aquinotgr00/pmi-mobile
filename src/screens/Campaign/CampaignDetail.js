@@ -151,7 +151,7 @@ export default class CampaignScreen extends React.Component {
           />
           <Body style={{ marginLeft: 20 }}>
             <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-              <Text style={{ flex: 1 }}>{item.anonym ? 'Anonym':item.name}</Text>
+              <Text style={{ flex: 1 }}>{item.anonym ? 'Anonim':item.name}</Text>
               <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>{moment(item.created_at).calendar()}</Text>
             </View>
             {this.state.fundraising === 1 && (
@@ -257,8 +257,7 @@ export default class CampaignScreen extends React.Component {
               // </Text>
             } */}
             <HTML
-              baseFontStyle={{fontSize:14}}
-              customWrapper={content => <View style={{paddingVertical: 15}}><Text style={{lineHeight: 25}}>{content}</Text></View>}
+              baseFontStyle={{fontSize:14, lineHeight: 25}}
               html={this.state.description}
             />
 

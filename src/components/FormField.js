@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, getIn } from 'formik'
-import { Icon, Input, Item, Label } from 'native-base'
+import { Icon, Input, Item, Label, Text } from 'native-base'
 import Config from 'react-native-config'
 import { FormInput } from './FormInput';
 
@@ -13,19 +13,22 @@ export const FormField = connect(function (props) {
   if(useFloatingLabel) {
     if(typeof children==='undefined') {
       return (
+        <>
         <Item
           floatingLabel
           error={typeof error === 'string'} 
           style={[{marginTop:14}, style]}
         >
-          <Label>{label}</Label>
+          <Label style={{paddingLeft: 5}}>{label}</Label>
 					<Input
 						{...props}
 						onChangeText={formik.handleChange(name)}
-						value={!disabled && formik.values[name]}
+            value={!disabled && formik.values[name]}
 					/>
           {typeof error === 'string' && <Icon name='alert' />}
         </Item>
+        {typeof error === 'string' && <Text style={{ fontSize: 10, color: 'red' }}>{error}</Text>}
+        </>
       )
     }
     else {
