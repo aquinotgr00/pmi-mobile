@@ -76,34 +76,27 @@ class AddressField extends React.Component {
 
 
   render () {
-    const { errors } = this.props.formik
     return (
       <>
-      <FormField label='Kabupaten/Kota' name='city'>
         <FormSelect
+          placeholder='Kabupaten/Kota'
           onChange={this.handleCityChange}
-          iconName={errors.city ? 'alert':'arrow-down'}
           options={this.state.cityData}
           name='city'
         />
-      </FormField>
 
-      <FormField label='Kecamatan' name='subdistrict'>
         <FormSelect
+          placeholder='Kecamatan'
           onChange={this.handleSubdistrictChange}
-          iconName={errors.subdistrict ? 'alert':'arrow-down'}
           options={this.state.subdistrictOptions}
           name='subdistrict'
         />
-      </FormField>
 
-      <FormField label='Kelurahan/Desa' name='subdivision'>
         <FormSelect
-          iconName={errors.subdivision ? 'alert':'arrow-down'}
+          placeholder='Kelurahan/Desa'
           options={this.state.villageOptions}
           name='subdivision'
         />
-      </FormField>
       </>
     )
   }

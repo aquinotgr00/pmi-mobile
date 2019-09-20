@@ -58,7 +58,7 @@ class DonatorRegistrationFormScreen extends React.Component {
       email: 'don88@mail.com',
       phone: '0819282',
       dob: '2000-01-10',
-      gender: 'male',
+      gender: '',
       address: 'Jalan Pelepah Kuning 2 Blok WV 2/11',
       province: 'DKI JAKARTA',
       city: '',
@@ -103,16 +103,15 @@ class DonatorRegistrationFormScreen extends React.Component {
                 />
               </FormField>
 
-              <FormField label='Jenis Kelamin' name='gender'>
-                <FormSelect
-                  style={{ width: undefined, marginVertical: 4 }}
-                  options={[
-                    { value: 'male', label: 'Pria' },
-                    { value: 'female', label: 'Wanita' }
-                  ]}
-                  name='gender'
-                />
-              </FormField>
+              <FormSelect
+                placeholder='Gender'
+                style={{marginVertical: 4}}
+                options={[
+                  { value: 'male', label: 'Pria' },
+                  { value: 'female', label: 'Wanita' }
+                ]}
+                name='gender'
+              />
 
               <FormSectionTitle text='Tempat Tinggal' />
               <FormField nofloat onlyLabel='Alamat' name='address' style={{ borderBottomWidth: 0 }} />

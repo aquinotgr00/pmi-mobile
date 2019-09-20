@@ -150,21 +150,17 @@ class Step1 extends React.Component {
           }}
           placeholder='Pilih Jenis Anggota'
           // placeholderStyle={{color: errors.parentMember !== undefined ? Color.red : Color.darkGray}}
-          style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
           options={this.state.membershipData}
           // iconName={errors.parentMember ? 'alert':'arrow-down'}
           name='parentMember'
         />
-        {/* {errors.parentMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.parentMember}</Text>} */}
         <FormSelect
           options={this.state.subMemberOptions}
           placeholder='Pilih Sub Jenis Anggota'
           // placeholderStyle={{color: errors.subMember !== undefined ? Color.red : Color.darkGray}}
-          style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
           // iconName={errors.subMember ? 'alert':'arrow-down'}
           name='subMember'
         />
-        {/* {errors.subMember && <Text style={{ fontSize: 10, color: 'red' }}>{errors.subMember}</Text>} */}
 
 
 				<FormSectionTitle text='Unit PMI Kab-Kota' />

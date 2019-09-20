@@ -4,7 +4,6 @@ import { Card, CardItem, Left, Right } from 'native-base'
 import { ProgressBar } from 'src/components/ProgressBar'
 import { daysRemaining } from 'src/utils'
 import { withNavigation } from 'react-navigation'
-import Config from 'react-native-config'
 
 class CampaignCard extends React.Component {
   constructor (props) {
@@ -29,7 +28,7 @@ class CampaignCard extends React.Component {
 
   render () {
     const {
-      image,
+      image_url,
       title,
       amount_real,
       amount_goal,
@@ -51,7 +50,7 @@ class CampaignCard extends React.Component {
         <TouchableOpacity onPress={this.navigateToDetailScreen}>
           <View style={{ borderRadius: 5 }}>
             <Image
-              source={{ uri: Config.SERVER_URL+ '/' + image }}
+              source={{ uri: image_url }}
               style={{
                 width: '100%',
                 height: 150,
@@ -61,14 +60,12 @@ class CampaignCard extends React.Component {
             />
           </View>
           <CardItem style={{ paddingBottom: 5 }}>
-            {/* <Left style={{ minHeight: 50 }}> */}
               <Text numberOfLines={2} style={{
                 paddingHorizontal: 10,
                 fontWeight: '500',
                 lineHeight: 20,
                 minHeight: 40,
               }}>{title}</Text>
-            {/* </Left> */}
           </CardItem>
           <View style={{ marginHorizontal: 25 }}>
             <ProgressBar left={20} height={10} percentage={amount_real / amount_goal * 100} />

@@ -15,11 +15,11 @@ export const FormSelect = connect(function (props) {
       enabled={props.enabled}
       mode='dropdown'
       iosIcon={
-        <Icon name={iconName || 'arrow-down'} style={{ color: Color.red }} />
+        <Icon name={typeof error === 'string' ? 'alert':'arrow-down'} style={{ color: Color.red }} />
       }
       placeholder={placeholder}
       placeholderStyle={[{ color: Color.darkGray, paddingLeft: 2 }, placeholderStyle]}
-      style={style}
+      style={[{ borderBottomWidth: 1, borderBottomColor: Color.darkGray }, style]}
       onValueChange={onChange || handleChange(name)}
       selectedValue={selectedValue || values[name]}
       error={typeof error === 'string'}
