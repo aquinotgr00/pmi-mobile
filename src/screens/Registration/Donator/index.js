@@ -31,12 +31,12 @@ export class DonatorRegistrationScreen extends React.Component {
     return (
       <Screen title='Daftar Sebagai Donatur' menu>
         <View style={{alignItems:'center'}}>
-          <Image source={require('assets/images/daftar-donatur.png')} style={{flex:1}}/>
+          <Image source={require('assets/images/daftar-donatur.png')} style={{flex:1,marginBottom:20}}/>
           <View style={{alignItems:'center'}}>
             <View style={{alignItems:'center'}}>
               <Text style={{fontWeight:'500'}}>BERDONASI UNTUK BANTU SESAMA</Text>
-              <Text>Lorem ipsum dolor sit amet,</Text>
-              <Text>consectetur adipiscing</Text>
+              <Text style={{marginTop:20}}>Bersama kita bantu kurangi</Text>
+              <Text>beban mereka</Text>
             </View>
             <RedButton text='Daftar' onPress={this.navigateToRegistrationForm} style={{marginTop:30}} />
             <Button full transparent onPress={this.navigateToLogin} style={{marginTop:20}} >

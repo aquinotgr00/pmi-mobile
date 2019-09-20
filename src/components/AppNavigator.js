@@ -78,8 +78,6 @@ const GuestDrawerNavigator = createDrawerNavigator({
         <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
       ),
     })
-  
-    
   }
 }, drawerContentOptions)
 

@@ -25,7 +25,6 @@ export default class UserFormScreen extends React.Component {
 	}
 
 	componentDidMount () {
-    console.log(this.state.user)
 		this.loadInitialValues()
 	}
 

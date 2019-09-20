@@ -43,7 +43,11 @@ class InKindDonationFormScreen extends React.Component {
     const { navigation } = this.props
     const campaign_id = navigation.getParam('id', '')
     return (
-      <Screen title='Berdonasi Barang' back>
+      <Screen
+        title='Berdonasi Barang'
+        back
+        isLoading={this.state.isLoading}
+      >
         <Formik
           initialValues={{
 						campaign_id,

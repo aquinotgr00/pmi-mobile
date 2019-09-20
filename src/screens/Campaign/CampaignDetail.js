@@ -1,14 +1,14 @@
 import React from 'react'
 import { ProgressBar, Loader } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
-import { Card, CardItem, Thumbnail, Body, Container, Content } from 'native-base'
+import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
 import HTML from 'react-native-render-html'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
 import Modal from "react-native-modal"
-import Config from 'react-native-config'
 import moment from 'moment'
+import 'moment/min/locales'
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
@@ -73,6 +73,13 @@ export default class CampaignScreen extends React.Component {
 
   componentDidMount () {
     this.getDetailCampaign()
+    moment.locale('id', {
+      calendar : {
+        lastDay : '[Kemarin]',
+        sameDay : 'LT',
+        sameElse : 'L'
+      }
+    })
   }
 
   async getDetailCampaign () {
@@ -144,11 +151,15 @@ export default class CampaignScreen extends React.Component {
           />
           <Body style={{ marginLeft: 20 }}>
             <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-              <Text style={{ flex: 1 }}>{item.anonym ? 'Anonym':item.name}</Text>
-              <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>{moment(item.created_at).format('DD MMM YYYY')}</Text>
+              <Text style={{ flex: 1 }}>{item.anonym ? 'Anonim':item.name}</Text>
+              <Text style={{ flex: 1, textAlign: 'right', color: 'grey', fontSize: 11 }}>{moment(item.created_at).calendar()}</Text>
             </View>
-            <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
-            <Text note>Rp. {item.amount}</Text>
+            {this.state.fundraising === 1 && (
+              <>
+                <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
+                <Text note>Rp. {item.amount}</Text>
+              </>
+            )}
           </Body>
         </CardItem>
       </Card>
@@ -207,7 +218,6 @@ export default class CampaignScreen extends React.Component {
           ])}
         >
 					<Container style={{height:'100%', minHeight: 665}}>
-            {/* <Content> */}
             <Text style={{ marginBottom: 10 }}>{this.state.title}</Text>
 
             {fundraising === 1 &&
@@ -247,8 +257,7 @@ export default class CampaignScreen extends React.Component {
               // </Text>
             } */}
             <HTML
-              baseFontStyle={{fontSize:17}}
-              customWrapper={content => <View style={{paddingVertical: 15}}><Text style={{lineHeight: 30}}>{content}</Text></View>}
+              baseFontStyle={{fontSize:14, lineHeight: 25}}
               html={this.state.description}
             />
 
@@ -317,7 +326,6 @@ export default class CampaignScreen extends React.Component {
                   />
               </View>
             </Modal>
-            {/* </Content> */}
 					</Container>
         </ScrollView>
 
