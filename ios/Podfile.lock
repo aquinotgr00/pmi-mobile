@@ -21,7 +21,7 @@ PODS:
     - MidtransCoreKit
     - MidtransKit
     - React
-  - OneSignal (2.10.0)
+  - OneSignal (2.10.1)
   - React (0.60.4):
     - React-Core (= 0.60.4)
     - React-DevSupport (= 0.60.4)
@@ -70,13 +70,15 @@ PODS:
   - React-jsinspector (0.60.4)
   - react-native-config (0.11.7):
     - React
-  - react-native-image-picker (1.0.1):
+  - react-native-image-picker (1.1.0):
     - React
-  - react-native-netinfo (4.1.4):
+  - react-native-netinfo (4.2.0):
     - React
-  - react-native-onesignal (3.3.1):
-    - OneSignal (= 2.10.0)
+  - react-native-onesignal (3.3.2):
+    - OneSignal (= 2.10.1)
     - React (< 1.0.0, >= 0.13.0)
+  - react-native-webview (6.0.2):
+    - React
   - React-RCTActionSheet (0.60.4):
     - React-Core (= 0.60.4)
   - React-RCTAnimation (0.60.4):
@@ -103,7 +105,7 @@ PODS:
     - React-fishhook (= 0.60.4)
   - RNCAsyncStorage (1.6.1):
     - React
-  - RNGestureHandler (1.3.0):
+  - RNGestureHandler (1.4.1):
     - React
   - RNSnackbar (2.0.2):
     - React
@@ -126,6 +128,7 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-onesignal (from `../node_modules/react-native-onesignal/react-native-onesignal.podspec`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -181,6 +184,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-onesignal:
     :path: "../node_modules/react-native-onesignal/react-native-onesignal.podspec"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -218,7 +223,7 @@ SPEC CHECKSUMS:
   MidtransCoreKit: e94026826d7bfbb03f29fe7cfdf4208aad6093f5
   MidtransKit: 255b70500e24fde7aed899f65e2d9db55da7dfd1
   MidtransModule: 35424bb4d20354bb58ea642549198031f0f4225b
-  OneSignal: 0f5ff711d9f25da54885e4ab06ef0abc221a46ef
+  OneSignal: 8fb749fa07f88006403c9b659a570fb7fb74519a
   React: ff7ee2ae5ee1c1d9ae2183b4111045b25294bb01
   React-Core: 8e0ea421cae5609d2562850f98421b15030476fa
   React-cxxreact: 326880209990151a7182a813311054e9772ba510
@@ -228,9 +233,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-config: 8f6b2b9e017f6a5e92a97353c768e19e67294bb1
-  react-native-image-picker: c9bddc819f4fd46b6f37f2861712497e920192d9
-  react-native-netinfo: 2aa34e02a38ae66e583bcae8c489ae0edd32b31f
-  react-native-onesignal: 05cbe20f8c7a12632465678bcd40932a919d0175
+  react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
+  react-native-netinfo: df39948777747f41363d6d57ed5ee1366b5b94cb
+  react-native-onesignal: 8958311abbd9125f26e600914e48833b57321cbf
+  react-native-webview: bb6d9ecbd3963f2279fdf50e4fdf3914f70b0acd
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
   React-RCTAnimation: 981d8c95b0e30918a9832ccac32af83562a27fae
   React-RCTBlob: 21e73d1020a302a75fed30dbaee9f15287b80baa
@@ -242,7 +248,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0bea40cd51bd089bd591a8f74c86e91fdf2666c5
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
   RNCAsyncStorage: 2e2e3feb9bdadc752a026703d8c4065ca912e75a
-  RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
+  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNSnackbar: f6d5a0f66f5e75794e1d94b62827b78ce37bd530
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
