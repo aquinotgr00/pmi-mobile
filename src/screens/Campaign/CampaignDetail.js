@@ -2,7 +2,6 @@ import React from 'react'
 import { ProgressBar, Loader } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
-import HTML from 'react-native-render-html'
 import { WebView } from 'react-native-webview'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
@@ -85,13 +84,17 @@ export default class CampaignScreen extends React.Component {
       const response = await getCampaignDetail(this.state.id)
       const { status } = response.data
       if(status==='success') {
-        const { image_url, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising } = response.data.data
+        const { image_url, title, description:description_raw, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising } = response.data.data
         const days = daysRemaining(finish_campaign)
         const percentage = amount_real/amount_goal*100
         const loading = false
         const showAllDonationsText = get_donations.length > 4 ? true:false 
+        const description = `<head>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          </head>
+          <body>${description_raw}</body>`
         this.setState({
-          image_url, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
+          image_url, title, description:description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
         })
       }
     } catch (err) {
@@ -233,14 +236,11 @@ export default class CampaignScreen extends React.Component {
               </View>
             </View>
 
-            <HTML
-              baseFontStyle={{fontSize:14, lineHeight: 25}}
-              html={this.state.description}
+            <WebView
+              source={{ html: this.state.description}}
+              style={{ height: 400 }}
+              // scrollEnabled={false}
             />
-            {/* <WebView
-              source={{ html: this.state.description }}
-              style={{ fontSize:14, lineHeight: 25 }}
-            /> */}
 
             <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
 
