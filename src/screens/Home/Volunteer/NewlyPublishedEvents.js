@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withNavigation } from 'react-navigation'
 import RsvpCard from 'src/screens/Rsvp/Card'
 import { getRsvpListApi } from 'src/services/api'
-import HorizontalScroller from '../HorizontalScroller'
+import HorizontalScroller from 'src/screens/Home/HorizontalScroller'
 
 class NewlyPublishedEvents extends Component {
   constructor (props) {
@@ -44,13 +44,12 @@ class NewlyPublishedEvents extends Component {
         this.setState({ isLoading: false, events })
       } else {
         // TODO: handle error
+        this.setState({ isLoading: false })
       }
     } catch (error) {
       // TODO: handle error
-    } finally {
       this.setState({ isLoading: false })
     }
-    
   }
 
   navigateToRsvpList () {
@@ -64,8 +63,7 @@ class NewlyPublishedEvents extends Component {
         onShowMore={this.navigateToRsvpList}
         isLoading={this.state.isLoading}
         data={this.state.events.slice(0, this.props.numberOfEvents)}
-        renderItem={ (item) => <RsvpCard {...item} width={220} />
-        }
+        renderItem={(item) => <RsvpCard {...item} width={220} />}
       />
     )
   }

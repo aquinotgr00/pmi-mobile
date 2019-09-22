@@ -6,9 +6,9 @@ import NewlyPublishedEvents from './NewlyPublishedEvents'
 import MyParticipations from './MyParticipations'
 
 export default class HomeScreen extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-  
+
     this.state = {
       refreshing: false,
       timestamp: Date.now()
@@ -20,7 +20,7 @@ export default class HomeScreen extends Component {
   onRefresh () {
     this.setState({ timestamp: Date.now() })
   }
-  
+
   render () {
     return (
       <Screen
@@ -32,6 +32,7 @@ export default class HomeScreen extends Component {
             onRefresh={this.onRefresh}
           />
         }
+        containerStyle={{ paddingBottom: 100 }}
       >
         <GeneralDiscussion lastUpdate={this.state.timestamp} />
         <NewlyPublishedEvents numberOfEvents={3} />

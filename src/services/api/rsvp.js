@@ -5,7 +5,7 @@ const CancelToken = axios.CancelToken
 let cancel
 
 export function getRsvpListApi (params, cancelToken) {
-	if (cancelToken === undefined) {
+  if (cancelToken === undefined) {
     cancel && cancel()
   }
 
@@ -17,5 +17,5 @@ export function getRsvpListApi (params, cancelToken) {
 }
 
 export function getRsvpDetailApi (id) {
-	return authRequest().get(`/events/report/${id}`)
+  return authRequest().get(`/events/report/${id}`)
 }

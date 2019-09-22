@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import CampaignCard from 'src/screens/Campaign/CampaignCard'
 import { cancellableRequest, getCampaignListApi } from 'src/services/api'
 import { withNavigation } from 'react-navigation'
@@ -72,7 +71,7 @@ class RecentCampaigns extends Component {
         onShowMore={this.navigateToCampaignList}
         isLoading={this.state.isLoading}
         data={this.state.campaigns.slice(0, this.props.numberOfCampaigns)}
-        renderItem={ (item) => <CampaignCard {...item} width={245} /> }
+        renderItem={(item) => <CampaignCard {...item} width={245} />}
       />
     )
   }
