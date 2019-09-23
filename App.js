@@ -7,6 +7,7 @@ import OneSignal from 'react-native-onesignal'
 import Config from 'react-native-config'
 import AppNavigator from 'src/components/AppNavigator'
 import NavigationService from 'src/services/NavigationService'
+import { setPushNotificationUserId } from 'src/actions'
 
 export default class App extends Component {
   constructor (properties) {
@@ -36,7 +37,8 @@ export default class App extends Component {
   }
 
   onIds (device) {
-    console.log('Device info: ', device)
+    const { userId } = device
+    store.dispatch(setPushNotificationUserId(userId))
   }
 
   render () {
@@ -51,3 +53,4 @@ export default class App extends Component {
     )
   }
 }
+

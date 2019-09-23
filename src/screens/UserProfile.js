@@ -49,7 +49,8 @@ class UserProfile extends Component {
 
   async logout() {
     this.setState({isLoading:true})
-    await this.props.dispatch(logout())
+		const loggingOut = await this.props.dispatch(logout())
+		console.log(loggingOut)
     this.setState({isLoading:false})
     const {token} = this.props.user
     if(token===null) {
@@ -75,7 +76,7 @@ class UserProfile extends Component {
         title='Profile'
         isLoading={this.state.isLoading}
       >
-				<View style={{padding: 25, height: '63%', marginBottom: 20}}>
+				<View style={{padding: 25, height: '45%', marginBottom: 20}}>
 					<Image
 						source={require('assets/images/avatar-default.png')}
 						style={{

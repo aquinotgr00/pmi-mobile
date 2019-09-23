@@ -7,6 +7,7 @@ import { RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
 import { login } from 'src/actions'
 import Login from 'src/validators/Login'
+import Config from 'react-native-config'
 
 class LoginScreen extends React.Component {
   constructor (props) {
@@ -20,17 +21,18 @@ class LoginScreen extends React.Component {
   }
 
   async handleLogin (credentials) {
-    this.setState({loading: true})
+    this.setState({ loading: true })
     await this.props.dispatch(login(credentials))
-    this.setState({loading: false})
+    this.setState({ loading: false })
   }
 
   forgotPassword () {
     this.props.navigation.navigate('ForgotPassword')
   }
-  
+
   render () {
     const title = this.props.navigation.state.params
+    const initialValues = Config.IS_PRODUCTION === '0' ? { email: '@mail.com', password: 'Open1234' } : {}
     return (
       <Screen
         title={`Masuk Sebagai ${title}`}
@@ -39,11 +41,7 @@ class LoginScreen extends React.Component {
         isLoading={this.state.loading}
       >
         <Formik
-          initialValues={{
-            email: '@mail.com',
-            password: 'Open1234',
-            mode: title
-          }}
+          initialValues={{ ...initialValues, mode: title }}
           validationSchema={Login}
           onSubmit={values => this.handleLogin(values)}
         >

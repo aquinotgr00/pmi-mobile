@@ -1,5 +1,8 @@
-const user = (state = { token: null, isVolunteer: false, profile: { name: 'test' } }, action) => {
+const user = (state = { token: null, isVolunteer: false, pushNotificationUserId: null }, action) => {
   switch (action.type) {
+    case 'SET_PUSH_NOTIFICATION_ID':
+      const { payload:pushNotificationUserId } = action
+      return { ...state, pushNotificationUserId}
     case 'LOGIN_REQUEST':
     case 'REGISTER_DONATOR_REQUEST':
     case 'REGISTER_VOLUNTEER_REQUEST':
