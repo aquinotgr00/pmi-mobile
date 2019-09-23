@@ -149,16 +149,12 @@ class Step1 extends React.Component {
             this.setState({ subMemberOptions: this.state.subMemberData[val] })
           }}
           placeholder='Pilih Jenis Anggota'
-          // placeholderStyle={{color: errors.parentMember !== undefined ? Color.red : Color.darkGray}}
           options={this.state.membershipData}
-          // iconName={errors.parentMember ? 'alert':'arrow-down'}
           name='parentMember'
         />
         <FormSelect
           options={this.state.subMemberOptions}
           placeholder='Pilih Sub Jenis Anggota'
-          // placeholderStyle={{color: errors.subMember !== undefined ? Color.red : Color.darkGray}}
-          // iconName={errors.subMember ? 'alert':'arrow-down'}
           name='subMember'
         />
 

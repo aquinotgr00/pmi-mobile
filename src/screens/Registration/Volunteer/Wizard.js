@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, ActivityIndicator } from 'react-native'
 import { View, Text, Button } from 'native-base'
 import { Formik } from 'formik'
 import Color from 'src/constants/Color'
@@ -58,34 +58,48 @@ class Wizard extends React.Component {
 		return (
 			<Formik
 				initialValues={values}
+        initialStatus={{email: undefined}}
 				validate={this.validate}
         onSubmit={this.handleSubmit}
         enableReinitialize
         validationSchema={this.schemaArray[page]}
-				render={({ values, handleSubmit, isSubmitting, handleReset }) => (
+				render={({ values, handleSubmit, isSubmitting, handleReset, status }) => (
 					<>
 						<View style={{ alignSelf: 'center', color: Color.lightGray, paddingBottom: 25 }}>
 							<Text>Langkah {page + 1} dari {React.Children.count(this.props.children)}</Text>
 						</View>
 						{activePage}
 						<View style={{ marginBottom: 45 }}>
-							{!isLastPage && <RedButton text='Lanjutkan' onPress={handleSubmit} style={{ marginTop: 30, marginBottom: 10 }} /> }
+							{!isLastPage &&
+                <RedButton
+                  disabled={status.email !== undefined}
+                  text='Lanjutkan'
+                  onPress={handleSubmit}
+                  style={{ marginTop: 30, marginBottom: 10 }}
+                />
+              }
 							{isLastPage && (
 								<>
-									<Button
-										bordered
-										rounded
-										style={{ borderColor: Color.red, marginTop: 10, textAlign: 'center', width: '100%' }}
-										onPress={handleSubmit}
-									>
-										<Text style={{ color: Color.red, width: '100%', textAlign: 'center' }}>Nanti Saja</Text>
-									</Button>
-									<RedButton
-										text='Upload Foto'
-										onPress={handleSubmit}
-										disabled={isSubmitting}
-										style={{ marginTop: 20, marginBottom: 20 }}
-									/>
+                  {isSubmitting
+                  ? <ActivityIndicator />
+                  : (
+                    <>
+                      <Button
+                        bordered
+                        rounded
+                        style={{ borderColor: Color.red, marginTop: 10, textAlign: 'center', width: '100%' }}
+                        onPress={handleSubmit}
+                      >
+                        <Text style={{ color: Color.red, width: '100%', textAlign: 'center' }}>Nanti Saja</Text>
+                      </Button>
+                      <RedButton
+                        text='Upload Foto'
+                        onPress={handleSubmit}
+                        disabled={isSubmitting}
+                        style={{ marginTop: 20, marginBottom: 20 }}
+                      />
+                    </>
+                  )}
 								</>
 							)}
 							{page > 0 && (
