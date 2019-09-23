@@ -76,13 +76,13 @@ class UserProfile extends Component {
         title='Profile'
         isLoading={this.state.isLoading}
       >
-				<View style={{padding: 25, height: '45%', marginBottom: 20}}>
+				<View style={{paddingHorizontal: 20, height: '65%', marginBottom: 20}}>
 					<Image
 						source={require('assets/images/avatar-default.png')}
 						style={{
               alignSelf: 'center',
-              width: '55%',
-              height: '100%'
+              width: '65%',
+              height: '100%',
             }}
 						/>
 				</View>
