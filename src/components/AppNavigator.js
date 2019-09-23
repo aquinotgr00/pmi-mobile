@@ -24,7 +24,12 @@ import DonationHistoryScreen from 'src/screens/Donation/History'
 
 import VolunteerHomeScreen from 'src/screens/Home/Volunteer'
 import EmergencyAndEventScreen from 'src/screens/EmergencyAndEvent'
-import RsvpScreen from 'src/screens/Rsvp'
+import RsvpScreen from 'src/screens/Rsvp/Form'
+import RsvpThankYouScreen from 'src/screens/Rsvp/Form/ThankYou'
+import RsvpListScreen from 'src/screens/Rsvp/List'
+import RsvpDetailScreen from 'src/screens/Rsvp/Detail'
+import ChatScreen from 'src/screens/Chat'
+import ChatInfoScreen from 'src/screens/Chat/Info'
 
 import { IconInu } from 'src/components'
 import Color from 'src/constants/Color'
@@ -35,10 +40,10 @@ const drawerContentOptions = {
     activeTintColor: Color.red,
     itemStyle: {
       paddingVertical: 7,
-      marginBottom: 3,
-    },
+      marginBottom: 3
+    }
   }
-  
+
 }
 
 const Home = {
@@ -72,11 +77,11 @@ const GuestDrawerNavigator = createDrawerNavigator({
   },
   VolunteerRegistration: {
     screen: VolunteerRegistrationScreen,
-    navigationOptions:({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       drawerLabel: 'Login/Register Relawan',
       drawerIcon: ({ tintColor }) => (
         <IconInu name='icon-pmi-relawan-regist' color={tintColor} />
-      ),
+      )
     })
   }
 }, drawerContentOptions)
@@ -130,6 +135,12 @@ const MainNavigator = createStackNavigator({
   VolunteerRegistrationForm: {
     screen: VolunteerRegistrationFormScreen
   },
+  Chat: {
+    screen: ChatScreen
+  },
+  ChatInfo: {
+    screen: ChatInfoScreen
+  },
   Login: {
     screen: LoginScreen
   },
@@ -157,13 +168,22 @@ const MainNavigator = createStackNavigator({
   Rsvp: {
     screen: RsvpScreen
   },
+  RsvpThankYou: {
+    screen: RsvpThankYouScreen
+  },
+  RsvpList: {
+    screen: RsvpListScreen
+  },
+  RsvpDetail: {
+    screen: RsvpDetailScreen
+  },
   UserForm: {
     screen: UserFormScreen
   }
 
 }, {
   initialRouteName: 'Splash',
-  // initialRouteName: 'DonatorRegistrationForm',
+  //initialRouteName: 'Rsvp',
   headerMode: 'none'
 })
 

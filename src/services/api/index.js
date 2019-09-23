@@ -4,5 +4,7 @@ export * from './donations'
 export * from './donators'
 export * from './volunteers'
 export * from './settings'
+export * from './rsvp'
+export * from './chat'
 
 export { cancellableRequest } from 'src/utils/network'

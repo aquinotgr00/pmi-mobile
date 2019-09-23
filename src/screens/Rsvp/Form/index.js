@@ -4,8 +4,8 @@ import { Text, Textarea, Button, Icon } from 'native-base'
 import { Formik } from 'formik'
 import ImagePicker from 'react-native-image-picker'
 import { FormField, FormInput, RedButton, Screen } from 'src/components'
-import Color from '../constants/Color';
-
+import Color from 'src/constants/Color'
+import AddressField from 'src/components/AddressField'
 
 export default class Rsvp extends Component {
   constructor(props) {
@@ -21,12 +21,13 @@ export default class Rsvp extends Component {
   }
 
   async handleFormSubmit(values) {
-
+    console.log(values)
+    this.props.navigation.navigate('RsvpThankYou')
   }
 
   handleImage() {
     const options = {
-      title: 'Select Avatar',
+      title: 'Tambahkan foto kejadian',
       storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -34,23 +35,14 @@ export default class Rsvp extends Component {
     }
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-    
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = { uri: response.uri };
+        const image = { uri: response.uri };
     
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-    
-        this.setState({
-          avatarSource: source,
-        });
+        this.setState({ image });
       }
     })
   }
@@ -69,8 +61,8 @@ export default class Rsvp extends Component {
           {props => (
             <View style={{ paddingBottom: 30 }}>
               <FormField label='Judul Kejadian' name='title' />
-
-              <FormField nofloat onlyLabel='Deskripsi Kejadian' name='description' style={{ borderBottomWidth: 0, marginTop:20 }} />
+              <AddressField />
+              <FormField nofloat onlyLabel='Detail Kejadian' name='description' style={{ borderBottomWidth: 0, marginTop:20 }} />
               <Textarea
                 rowSpan={3}
                 onChangeText={props.handleChange('description')}
@@ -80,11 +72,11 @@ export default class Rsvp extends Component {
                 style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
                 autoCompleteType='off'
               />
-
-              <Button transparent onPress={this.handleImage} >
+              <FormField nofloat onlyLabel='Foto Situasi *optional' style={{ borderBottomWidth: 0, marginTop:20 }} />
+              <Button transparent block onPress={this.handleImage} style={{marginTop:10,backgroundColor:this.state.image?'transparent':'pink', height:100}}>
                 {
-                  this.state.avatarSource
-                  ?<Image source={this.state.avatarSource} style={{width: 50, height: 50}} />
+                  this.state.image
+                  ?<Image source={this.state.image} style={{width: '100%', height: '100%'}} resizeMode='cover' />
                   :<Icon type='SimpleLineIcons' name='camera' style={{color:Color.red, fontSize:32}} />
                   
                 }

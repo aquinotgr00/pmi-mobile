@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import { checkSettingUpdateApi, downloadAreaData } from 'src/services/api'
-import moment from 'moment';
+import moment from 'moment'
 
 class Splash extends Component {
   constructor (props) {
     super(props)
 
-		this.userRedirection = this.userRedirection.bind(this)
+    this.userRedirection = this.userRedirection.bind(this)
     this.downloadSettings = this.downloadSettings.bind(this)
-		this.updateSetting = this.updateSetting.bind(this)
-		this.getSettingsData = this.getSettingsData.bind(this)
-		this.downloadAreaData = this.downloadAreaData.bind(this)
+    this.updateSetting = this.updateSetting.bind(this)
+    this.getSettingsData = this.getSettingsData.bind(this)
+    this.downloadAreaData = this.downloadAreaData.bind(this)
   }
 
   componentDidMount () {
@@ -24,18 +24,18 @@ class Splash extends Component {
 
   async downloadSettings () {
     try {
-			const response = await checkSettingUpdateApi()
-			const { status } = response.data
-			if (status === 'success') {
-				const { data } = response.data
-				data.map(setting => {
-					this.updateSetting(setting)
-				})
-			}
+      const response = await checkSettingUpdateApi()
+      const { status } = response.data
+      if (status === 'success') {
+        const { data } = response.data
+        data.map(setting => {
+          // this.updateSetting(setting)
+        })
+      }
     } catch (err) {
-			console.log(err.response)
-		}
-	}
+      console.log(err.response)
+    }
+  }
 
 	updateSetting (setting) {
 		let oldSettingDate = this.getSettingsData(setting.settings)
@@ -83,7 +83,7 @@ class Splash extends Component {
     let routeName = 'GuestNavigator'
     if (user.token) {
       routeName = 'DonatorNavigator'
-      if(user.isVolunteer) {
+      if (user.isVolunteer) {
         routeName = 'VolunteerNavigator'
       }
     }
