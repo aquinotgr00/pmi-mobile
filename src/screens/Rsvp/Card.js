@@ -10,15 +10,16 @@ class RsvpCard extends React.Component {
   }
 
   navigateToRsvpDetailScreen () {
-    this.props.navigation.navigate('RsvpDetail', { id, type_id })
+    const { rsvpId } = this.props.item
+    this.props.navigation.navigate('RsvpDetail', { rsvpId })
   }
 
   render () {
-    const { rsvpId, title, image_url: uri } = this.props.item
+    const { title, image_url: uri } = this.props.item
     return (
       <Card
         style={[styles.card, { width: this.props.width }]}>
-        <TouchableOpacity onPress={this.navigateToDetailScreen}>
+        <TouchableOpacity onPress={this.navigateToRsvpDetailScreen}>
           <View style={{ borderRadius: 5 }}>
             <Image source={{ uri }} style={styles.cardImage} />
           </View>

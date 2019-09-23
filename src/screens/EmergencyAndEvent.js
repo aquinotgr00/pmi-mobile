@@ -56,7 +56,7 @@ export default class EmergencyAndEventScreen extends Component {
         }
         verticalCenter={rsvp.length===0}
         isLoading={isLoading}
-        containerStyle={{alignItems:'center'}}
+        containerStyle={{backgroundColor:'yellow'}}
       >
         {
           isLoading

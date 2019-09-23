@@ -27,6 +27,7 @@ class Chat extends Component {
 
     this.fetchPreviousChat = this.fetchPreviousChat.bind(this)
     this.addToChat = this.addToChat.bind(this)
+    this.sendComment = this.sendComment.bind(this)
   }
 
   componentDidMount () {
@@ -92,6 +93,10 @@ class Chat extends Component {
     this.loadChat(rsvpId, currentPage+1) */
   }
 
+  sendComment() {
+
+  }
+
   render () {
     const { navigation } = this.props
     const rsvpId = navigation.getParam('rsvpId')
@@ -130,7 +135,7 @@ class Chat extends Component {
           <AttachmentButton />
           <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#f2f2f2', padding: 5, marginLeft: 5, borderRadius: 25 }}>
             <Input placeholder='Tulis Sesuatu' multiline style={{ alignSelf: 'center' }} />
-            <SendButton />
+            <SendButton onPress={this.sendComment} />
           </View>
         </View>
       </Screen>

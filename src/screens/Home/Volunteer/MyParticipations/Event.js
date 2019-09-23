@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     marginVertical:10
   },
   titleColumn:{
-    flex:1
+    flex:1,
+    marginHorizontal:10
   },
   lastChat: {
     fontSize:14,
