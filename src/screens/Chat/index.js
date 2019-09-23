@@ -10,6 +10,7 @@ import TapForChatInfo from './TapForChatInfo'
 import SendButton from './SendButton'
 import AttachmentButton from './AttachmentButton'
 import Comment from './Comment'
+import { getEventActivityApi } from 'src/services/api'
 
 Pusher.logToConsole = Config.IS_PRODUCTION === '0'
 
@@ -18,12 +19,14 @@ class Chat extends Component {
     super(props)
 
     this.state = {
-      comments: [
-        { key: 'a' }, { key: 'b' }, { key: 'c' }, { key: 'd' },
-        { key: 'e' }, { key: 'f' }, { key: 'g' }, { key: 'h' },
-        { key: 'i' }, { key: 'j' }
-      ]
+      isLoading:false,
+      refreshing:false,
+      comments: [],
+      currentPage:0
     }
+
+    this.fetchPreviousChat = this.fetchPreviousChat.bind(this)
+    this.addToChat = this.addToChat.bind(this)
   }
 
   componentDidMount () {
@@ -46,39 +49,81 @@ class Chat extends Component {
       console.log(status)
     })
 
-    channel.bind('event.comment', function (data) {
-      alert(JSON.stringify(data))
+    channel.bind('event.comment', this.addToChat)
+
+    this.loadChat(rsvpId)
+  }
+
+  addToChat(data) {
+    const {comment} = data
+    
+    this.setState({
+      comments:[...this.state.comments, comment]
     })
+  }
+
+  async loadChat(rsvpId, page=1) {
+    this.setState({ isLoading: true, error: null })
+    const chatParams = new URLSearchParams()
+    chatParams.append('e', rsvpId)
+    chatParams.append('page',page)
+    try {
+      const response = await getEventActivityApi(chatParams)
+      const { status, data } = response.data
+      if (status === 'success') {
+        const { current_page:currentPage, data:comments } = data
+        
+        this.setState({ comments:[ ...this.state.comments, ...comments.reverse()], currentPage, isLoading:false })
+      } else {
+        // TODO : handle error
+        this.setState({ isLoading: false })
+      }
+    } catch (error) {
+      // TODO : handle error
+      this.setState({ isLoading: false })
+    }
+    
+  }
+
+  fetchPreviousChat() {
+    /* const { navigation } = this.props
+    const rsvpId = navigation.getParam('rsvpId')
+    const { currentPage } = this.state
+    this.loadChat(rsvpId, currentPage+1) */
   }
 
   render () {
     const { navigation } = this.props
+    const rsvpId = navigation.getParam('rsvpId')
     const image = navigation.getParam('image')
     const title = navigation.getParam('title')
     return (
       <Screen
         noBounce
         back
-        title={<TapForChatInfo image={image} title={title} />}
+        title={<TapForChatInfo rsvpId={rsvpId} image={image} title={title} />}
         style={{ padding: 0 }}
         containerStyle={{ flexGrow: 1 }}
+        isLoading={this.state.isLoading}
       >
         <FlatList
           ref='chatBox'
-          refreshControl={
-            <RefreshControl />
-          }
+          refreshing={this.state.refreshing}
+          onRefresh={this.fetchPreviousChat}
           ListFooterComponent={<View style={{ height: 20 }} />}
           data={this.state.comments}
           renderItem={
             ({ item }) => (
               <Comment
-                volunteerName='John Doe'
-                timestamp='2019-09-09 14:29'
+                senderName={item.volunteer_id?item.volunteer.name:item.admin.name}
+                text={item.comment}
+                timestamp={item.created_at}
+                key={`${item.id}`}
               />
             )
           }
           style={{ height: 200, backgroundColor: '#f2f2f2', padding: 10 }}
+          keyExtractor={item => `${item.id}`}
         />
 
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginBottom: 5, borderTopWidth: 1, borderTopColor: Color.lightGray }}>

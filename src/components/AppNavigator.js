@@ -25,7 +25,7 @@ import DonationHistoryScreen from 'src/screens/Donation/History'
 import VolunteerHomeScreen from 'src/screens/Home/Volunteer'
 import EmergencyAndEventScreen from 'src/screens/EmergencyAndEvent'
 import RsvpScreen from 'src/screens/Rsvp/Form'
-
+import RsvpThankYouScreen from 'src/screens/Rsvp/Form/ThankYou'
 import ChatScreen from 'src/screens/Chat'
 import ChatInfoScreen from 'src/screens/Chat/Info'
 
@@ -166,13 +166,16 @@ const MainNavigator = createStackNavigator({
   Rsvp: {
     screen: RsvpScreen
   },
+  RsvpThankYou: {
+    screen: RsvpThankYouScreen
+  },
   UserForm: {
     screen: UserFormScreen
   }
 
 }, {
   initialRouteName: 'Splash',
-  // initialRouteName: 'DonatorRegistrationForm',
+  //initialRouteName: 'Rsvp',
   headerMode: 'none'
 })
 

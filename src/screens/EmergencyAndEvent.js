@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, RefreshControl } from 'react-native'
+import { Image, RefreshControl, StyleSheet } from 'react-native'
 import { Button, Icon, Text } from 'native-base'
 import { IconInu, Screen } from 'src/components'
 import Color from 'src/constants/Color';
@@ -56,6 +56,7 @@ export default class EmergencyAndEventScreen extends Component {
         }
         verticalCenter={rsvp.length===0}
         isLoading={isLoading}
+        containerStyle={{alignItems:'center'}}
       >
         {
           isLoading
@@ -70,3 +71,7 @@ export default class EmergencyAndEventScreen extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  
+})

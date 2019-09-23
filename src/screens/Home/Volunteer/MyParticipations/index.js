@@ -28,7 +28,8 @@ export default class MyParticipations extends Component {
 
   async loadRsvp () {
     const rsvpParams = new URLSearchParams()
-    rsvpParams.append('j', 1)
+    rsvpParams.append('j', 'approved')
+    rsvpParams.append('lc', 1)
     rsvpParams.append('page', 1)
     this.source && this.source.cancel()
     this.source = cancellableRequest()
@@ -39,6 +40,7 @@ export default class MyParticipations extends Component {
 
       if (status === 'success') {
         const { data } = events
+        console.log(data)
         this.setState({ isLoading: false, data })
       } else {
         // TODO: handle error
@@ -62,12 +64,13 @@ export default class MyParticipations extends Component {
             data={data}
             renderItem={({ item }) =>
               <Event
+                rsvpId={item.id}
                 title={item.title}
                 thumbnail={item.image_url}
-                lastChat={item.lastComment}
-                chatTimestamp={item.lastCommentTimestamp}
+                lastChat={item.activities.length>0?item.activities[0].comment:null}
+                chatTimestamp={item.activities.length>0?item.activities[0].created_at:null}
               />}
-            keyExtractor={item => item.id}
+              keyExtractor={item => `${item.id}`}
           />
           : <View style={styles.emptyContainer}>
             <Text style={{ color: Color.lightGray }}>Belum ada data</Text>
