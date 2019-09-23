@@ -33,6 +33,7 @@ class UserProfile extends Component {
 	}
 	
 	async loadProfile () {
+    this.setState({isLoading: true})
 		try {
 			const response = await getProfileApi()
 			const { status } = response.data
@@ -43,8 +44,9 @@ class UserProfile extends Component {
 				})
 			}
 		} catch (err) {
-			console.log(err)			
+      console.log(err.response)
 		}
+    this.setState({isLoading: false})
   }
 
   async logout() {
