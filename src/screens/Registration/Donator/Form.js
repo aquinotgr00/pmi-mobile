@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { DatePicker, Textarea } from 'native-base'
+import { DatePicker, Textarea, Item, Label, Input, Text } from 'native-base'
 import { Formik } from 'formik'
 import moment from 'moment'
 import { FormField, FormSectionTitle, FormInput, FormSelect, RedButton, Screen } from 'src/components'
@@ -29,22 +29,26 @@ class DonatorRegistrationFormScreen extends React.Component {
     }
   }
 
-  handleEmailBlur = async (e) => {
+  handleEmailBlur = async (val, formik) => {
+    let error
     try {
-      const response = await emailValidationApi({email: e.nativeEvent.text})
+      const response = await emailValidationApi({email: val})
       const { status, data } = response.data
       if (status === 'success') {
-        if (data.donator === null || data.volunteer === null) {
-          if (data.donator !== null) {
-            console.log('this email has been used to register donator before.')
-          }
-          if (data.volunteer !== null) {
-            // remove password field
-            this.setState({registered:true})
-            console.log('there is a volunteer account assosiated with this email address.')
-          }
-        } else {
-          console.log('this acount is fully assosiated with volunteer and donator.')
+        if (data === null) {
+          this.setState({registered:false})
+          formik.setStatus({email:undefined})
+        }
+        if (data.donator !== null) {
+          this.setState({registered:false})
+          error = 'Email sudah terdaftar sebagai donatur.'
+          formik.setStatus({email: error})
+        }
+        else if (data.volunteer !== null) {
+          this.setState({registered:true})
+          formik.setFieldValue('password', 'password')
+          formik.setFieldValue('password_confirmation', 'password')
+          formik.setStatus({email:undefined})
         }
       }
     } catch (err) {
@@ -65,12 +69,16 @@ class DonatorRegistrationFormScreen extends React.Component {
       subdistrict: '',
       subdivision: '',
       postal_code: '',
+      password: 'Open1234',
+      password_confirmation: 'Open1234',
+      password_placeholder: 'Password sama dengan akun relawan.',
     }
 
     return (
       <Screen title='Daftar Sebagai Donatur' back>
         <Formik
           initialValues={dummyData}
+          initialStatus={{email: undefined}}
           onSubmit={values => this.handleFormSubmit(values)}
           validationSchema={DonatorRegistration}
         >
@@ -83,10 +91,23 @@ class DonatorRegistrationFormScreen extends React.Component {
                 name='email'
                 keyboardType='email-address'
                 autoCapitalize='none'
-                onBlur={this.handleEmailBlur}
+                onBlur={() => {
+                  this.handleEmailBlur(props.values.email, props)
+                }}
               />
+              {props.status.email !== undefined ?
+                <Text style={{fontSize: 10, color: Color.red}}>{props.status.email}</Text>
+              :null}
               <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
-              {!this.state.registered && (
+              {this.state.registered
+              ? (
+                <>
+                <Item floatingLabel style={{marginTop: 14}} >
+                  <Label>Password</Label>
+                  <Input name='password_placeholder' disabled />
+                </Item>
+                </>
+              ) : (
                 <>
                 <FormField label='Password' name='password' secureTextEntry />
                 <FormField label='Konfirmasi Password' name='password_confirmation' secureTextEntry />
@@ -133,7 +154,12 @@ class DonatorRegistrationFormScreen extends React.Component {
 
               <FormField label='Kode Pos' name='postal_code' keyboardType='number-pad' />
 
-              <RedButton text='Simpan' onPress={props.handleSubmit} style={{ marginTop: 30, marginBottom: 55 }} />
+              <RedButton
+                disabled={props.status.email !== undefined}
+                text='Simpan'
+                onPress={props.handleSubmit}
+                style={{ marginTop: 30, marginBottom: 55 }}
+              />
             </>
           )}
         </Formik>

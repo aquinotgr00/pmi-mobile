@@ -1,15 +1,48 @@
 import React from 'react'
-import { DatePicker, Textarea } from 'native-base'
+import { DatePicker, Textarea, Item, Label, Input, Text } from 'native-base'
 import { FormSectionTitle, FormField, FormSelect, FormInput } from 'src/components'
 import Wizard from './Wizard'
 import Color from 'src/constants/Color'
 import moment from 'moment'
 import { connect } from 'formik'
 import AddressField from 'src/components/AddressField'
+import { emailValidationApi } from 'src/services/api'
 
 class Step2 extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      registered: false
+    }
+
+    this.handleEmailBlur = this.handleEmailBlur.bind(this)
+  }
+  
+  handleEmailBlur = async (e) => {
+    let error
+    try {
+      const response = await emailValidationApi({email: e.nativeEvent.text})
+      const { status, data } = response.data
+      if (status === 'success') {
+        if (data === null) {
+          this.setState({registered:false})
+          this.props.formik.setStatus({email:undefined})
+        }
+        if (data.volunteer !== null) {
+          this.setState({registered:false})
+          error = 'Email sudah terdaftar sebagai relawan.'
+          this.props.formik.setStatus({email: error})
+        }
+        else if (data.donator !== null) {
+          this.setState({registered:true})
+          this.props.formik.setFieldValue('password', 'password')
+          this.props.formik.setFieldValue('password_confirmation', 'password')
+          this.props.formik.setStatus({email:undefined})
+        }
+      }
+    } catch (err) {
+      console.log(err.response)
+    }
   }
 
   render () {
@@ -17,10 +50,31 @@ class Step2 extends React.Component {
       <Wizard.Page>
         <FormSectionTitle text='Data Diri' style={{marginTop: 0}} />
         <FormField label='Nama' name='name' autoCapitalize='words' />
-        <FormField label='E-mail' name='email' keyboardType='email-address' />
+        <FormField
+          label='E-mail'
+          name='email'
+          keyboardType='email-address'
+          autoCapitalize='none'
+          onBlur={this.handleEmailBlur}
+        />
+        {this.props.formik.status.email !== undefined ?
+          <Text style={{fontSize: 10, color: Color.red}}>{this.props.formik.status.email}</Text>
+        :null}
         <FormField label='Nomor HP' name='phone' keyboardType='phone-pad' />
-        <FormField label='Password' name='password' secureTextEntry />
-        <FormField label='Konfirmasi Password' name='password_confirmation' secureTextEntry />
+        {this.state.registered
+        ? (
+          <>
+          <Item floatingLabel style={{marginTop: 14}} >
+            <Label>Password</Label>
+            <Input name='password_placeholder' disabled />
+          </Item>
+          </>
+        ) : (
+          <>
+          <FormField label='Password' name='password' secureTextEntry />
+          <FormField label='Konfirmasi Password' name='password_confirmation' secureTextEntry />
+          </>
+        )}
         <FormField label='Tempat Lahir' name='birthplace' />
         <FormField label='Tanggal Lahir' name='dob'>
           <DatePicker
