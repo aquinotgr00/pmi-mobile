@@ -37,6 +37,7 @@ export default class CampaignScreen extends React.Component {
       fundraising: 1,
       modalPage: 1,
       modalLastPage: 999,
+      webViewHeight: 10,
     }
 
     this.getDetailCampaign = this.getDetailCampaign.bind(this)
@@ -92,7 +93,7 @@ export default class CampaignScreen extends React.Component {
         const description = `<head>
           <meta name="viewport" content="width=device-width, initial-scale=1">
           </head>
-          <body>${description_raw}</body>`
+          <body>${description_raw}</body></html>`
         this.setState({
           image_url, title, description:description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
         })
@@ -157,6 +158,12 @@ export default class CampaignScreen extends React.Component {
         </CardItem>
       </Card>
     )
+  }
+
+  onWebViewMessage = (event) => {
+    let webViewHeight = Number(event.nativeEvent.data)
+    console.log(webViewHeight)
+    this.setState({webViewHeight})
   }
 
   render () {
@@ -237,9 +244,11 @@ export default class CampaignScreen extends React.Component {
             </View>
 
             <WebView
-              source={{ html: this.state.description}}
-              style={{ height: 400 }}
-              // scrollEnabled={false}
+              style={{ height: this.state.webViewHeight, marginBottom: 0, }}
+              source={{html: this.state.description}}
+              originWhitelist={['*']}
+              onMessage={this.onWebViewMessage}
+              injectedJavaScript='window.ReactNativeWebView.postMessage(document.body.scrollHeight)'
             />
 
             <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
