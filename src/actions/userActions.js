@@ -19,10 +19,10 @@ export function login (credentials) {
         dispatch({
           type: 'LOGIN_SUCCESS',
           token,
-          isVolunteer:volunteer_id!==null
+          isVolunteer:credentials.mode==='Relawan'
         })
         let home = 'DonatorNavigator'
-				if (volunteer_id) {
+				if (volunteer_id && isVolunteer) {
           OneSignal.sendTag('volunteer', 1)
           home = 'VolunteerNavigator'
 				}

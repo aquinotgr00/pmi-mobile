@@ -54,6 +54,8 @@ class LoginScreen extends React.Component {
                   onChangeText={props.handleChange('email')}
                   onBlur={props.handleBlur('email')}
                   value={props.values.email}
+                  keyboardType='email-address'
+                  autoCapitalize='none'
                 />
               </Item>
               {props.errors.email && <Text style={{ fontSize: 10, color: 'red' }}>{props.errors.email}</Text>}

@@ -29,7 +29,7 @@ class Splash extends Component {
       if (status === 'success') {
         const { data } = response.data
         data.map(setting => {
-          // this.updateSetting(setting)
+          this.updateSetting(setting)
         })
       }
     } catch (err) {
