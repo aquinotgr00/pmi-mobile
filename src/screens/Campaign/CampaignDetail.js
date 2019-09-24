@@ -2,13 +2,13 @@ import React from 'react'
 import { ProgressBar, Loader } from 'src/components'
 import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
-import { WebView } from 'react-native-webview'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
 import { daysRemaining } from 'src/utils/'
 import Modal from "react-native-modal"
 import moment from 'moment'
 import 'moment/min/locales'
+import AutoHeightWebView from 'react-native-autoheight-webview'
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
@@ -37,7 +37,7 @@ export default class CampaignScreen extends React.Component {
       fundraising: 1,
       modalPage: 1,
       modalLastPage: 999,
-      webViewHeight: 10,
+      webviewWidth: 0,
     }
 
     this.getDetailCampaign = this.getDetailCampaign.bind(this)
@@ -85,17 +85,13 @@ export default class CampaignScreen extends React.Component {
       const response = await getCampaignDetail(this.state.id)
       const { status } = response.data
       if(status==='success') {
-        const { image_url, title, description:description_raw, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising } = response.data.data
+        const { image_url, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising } = response.data.data
         const days = daysRemaining(finish_campaign)
         const percentage = amount_real/amount_goal*100
         const loading = false
         const showAllDonationsText = get_donations.length > 4 ? true:false 
-        const description = `<head>
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          </head>
-          <body>${description_raw}</body></html>`
         this.setState({
-          image_url, title, description:description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
+          image_url, title, description, amount_goal, amount_real, get_donations, finish_campaign, type_id, fundraising, days, percentage, loading, showAllDonationsText
         })
       }
     } catch (err) {
@@ -158,12 +154,6 @@ export default class CampaignScreen extends React.Component {
         </CardItem>
       </Card>
     )
-  }
-
-  onWebViewMessage = (event) => {
-    let webViewHeight = Number(event.nativeEvent.data)
-    console.log(webViewHeight)
-    this.setState({webViewHeight})
   }
 
   render () {
@@ -230,6 +220,9 @@ export default class CampaignScreen extends React.Component {
                 marginVertical: 10,
                 maxHeight: 45,
               }}
+              onLayout={event => {
+                this.setState({ webviewWidth: event.nativeEvent.layout.width });
+              }}
             >
               {fundraising === 1 &&
                 <View style={{ flex: 1 }}>
@@ -243,12 +236,10 @@ export default class CampaignScreen extends React.Component {
               </View>
             </View>
 
-            <WebView
-              style={{ height: this.state.webViewHeight, marginBottom: 0, }}
-              source={{html: this.state.description}}
-              originWhitelist={['*']}
-              onMessage={this.onWebViewMessage}
-              injectedJavaScript='window.ReactNativeWebView.postMessage(document.body.scrollHeight)'
+            <AutoHeightWebView
+              style={{width: this.state.webviewWidth}}
+              source={{ html: this.state.description }}
+              scrollEnabled={false}
             />
 
             <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
