@@ -3,9 +3,11 @@ import { Image, View } from 'react-native'
 import { Text, Textarea, Button, Icon } from 'native-base'
 import { Formik } from 'formik'
 import ImagePicker from 'react-native-image-picker'
-import { FormField, FormInput, RedButton, Screen } from 'src/components'
+import { FormField, RedButton, Screen } from 'src/components'
 import Color from 'src/constants/Color'
 import AddressField from 'src/components/AddressField'
+import { createRsvpApi } from 'src/services/api'
+import Config from 'react-native-config'
 
 export default class Rsvp extends Component {
   constructor(props) {
@@ -13,7 +15,7 @@ export default class Rsvp extends Component {
   
     this.state = {
        isLoading:false,
-       avatarSource: null
+       image: null
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -21,8 +23,23 @@ export default class Rsvp extends Component {
   }
 
   async handleFormSubmit(values) {
-    console.log(values)
-    this.props.navigation.navigate('RsvpThankYou')
+    const { title, description } = values
+    const { image } = this.state
+    this.setState({isLoading:true})
+    try {
+      const response = await createRsvpApi({title,description, image})
+      const { status, data } = response.data
+      if(status==='success') {
+        this.setState({isLoading:false})
+        this.props.navigation.navigate('RsvpThankYou')
+      }
+      else {
+        // TODO : handle error
+      }
+    } catch (error) {
+      // TODO : handle error
+      console.log(error)
+    }
   }
 
   handleImage() {
@@ -48,14 +65,18 @@ export default class Rsvp extends Component {
   }
   
   render() {
+    const title = Config.IS_PRODUCTION==='0'?'Test Title':''
+    const description = Config.IS_PRODUCTION==='0'?'Test Description':''
+    const initialValues = {title, description}
     return (
       <Screen
         back
         title='Buat Laporan'
+        isLoading={this.state.isLoading}
       >
         <Text style={{color:Color.lightGray}}>Laporkan kejadian darurat atau event di sekitarmu agar segera mendapat bantuan dari sukarelawan terdekat</Text>
         <Formik
-          initialValues={{ title:'', description:'' }}
+          initialValues={initialValues}
           onSubmit={this.handleFormSubmit}
         >
           {props => (
@@ -72,11 +93,11 @@ export default class Rsvp extends Component {
                 style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
                 autoCompleteType='off'
               />
-              <FormField nofloat onlyLabel='Foto Situasi *optional' style={{ borderBottomWidth: 0, marginTop:20 }} />
-              <Button transparent block onPress={this.handleImage} style={{marginTop:10,backgroundColor:this.state.image?'transparent':'pink', height:100}}>
+              <FormField nofloat onlyLabel='Foto Situasi' style={{ borderBottomWidth: 0, marginTop:20 }} />
+              <Button transparent block onPress={this.handleImage} style={{marginTop:10,backgroundColor:this.state.image?'transparent':'pink', height:120}}>
                 {
                   this.state.image
-                  ?<Image source={this.state.image} style={{width: '100%', height: '100%'}} resizeMode='cover' />
+                  ?<Image source={this.state.image} style={{width: '100%', height: 120}} resizeMode='cover' />
                   :<Icon type='SimpleLineIcons' name='camera' style={{color:Color.red, fontSize:32}} />
                   
                 }
