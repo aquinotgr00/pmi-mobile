@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { FlatList, RefreshControl, StyleSheet } from 'react-native'
-import { Button, Icon, Text } from 'native-base'
+import { Text } from 'native-base'
 import { IconInu, Screen } from 'src/components'
-import Color from 'src/constants/Color'
 import { getRsvpListApi } from 'src/services/api'
 import PendingEvent from './PendingEvent'
+import AddRsvpButton from './AddRsvpButton'
 
 export default class EmergencyAndEventScreen extends Component {
   static navigationOptions = {
@@ -22,7 +22,6 @@ export default class EmergencyAndEventScreen extends Component {
        events:[],
        error:null
     }
-    this.createRsvp = this.createRsvp.bind(this)
     this.loadPendingRsvp = this.loadPendingRsvp.bind(this)
   }
 
@@ -53,10 +52,6 @@ export default class EmergencyAndEventScreen extends Component {
     }
   }
   
-  createRsvp() {
-    this.props.navigation.navigate('Rsvp')
-  }
-
   render() {
     const {isLoading, events} = this.state
     return (
@@ -68,21 +63,16 @@ export default class EmergencyAndEventScreen extends Component {
             
           />
         }
-        right={
-          <Button style={{backgroundColor:'transparent'}} onPress={this.createRsvp}>
-            <Icon type='Entypo' name='plus' style={{color:'#000', marginLeft:0, marginRight:0}}/>
-          </Button>
-        }
+        right={<AddRsvpButton />}
         verticalCenter={events.length===0}
         isLoading={isLoading}
-        containerStyle={{backgroundColor:'yellow'}}
       >
         {
           isLoading
           ?<Text></Text>
           :(
             events.length===0
-            ?<Text></Text>
+            ?<Text>Saat ini Anda belum memiliki pengajuan laporan Darurat &amp; Event</Text>
             :<FlatList 
               data={events}
               renderItem={({ item }) =>
@@ -90,6 +80,7 @@ export default class EmergencyAndEventScreen extends Component {
                   rsvpId={item.id}
                   title={item.title}
                   thumbnail={item.image_url}
+                  createdAt={item.created_at}
                 />}
               keyExtractor={item => `${item.id}`}
             />

@@ -67,10 +67,10 @@ export default class MyParticipations extends Component {
                 rsvpId={item.id}
                 title={item.title}
                 thumbnail={item.image_url}
-                lastChat={item.activities.length>0?item.activities[0].comment:null}
-                chatTimestamp={item.activities.length>0?item.activities[0].created_at:null}
+                lastChat={item.activities.length > 0 ? item.activities[0].comment : null}
+                chatTimestamp={item.activities.length > 0 ? item.activities[0].created_at : null}
               />}
-              keyExtractor={item => `${item.id}`}
+            keyExtractor={item => `${item.id}`}
           />
           : <View style={styles.emptyContainer}>
             <Text style={{ color: Color.lightGray }}>Belum ada data</Text>
