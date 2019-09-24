@@ -9,6 +9,7 @@ import InKindDonationSchema from 'src/validators/InKindDonation'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
 import Color from 'src/constants/Color'
 import CampaignPicker from 'src/screens/Donation/CampaignPicker'
+import Config from 'react-native-config'
 
 class InKindDonationFormScreen extends React.Component {
   constructor (props) {
@@ -49,21 +50,23 @@ class InKindDonationFormScreen extends React.Component {
         isLoading={this.state.isLoading}
       >
         <Formik
-          initialValues={{
-						campaign_id,
-						name: 'Item Donatorr',
-						email: 'itemdi@mail.com',
-						phone: '085522',
-						deliveryMethod: 'kirim',
-						anonym: false,
-						items: [
-							{
-									type: 'maeman',
-									name: 'indomei',
-									amount: '10 slop'
-							}
-						]
-          }}
+          initialValues={Config.IS_PRODUCTION === '0'
+          ? {
+              campaign_id,
+              name: 'Item Donatorr',
+              email: 'itemdi@mail.com',
+              phone: '085522',
+              deliveryMethod: 'kirim',
+              anonym: false,
+              items: [
+                {
+                    type: 'maeman',
+                    name: 'indomei',
+                    amount: '10 slop'
+                }
+              ]
+            }
+          : {}}
           validationSchema={InKindDonationSchema}
           onSubmit={this.handleFormSubmit}
         >

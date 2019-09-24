@@ -5,6 +5,7 @@ import { Formik } from 'formik'
 import { getCampaignDetail, storeFundDonation } from 'src/services/api'
 import CampaignPicker from 'src/screens/Donation/CampaignPicker'
 import FundDonation from 'src/validators/FundDonation'
+import Config from 'react-native-config'
 
 export default class FundDonationScreen extends React.Component {
 	constructor (props) {
@@ -63,16 +64,18 @@ export default class FundDonationScreen extends React.Component {
       >
 				<Text style={{fontWeight:'600',fontSize:16}}>Informasi Donasi</Text>
 				<Formik
-					initialValues={{
-						name: 'Test Test',
-						email: 'test@mail.com',
-						phone: '081',
-						amount: '10000',
-						payment_method: 'manual',
-						campaign_id: this.state.id,
-						category: 1,
-						anonym: false,
-					}}
+          initialValues={Config.IS_PRODUCTION === '0'
+          ? {
+              name: 'Test Test',
+              email: 'test@mail.com',
+              phone: '081',
+              amount: '10000',
+              payment_method: 'manual',
+              campaign_id: this.state.id,
+              category: 1,
+              anonym: false,
+            }
+          : {}}
 					onSubmit={this.handleSubmit}
 					validationSchema={FundDonation}
 				>
