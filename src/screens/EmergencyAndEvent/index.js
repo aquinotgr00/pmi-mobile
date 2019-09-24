@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Image, RefreshControl, StyleSheet } from 'react-native'
+import { FlatList, RefreshControl, StyleSheet } from 'react-native'
 import { Button, Icon, Text } from 'native-base'
 import { IconInu, Screen } from 'src/components'
-import Color from 'src/constants/Color';
-
+import Color from 'src/constants/Color'
+import { getRsvpListApi } from 'src/services/api'
+import PendingEvent from './PendingEvent'
 
 export default class EmergencyAndEventScreen extends Component {
   static navigationOptions = {
@@ -18,7 +19,7 @@ export default class EmergencyAndEventScreen extends Component {
   
     this.state = {
        isLoading:true,
-       rsvp:[],
+       events:[],
        error:null
     }
     this.createRsvp = this.createRsvp.bind(this)
@@ -28,10 +29,28 @@ export default class EmergencyAndEventScreen extends Component {
   componentDidMount() {
     this.loadPendingRsvp()
   }
-  
-  async loadPendingRsvp() {
-    await new Promise(resolve=>setTimeout(resolve,3000))
-    this.setState({isLoading:false, rsvp:[{test:'coba'}], error: null})
+
+  async loadPendingRsvp () {
+    const rsvpParams = new URLSearchParams()
+    rsvpParams.append('p', '1')
+    rsvpParams.append('page', 1)
+    this.setState({ isLoading: true, events: [], error: null })
+    try {
+      const response = await getRsvpListApi(rsvpParams)
+      const { status } = response.data
+
+      if (status === 'success') {
+        const { data } = response.data
+        const { data: events } = data
+        this.setState({ isLoading: false, events })
+      } else {
+        // TODO: handle error
+        this.setState({ isLoading: false })
+      }
+    } catch (error) {
+      // TODO: handle error
+      this.setState({ isLoading: false })
+    }
   }
   
   createRsvp() {
@@ -39,7 +58,7 @@ export default class EmergencyAndEventScreen extends Component {
   }
 
   render() {
-    const {isLoading, rsvp} = this.state
+    const {isLoading, events} = this.state
     return (
       <Screen
         menu
@@ -54,7 +73,7 @@ export default class EmergencyAndEventScreen extends Component {
             <Icon type='Entypo' name='plus' style={{color:'#000', marginLeft:0, marginRight:0}}/>
           </Button>
         }
-        verticalCenter={rsvp.length===0}
+        verticalCenter={events.length===0}
         isLoading={isLoading}
         containerStyle={{backgroundColor:'yellow'}}
       >
@@ -62,9 +81,18 @@ export default class EmergencyAndEventScreen extends Component {
           isLoading
           ?<Text></Text>
           :(
-            rsvp.length===0
+            events.length===0
             ?<Text></Text>
-            :<Text></Text>
+            :<FlatList 
+              data={events}
+              renderItem={({ item }) =>
+                <PendingEvent
+                  rsvpId={item.id}
+                  title={item.title}
+                  thumbnail={item.image_url}
+                />}
+              keyExtractor={item => `${item.id}`}
+            />
           )
         }
       </Screen>

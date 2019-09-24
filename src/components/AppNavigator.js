@@ -183,7 +183,7 @@ const MainNavigator = createStackNavigator({
 
 }, {
   initialRouteName: 'Splash',
-  // initialRouteName: 'Rsvp',
+  //initialRouteName: 'EmergencyAndEvent',
   headerMode: 'none'
 })
 
