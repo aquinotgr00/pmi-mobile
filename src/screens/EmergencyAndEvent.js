@@ -60,11 +60,11 @@ export default class EmergencyAndEventScreen extends Component {
       >
         {
           isLoading
-          ?<Text>loading ... </Text>
+          ?<Text></Text>
           :(
             rsvp.length===0
-            ?<Text>belum ada</Text>
-            :<Text>ada</Text>
+            ?<Text></Text>
+            :<Text></Text>
           )
         }
       </Screen>

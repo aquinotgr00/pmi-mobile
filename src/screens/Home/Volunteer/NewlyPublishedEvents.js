@@ -31,7 +31,7 @@ class NewlyPublishedEvents extends Component {
 
   async getRsvpList () {
     const rsvpParams = new URLSearchParams()
-    rsvpParams.append('j', 0)
+    rsvpParams.append('j', 'other')
     rsvpParams.append('page', 1)
     this.setState({ isLoading: true, events: [], error: null })
     try {
