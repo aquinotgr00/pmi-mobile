@@ -35,7 +35,7 @@ export default class HomeScreen extends Component {
         containerStyle={{ paddingBottom: 100 }}
       >
         <GeneralDiscussion lastUpdate={this.state.timestamp} />
-        <NewlyPublishedEvents numberOfEvents={3} />
+        <NewlyPublishedEvents lastUpdate={this.state.timestamp} numberOfEvents={3} />
         <MyParticipations />
       </Screen>
     )
