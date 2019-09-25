@@ -9,6 +9,7 @@ import { register } from 'src/actions'
 import DonatorRegistration from 'src/validators/DonatorRegistration'
 import AddressField from 'src/components/AddressField'
 import { emailValidationApi } from 'src/services/api'
+import Config from 'react-native-config'
 
 class DonatorRegistrationFormScreen extends React.Component {
   constructor (props) {
@@ -77,7 +78,7 @@ class DonatorRegistrationFormScreen extends React.Component {
     return (
       <Screen title='Daftar Sebagai Donatur' back>
         <Formik
-          initialValues={dummyData}
+          initialValues={Config.IS_PRODUCTION === '0' ? dummyData:{}}
           initialStatus={{email: undefined}}
           onSubmit={values => this.handleFormSubmit(values)}
           validationSchema={DonatorRegistration}

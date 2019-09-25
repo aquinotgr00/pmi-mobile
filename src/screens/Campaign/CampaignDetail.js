@@ -9,6 +9,7 @@ import Modal from "react-native-modal"
 import moment from 'moment'
 import 'moment/min/locales'
 import AutoHeightWebView from 'react-native-autoheight-webview'
+import { formatCurrency } from 'src/utils'
 
 const Header_Maximum_Height = 200
 const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
@@ -135,9 +136,9 @@ export default class CampaignScreen extends React.Component {
     return (
       <Card transparent>
         <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
-          <Thumbnail source={(item.anonym || item.image === null)
+          <Thumbnail source={(item.anonym || item.guest === 1 || item.donator.image === null)
             ? require('assets/images/avatar-default.png')
-            : { uri: item.image_url }}
+            : { uri: item.donator.image_url }}
           />
           <Body style={{ marginLeft: 20 }}>
             <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
@@ -147,7 +148,7 @@ export default class CampaignScreen extends React.Component {
             {this.state.fundraising === 1 && (
               <>
                 <Text style={{ color: 'grey', fontSize: 11 }}>Jumlah Donasi</Text>
-                <Text note>Rp. {item.amount}</Text>
+                <Text note>{formatCurrency(item.amount)}</Text>
               </>
             )}
           </Body>
@@ -227,7 +228,7 @@ export default class CampaignScreen extends React.Component {
               {fundraising === 1 &&
                 <View style={{ flex: 1 }}>
                   <Text style={{ fontSize: 11, color: 'grey' }}>Terkumpul</Text>
-                  <Text style={{ fontWeight: '500' }}>Rp. {this.state.amount_real ? this.state.amount_real : 0}</Text>
+                  <Text style={{ fontWeight: '500' }}>{this.state.amount_real ? formatCurrency(this.state.amount_real) : 0}</Text>
                 </View>
               }
               <View style={{ flex: 1, alignItems: fundraising === 1 ? 'flex-end':'' }}>

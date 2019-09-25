@@ -4,6 +4,7 @@ import { Button, Input, Item, Text, View } from 'native-base'
 import { Screen, RedButton, FormField } from 'src/components'
 import { Formik } from 'formik'
 import { resetPasswordApi } from 'src/services/api'
+import Config from 'react-native-config'
 
 export default class ForgotPasswordScreen extends React.Component {
   constructor (props) {
@@ -29,9 +30,7 @@ export default class ForgotPasswordScreen extends React.Component {
     return (
       <Screen title='Lupa Password' back>
         <Formik
-          initialValues={{
-            email: '@mail.com',
-          }}
+          initialValues={Config.IS_PRODUCTION === '0' ? { email: '@mail.com'}:{}}
           onSubmit={values => this.requestPasswordReset(values)}
         >
           {props => (
