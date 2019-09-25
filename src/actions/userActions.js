@@ -15,17 +15,18 @@ export function login (credentials) {
 
       const { status, data } = loginResponse.data
       if (status === 'success') {
-        const { access_token: token, volunteer_id } = data
+        const { access_token: token, volunteer_id: volunteerId } = data
+        const isVolunteer = credentials.mode === 'Relawan'
         dispatch({
           type: 'LOGIN_SUCCESS',
           token,
-          isVolunteer:credentials.mode==='Relawan'
+          isVolunteer
         })
         let home = 'DonatorNavigator'
-				if (volunteer_id && isVolunteer) {
+        if (volunteerId && isVolunteer) {
           OneSignal.sendTag('volunteer', 1)
           home = 'VolunteerNavigator'
-				}
+        }
         NavigationService.navigate(home)
       } else {
         const { account } = data
@@ -43,14 +44,14 @@ export function login (credentials) {
   }
 }
 
-export function register (user, isVolunteer=false) {
+export function register (user, isVolunteer = false) {
   return async function (dispatch, getState) {
     dispatch({
       type: 'USER_REGISTRATION_REQUEST'
     })
 
     try {
-      const registrationResponse = await (isVolunteer?registerVolunteerApi(user):registerDonatorApi(user))
+      const registrationResponse = await (isVolunteer ? registerVolunteerApi(user) : registerDonatorApi(user))
 
       const { status, data } = registrationResponse.data
       if (status === 'success') {
@@ -91,7 +92,7 @@ export function logout () {
       const logoutResponse = await logoutApi()
       const { status } = logoutResponse.data
       if (status === 'success') {
-        
+
       } else {
         // TODO : handle error!
       }
@@ -108,7 +109,7 @@ export function logout () {
   }
 }
 
-export function setPushNotificationUserId(userId) {
+export function setPushNotificationUserId (userId) {
   return {
     type: 'SET_PUSH_NOTIFICATION_ID',
     payload: userId
