@@ -1,14 +1,22 @@
 import React from 'react'
-import { FormField, FormSelect } from 'src/components'
+import { FormField, FormInput } from 'src/components'
+import AddressField from 'src/components/AddressField'
+import { connect } from 'formik'
 
-export function AddressForm (props) {
+function AddressForm (props) {
+  console.log(props)
+
 	return (
 		<>
-			<FormField label='Provinsi' name='province' />
-			<FormField label='Kota' name='city' />
-			<FormField label='Kecamatan' name='subdistrict' />
-			<FormField label='Desa' name='subdivision' />
-			<FormField label='Kode Pos' name='postal_code' />
+      <FormField label='Propinsi' name='province'>
+        <FormInput name='province' disabled />
+      </FormField>
+
+      <AddressField />
+
+      <FormField label='Kode Pos' name='postal_code' keyboardType='number-pad' />
 		</>
 	)
 }
+
+export default connect(AddressForm)

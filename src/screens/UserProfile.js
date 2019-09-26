@@ -20,7 +20,8 @@ class UserProfile extends Component {
     super(props)
     this.state = {
 			isLoading: false,
-			user: null,
+      user: null,
+      isVolunteer: this.props.user.isVolunteer
 		}
 
     this.logout = this.logout.bind(this)
@@ -29,8 +30,7 @@ class UserProfile extends Component {
   }
 
   componentDidMount () {
-    // this.loadProfile()
-    console.log(this.state)
+    this.loadProfile()
 	}
 	
 	async loadProfile () {
@@ -39,7 +39,8 @@ class UserProfile extends Component {
 			const response = await getProfileApi()
 			const { status } = response.data
 			if (status === 'success') {
-				const { user } = response.data.data
+        const user = response.data.data
+        console.log(user)
 				this.setState({
 					user
 				})
@@ -68,9 +69,9 @@ class UserProfile extends Component {
 	}
 	
 	navigateToForm (title) {
-    const { user } = this.state
-		this.props.navigation.navigate('UserForm', {title, user, loadProfile: this.loadProfile})
-	}
+    const { user, isVolunteer } = this.state
+		this.props.navigation.navigate('UserForm', {title, user, loadProfile: this.loadProfile, isVolunteer})
+  }
 
   render () {
     return (
@@ -81,7 +82,15 @@ class UserProfile extends Component {
       >
 				<View style={{paddingHorizontal: 20, height: '65%', marginBottom: 20}}>
 					<Image
-						source={require('assets/images/avatar-default.png')}
+            source={this.state.isVolunteer
+              ? (this.state.user !== null
+                ? this.state.user.volunteer.image !== null ? {uri: this.state.user.volunteer.image_url}:require('assets/images/avatar-default.png')
+                : require('assets/images/avatar-default.png')
+              ) : (this.state.user !== null
+                ? this.state.user.donator.image !== null ? {uri: this.state.user.donator.image_url}:require('assets/images/avatar-default.png')
+                : require('assets/images/avatar-default.png')
+              )
+            }
 						style={{
               alignSelf: 'center',
               width: '65%',
@@ -102,12 +111,16 @@ class UserProfile extends Component {
 						</Text>
 						<Icon style={style.profileIconBtn} name="arrow-forward" />
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => this.navigateToForm('Pengalaman')} style={style.profileBtn}>
-						<Text style={style.profileTextBtn}>
-							Pengalaman
-						</Text>
-						<Icon style={style.profileIconBtn} name="arrow-forward" />
-					</TouchableOpacity>
+
+          {this.state.isVolunteer &&
+            <TouchableOpacity onPress={() => this.navigateToForm('Pengalaman')} style={style.profileBtn}>
+              <Text style={style.profileTextBtn}>
+                Pengalaman
+              </Text>
+              <Icon style={style.profileIconBtn} name="arrow-forward" />
+            </TouchableOpacity>
+          }
+
 					<TouchableOpacity onPress={() => this.navigateToForm('Password')} style={style.profileBtn}>
 						<Text style={style.profileTextBtn}>
 							Password

@@ -8,6 +8,7 @@ import Color from 'src/constants/Color'
 import { login } from 'src/actions'
 import Login from 'src/validators/Login'
 import Config from 'react-native-config'
+import Snackbar from 'react-native-snackbar'
 
 class LoginScreen extends React.Component {
   constructor (props) {
@@ -18,16 +19,31 @@ class LoginScreen extends React.Component {
 
     this.forgotPassword = this.forgotPassword.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.showAlertPopup = this.showAlertPopup.bind(this)
   }
 
   async handleLogin (credentials) {
     this.setState({ loading: true })
-    await this.props.dispatch(login(credentials))
-    this.setState({ loading: false })
+    try {
+      await this.props.dispatch(login(credentials))
+      this.setState({ loading: false })
+      if (this.props.user.token === null) {
+        this.showAlertPopup('Wrong password!')
+      }
+    } catch (err) {
+      console.log(err.response)
+    }
   }
 
   forgotPassword () {
     this.props.navigation.navigate('ForgotPassword')
+  }
+  
+  showAlertPopup = message => {
+    Snackbar.show({
+      title: message,
+      duration: Snackbar.LENGTH_SHORT,
+    })
   }
 
   render () {

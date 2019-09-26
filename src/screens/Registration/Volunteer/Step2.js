@@ -85,31 +85,29 @@ class Step2 extends React.Component {
             formatChosenDate={date => moment(date).format('DD MMM YYYY')}
           />
         </FormField>
-        <FormField label='Jenis Kelamin' name='gender'>
-          <FormSelect
-            style={{ width: undefined, marginVertical: 4 }}
-            options={[
-              { value: 'male', label: 'Pria' },
-              { value: 'female', label: 'Wanita' }
-            ]}
-            name='gender'
-          />
-        </FormField>
+        <FormSelect
+          placeholder='Gender'
+          style={{ width: undefined, marginVertical: 4 }}
+          options={[
+            { value: 'male', label: 'Pria' },
+            { value: 'female', label: 'Wanita' }
+          ]}
+          name='gender'
+        />
         <FormField label='Golongan Darah' name='blood_type' />
-        <FormField label='Agama' name='religion'>
-          <FormSelect
-            style={{ width: undefined, marginVertical: 4 }}
-            options={[
-              { value: 'Islam', label: 'Islam' },
-              { value: 'Kristen', label: 'Kristen' },
-              { value: 'Khatolik', label: 'Khatolik' },
-              { value: 'Buddha', label: 'Buddha' },
-              { value: 'Hindhu', label: 'Hindhu' },
-              { value: 'Konghuchu', label: 'Konhuchu' },
-            ]}
-            name='religion'
-          />
-        </FormField>
+        <FormSelect
+          placeholder='Agama'
+          style={{ width: undefined, marginVertical: 4 }}
+          options={[
+            { value: 'Islam', label: 'Islam' },
+            { value: 'Kristen', label: 'Kristen' },
+            { value: 'Khatolik', label: 'Khatolik' },
+            { value: 'Buddha', label: 'Buddha' },
+            { value: 'Hindhu', label: 'Hindhu' },
+            { value: 'Konghuchu', label: 'Konhuchu' },
+          ]}
+          name='religion'
+        />
 
         <FormSectionTitle text='Tempat Tinggal' />
         <FormField nofloat onlyLabel='Alamat' name='address' style={{ borderBottomWidth: 0 }} />

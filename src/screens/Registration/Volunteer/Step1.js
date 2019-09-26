@@ -160,22 +160,20 @@ class Step1 extends React.Component {
 
 
 				<FormSectionTitle text='Unit PMI Kab-Kota' />
-				<FormField label='Kabupaten/Kota' name='unitCity'>
-					<FormSelect
-            onChange={val => {
-              setFieldValue('unitCity', val)
-              this.setState({ unitOptions: this.state.unitData[val] })
-            }}
-						options={this.state.cityData}
-						name='unitCity'
-					/>
-				</FormField>
-				<FormField label='Unit' name='unit_id'>
-					<FormSelect
-						options={this.state.unitOptions}
-						name='unit_id'
-					/>
-				</FormField>
+        <FormSelect
+          placeholder='Pilih Kabupaten/Kota'
+          onChange={val => {
+            setFieldValue('unitCity', val)
+            this.setState({ unitOptions: this.state.unitData[val] })
+          }}
+          options={this.state.cityData}
+          name='unitCity'
+        />
+        <FormSelect
+          placeholder='Pilih Unit'
+          options={this.state.unitOptions}
+          name='unit_id'
+        />
 
 				<FormSectionTitle text='Pengalaman' />
 				{this.state.achievementFields.map((field, idx) => {
