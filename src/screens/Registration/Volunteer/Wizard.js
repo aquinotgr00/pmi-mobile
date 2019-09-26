@@ -5,6 +5,7 @@ import { Formik } from 'formik'
 import Color from 'src/constants/Color'
 import { RedButton } from 'src/components'
 import { Step1Schema, Step2Schema } from 'src/validators/VolunteerRegistration'
+import Config from 'react-native-config'
 
 class Wizard extends React.Component {
 	static Page = ({ children }) => children;
@@ -57,7 +58,7 @@ class Wizard extends React.Component {
 		const isLastPage = page === React.Children.count(children) - 1
 		return (
 			<Formik
-				initialValues={values}
+				initialValues={Config.IS_PRODUCTION === '0'?values:{}}
         initialStatus={{email: undefined}}
 				validate={this.validate}
         onSubmit={this.handleSubmit}

@@ -105,13 +105,13 @@ class Step1 extends React.Component {
       if (member.parent_id === null) {
         membershipData.push({
           label: member.name,
-          value: member.name
+          value: member.id
         })
-        subMemberData[member.name] = []
+        subMemberData[member.id] = []
         member.sub_member.filter(sub => {
-          subMemberData[member.name].push({
+          subMemberData[member.id].push({
             label: sub.name,
-            value: sub.name
+            value: sub.id
           })
         })
       }
@@ -129,7 +129,10 @@ class Step1 extends React.Component {
       })
       unitData[area.name] = []
       area.units.filter(unit => {
-        unitData[area.name].push({
+        if (unitData[area.name][unit.membership_id] === undefined) {
+          unitData[area.name][unit.membership_id] = []
+        }
+        unitData[area.name][unit.membership_id].push({
           label: unit.name,
           value: unit.id
         })
@@ -139,13 +142,14 @@ class Step1 extends React.Component {
   }
 
 	render () {
-    const { setFieldValue, errors } = this.props.formik
+    const { setFieldValue, errors, values } = this.props.formik
 		return (
       <Wizard.Page>
 				<FormSectionTitle text='Keanggotaan' style={{marginTop: 0}} />
         <FormSelect
           onChange={val => {
             setFieldValue('parentMember', val)
+            setFieldValue('subMember', '')
             this.setState({ subMemberOptions: this.state.subMemberData[val] })
           }}
           placeholder='Pilih Jenis Anggota'
@@ -164,7 +168,13 @@ class Step1 extends React.Component {
           placeholder='Pilih Kabupaten/Kota'
           onChange={val => {
             setFieldValue('unitCity', val)
-            this.setState({ unitOptions: this.state.unitData[val] })
+            let unitOptions = values.subMember === ''
+            ? this.state.unitData[val][values.parentMember]
+            : this.state.unitData[val][values.subMember]
+            if (unitOptions === undefined) {
+              unitOptions = []
+            }
+            this.setState({ unitOptions })
           }}
           options={this.state.cityData}
           name='unitCity'
