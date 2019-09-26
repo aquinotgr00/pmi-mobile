@@ -75,7 +75,8 @@ class VolunteerRegistrationFormScreen extends React.Component {
       <Screen title='Daftar Sebagai Relawan' back>
 
 				<Wizard
-					initialValues={{
+          initialValues={Config.IS_PRODUCTION === '0'
+          ? {
 						parentMember: '',
 						subMember: '',
 						name: 'Volu One',
@@ -99,7 +100,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						postal_code: '',
 						blood_type: 'O',
 						address: 'jalan betawi rt 5',
-					}}
+					}: {}}
 					onSubmit={this.handleFormSubmit}
 				>
 					<Step1 />

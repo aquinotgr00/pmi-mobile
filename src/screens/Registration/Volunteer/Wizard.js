@@ -57,7 +57,7 @@ class Wizard extends React.Component {
 		const isLastPage = page === React.Children.count(children) - 1
 		return (
 			<Formik
-				initialValues={values}
+				initialValues={Config.IS_PRODUCTION === '0'?values:{}}
         initialStatus={{email: undefined}}
 				validate={this.validate}
         onSubmit={this.handleSubmit}
