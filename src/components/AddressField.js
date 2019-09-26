@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormField, FormInput, FormSelect } from 'src/components'
+import { FormSelect } from 'src/components'
 import { connect } from 'formik'
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -22,6 +22,7 @@ class AddressField extends React.Component {
     this.getCityData = this.getCityData.bind(this)
     this.handleCityChange = this.handleCityChange.bind(this)
     this.handleSubdistrictChange = this.handleSubdistrictChange.bind(this)
+    this.checkInitialValues = this.checkInitialValues.bind(this)
   }
 
   componentDidMount () {
@@ -57,6 +58,10 @@ class AddressField extends React.Component {
       })
     })
     this.setState({ cityData, subdistrictData, villageData, postalCodes })
+    console.log(this.props.formik)
+    if (this.props.formik.initialValues.city !== undefined && this.props.formik.initialValues.city !== '') {
+      this.checkInitialValues()
+    }
   }
   
   handleCityChange = val => {
@@ -74,11 +79,21 @@ class AddressField extends React.Component {
     this.setState({ villageOptions: this.state.villageData[val] })
   }
 
+  checkInitialValues () {
+    const { city, subdistrict } = this.props.formik.initialValues
+    console.log(city)
+    console.log(subdistrict)
+    this.setState({
+      subdistrictOptions: this.state.subdistrictData[this.props.formik.initialValues.city],
+      villageOptions: this.state.villageData[this.props.formik.initialValues.subdistrict]
+    })
+  }
 
   render () {
     return (
       <>
         <FormSelect
+          style={{marginTop: 4}}
           placeholder='Kabupaten/Kota'
           onChange={this.handleCityChange}
           options={this.state.cityData}
@@ -86,6 +101,7 @@ class AddressField extends React.Component {
         />
 
         <FormSelect
+          style={{marginTop: 4}}
           placeholder='Kecamatan'
           onChange={this.handleSubdistrictChange}
           options={this.state.subdistrictOptions}
@@ -93,6 +109,7 @@ class AddressField extends React.Component {
         />
 
         <FormSelect
+          style={{marginTop: 4}}
           placeholder='Kelurahan/Desa'
           options={this.state.villageOptions}
           name='subdivision'

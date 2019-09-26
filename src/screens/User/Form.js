@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native'
 import { Text } from 'native-base'
 import { Screen, RedButton } from 'src/components'
 import { BiodataForm } from './BiodataForm'
-import { AddressForm } from './AddressForm'
+import AddressForm from './AddressForm'
 import { ExperienceForm } from './ExperienceForm'
 import { PasswordForm } from './PasswordForm'
 import { Formik } from 'formik'
@@ -15,7 +15,8 @@ export default class UserFormScreen extends React.Component {
 		super(props)
 		this.state = {
 			title: this.props.navigation.state.params.title,
-			user: this.props.navigation.state.params.user,
+      user: this.props.navigation.state.params.user,
+      isVolunteer: this.props.navigation.state.params.isVolunteer,
 			initialValues: {}
 		}
 
@@ -44,16 +45,17 @@ export default class UserFormScreen extends React.Component {
 	}
 
 	loadInitialValues = () => {
+    const data = this.state.isVolunteer ? this.state.user.volunteer:this.state.user.donator
 		switch (this.state.title) {
 			case 'Data Diri':
 				this.setState({
 					initialValues: {
 						name: this.state.user.name,
 						email: this.state.user.email,
-						phone: this.state.user.phone,
-						birthplace: this.state.user.birthplace,
-						dob: this.state.user.dob,
-						gender: this.state.user.gender,
+						phone: data.phone,
+						birthplace: data.birthplace,
+						dob: data.dob,
+						gender: data.gender,
 					}
 				})
 				break
@@ -61,11 +63,11 @@ export default class UserFormScreen extends React.Component {
 			case 'Tempat Tinggal':
 				this.setState({
 					initialValues: {
-						province: this.state.user.province,
-						city: this.state.user.city,
-						subdistrict: this.state.user.subdistrict,
-						subdivision: this.state.user.subdivision,
-						postal_code: this.state.user.postal_code,
+						province: data.province,
+						city: data.city,
+						subdistrict: data.subdistrict,
+						subdivision: data.subdivision,
+						postal_code: data.postal_code,
 					}
 				})
 				break
@@ -96,7 +98,7 @@ export default class UserFormScreen extends React.Component {
 	renderForm = () => {
 		switch (this.state.title) {
 			case 'Data Diri':
-				return <BiodataForm user={this.state.user} />
+				return <BiodataForm user={this.state.user} isVolunteer={this.state.isVolunteer} />
 				break
 
 			case 'Tempat Tinggal':
@@ -121,8 +123,8 @@ export default class UserFormScreen extends React.Component {
 			<Screen title={this.state.title} back>
 				<Formik
 					initialValues={this.state.initialValues}
-					onSubmit={this.handleSubmit}
-					enableReinitialize
+          onSubmit={this.handleSubmit}
+          enableReinitialize
 				>
 					{props => (
 						<>
