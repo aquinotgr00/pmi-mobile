@@ -4,6 +4,7 @@ import { Card, CardItem, Left, Right } from 'native-base'
 import { ProgressBar } from 'src/components/ProgressBar'
 import { daysRemaining } from 'src/utils'
 import { withNavigation } from 'react-navigation'
+import { formatCurrency } from 'src/utils'
 
 class CampaignCard extends React.Component {
   constructor (props) {
@@ -74,7 +75,7 @@ class CampaignCard extends React.Component {
             <Left style={{ paddingHorizontal: 10 }}>
               <View style={{ flex: 1 }}>
                 <Text style={{ fontSize: 11, color: 'grey' }}>Terkumpul</Text>
-                <Text style={{ fontWeight: '500' }}>Rp. {amount_real || 0}</Text>
+                <Text style={{ fontWeight: '500' }}>{formatCurrency(amount_real) || 0}</Text>
               </View>
             </Left>
             <Right style={{ paddingHorizontal: 10 }}>

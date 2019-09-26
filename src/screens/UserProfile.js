@@ -29,7 +29,8 @@ class UserProfile extends Component {
   }
 
   componentDidMount () {
-    this.loadProfile()
+    // this.loadProfile()
+    console.log(this.state)
 	}
 	
 	async loadProfile () {
