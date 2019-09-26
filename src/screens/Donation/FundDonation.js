@@ -70,7 +70,7 @@ export default class FundDonationScreen extends React.Component {
               email: 'test@mail.com',
               phone: '081',
               amount: '10000',
-              payment_method: 'manual',
+              manual_payment: 1,
               campaign_id: this.state.id,
               category: 1,
               anonym: false,
@@ -99,12 +99,12 @@ export default class FundDonationScreen extends React.Component {
 							<FormField label='Besar Donasi (min Rp.10,000)' name='amount' floatingLabel />
 							<Text style={{ color: 'red' }}>{formikProps.errors.amount}</Text>
 
-							<FormField label='Metode Transfer' name='payment_method' floatingLabel>
+							<FormField label='Metode Transfer' name='manual_payment' floatingLabel>
 								<FormSelect
 									name='payment_method'
 									options={[
-										{ value: 'manual', label: 'Transfer Manual' },
-										{ value: 'midtrans', label: 'Transfer Virtual Akun' },
+										{ value: 1, label: 'Transfer Manual' },
+										{ value: 0, label: 'Transfer Virtual Akun' },
 									]}
 								/>
 							</FormField>

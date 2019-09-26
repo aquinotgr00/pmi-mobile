@@ -5,6 +5,7 @@ import { Formik } from 'formik'
 import Color from 'src/constants/Color'
 import { RedButton } from 'src/components'
 import { Step1Schema, Step2Schema } from 'src/validators/VolunteerRegistration'
+import Config from 'react-native-config'
 
 class Wizard extends React.Component {
 	static Page = ({ children }) => children;
