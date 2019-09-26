@@ -9,9 +9,10 @@ export function login (credentials) {
       type: 'LOGIN_REQUEST',
       credentials
     })
-
+    const { pushNotificationUserId } = getState().user
+    console.log(pushNotificationUserId)
     try {
-      const loginResponse = await loginApi(credentials)
+      const loginResponse = await loginApi({...credentials, device_id:pushNotificationUserId})
 
       const { status, data } = loginResponse.data
       if (status === 'success') {
