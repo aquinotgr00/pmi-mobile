@@ -22,11 +22,13 @@ class Chat extends Component {
       isLoading:false,
       refreshing:false,
       comments: [],
-      currentPage:0
+      currentPage:0,
+      comment:''
     }
 
-    this.fetchPreviousChat = this.fetchPreviousChat.bind(this)
+    this.loadChat = this.loadChat.bind(this)
     this.addToChat = this.addToChat.bind(this)
+    this.handleComment = this.handleComment.bind(this)
     this.sendComment = this.sendComment.bind(this)
   }
 
@@ -52,7 +54,7 @@ class Chat extends Component {
 
     channel.bind('event.comment', this.addToChat)
 
-    this.loadChat(rsvpId)
+    this.loadChat()
   }
 
   addToChat(data) {
@@ -63,18 +65,21 @@ class Chat extends Component {
     })
   }
 
-  async loadChat(rsvpId, page=1) {
+  async loadChat() {
     this.setState({ isLoading: true, error: null })
+    const { navigation } = this.props
+    const rsvpId = navigation.getParam('rsvpId')
+    const { currentPage } = this.state
     const chatParams = new URLSearchParams()
     chatParams.append('e', rsvpId)
-    chatParams.append('page',page)
+    chatParams.append('page',currentPage+1)
     try {
       const response = await getEventActivityApi(chatParams)
       const { status, data } = response.data
       if (status === 'success') {
         const { current_page:currentPage, data:comments } = data
         
-        this.setState({ comments:[ ...this.state.comments, ...comments.reverse()], currentPage, isLoading:false })
+        this.setState({ comments:[ ...comments.reverse(), ...this.state.comments], currentPage, isLoading:false })
       } else {
         // TODO : handle error
         this.setState({ isLoading: false })
@@ -86,15 +91,23 @@ class Chat extends Component {
     
   }
 
-  fetchPreviousChat() {
-    /* const { navigation } = this.props
-    const rsvpId = navigation.getParam('rsvpId')
-    const { currentPage } = this.state
-    this.loadChat(rsvpId, currentPage+1) */
+  handleTypingComment(comment) {
+    this.setState({comment})
   }
 
-  sendComment() {
-
+  async sendComment() {
+    const { comment } = this.state
+    if (comment) {
+      try {
+        const response = await postEventActivity()
+        const { status } = response.data
+        if(status==='success') {
+          this.setState({comment:''})
+        }
+      } catch (error) {
+        
+      }
+    }
   }
 
   render () {
@@ -102,6 +115,7 @@ class Chat extends Component {
     const rsvpId = navigation.getParam('rsvpId')
     const image = navigation.getParam('image')
     const title = navigation.getParam('title')
+    const { comment } = this.state
     return (
       <Screen
         noBounce
@@ -114,7 +128,7 @@ class Chat extends Component {
         <FlatList
           ref='chatBox'
           refreshing={this.state.refreshing}
-          onRefresh={this.fetchPreviousChat}
+          onRefresh={this.loadChat}
           ListFooterComponent={<View style={{ height: 20 }} />}
           data={this.state.comments}
           renderItem={
@@ -134,7 +148,13 @@ class Chat extends Component {
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, marginBottom: 5, borderTopWidth: 1, borderTopColor: Color.lightGray }}>
           <AttachmentButton />
           <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#f2f2f2', padding: 5, marginLeft: 5, borderRadius: 25 }}>
-            <Input placeholder='Tulis Sesuatu' multiline style={{ alignSelf: 'center' }} />
+            <Input
+              placeholder='Tulis Sesuatu'
+              multiline
+              style={{ alignSelf: 'center' }}
+              value={comment}
+              onChange={this.handleTypingComment}
+            />
             <SendButton onPress={this.sendComment} />
           </View>
         </View>
