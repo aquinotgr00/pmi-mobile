@@ -38,18 +38,19 @@ class Splash extends Component {
   }
 
 	updateSetting (setting) {
-		let oldSettingDate = this.getSettingsData(setting.settings)
-		if (oldSettingDate === 'null') {
-			this.downloadAreaData(setting.settings)
-			AsyncStorage.setItem(setting.settings, JSON.stringify(setting.last_updated))
-			oldSettingDate = setting.last_updated
-		}
+    let oldSettingDate = this.getSettingsData(setting.settings)
+		// if (oldSettingDate === 'null') {
+		// 	this.downloadAreaData(setting.settings)
+		// 	AsyncStorage.setItem(setting.settings, JSON.stringify(setting.last_updated))
+		// 	oldSettingDate = setting.last_updated
+		// }
 		oldSettingDate = moment(oldSettingDate)
 		const newSettingDate = moment(setting.last_updated)
 		const diff = oldSettingDate.diff(newSettingDate, 'days')
-		if (diff > 0) {
+		// if (diff > 0) {
+      console.log(setting.settings)
 			this.downloadAreaData(setting.settings)
-		}
+		// }
 	}
 	
 	async getSettingsData (name) {

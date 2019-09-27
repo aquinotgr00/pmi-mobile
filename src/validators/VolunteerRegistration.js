@@ -4,6 +4,7 @@ Yup.setLocale(localeID)
 
 export const Step1Schema = Yup.object().shape({
   parentMember: Yup.string().required(),
+  subMember: Yup.string().required(),
   unitCity: Yup.string().required(),
   unit_id: Yup.number().required()
 })
