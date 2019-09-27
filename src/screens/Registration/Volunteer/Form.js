@@ -119,7 +119,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						subdivision: '',
 						postal_code: '',
 						blood_type: 'O',
-						address: 'jalan betawi rt 5',
+						address: '',
 					} : {
             dob: '',
             province: 'DKI JAKARTA',

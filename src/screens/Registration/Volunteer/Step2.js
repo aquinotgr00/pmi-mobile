@@ -119,6 +119,7 @@ class Step2 extends React.Component {
           autoCapitalize='none'
           style={{ borderBottomWidth: 1, borderBottomColor: Color.lightGray }}
           autoCompleteType='off'
+          onChange={val => this.props.formik.setFieldValue('address', val)}
           name='address'
         />
 
