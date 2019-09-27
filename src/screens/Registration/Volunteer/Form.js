@@ -111,7 +111,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
             password_confirmation: 'Open1234',
             password_placeholder: 'Password sama dengan akun donatur.',
 						birthplace: 'jakarta',
-						dob: '2000-01-10',
+						dob: '',
 						gender: 'male',
 						religion: 'Islam',
 						province: 'DKI JAKARTA',
@@ -120,7 +120,10 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						postal_code: '',
 						blood_type: 'O',
 						address: 'jalan betawi rt 5',
-					}: {}}
+					} : {
+            dob: '',
+            province: 'DKI JAKARTA',
+          }}
 					onSubmit={this.handleFormSubmit}
 				>
 					<Step1 />
