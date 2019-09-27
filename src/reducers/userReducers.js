@@ -21,7 +21,7 @@ const user = (state = { token: null, isVolunteer: false, pushNotificationUserId:
     case 'REGISTER_VOLUNTEER_FAILURE':
       return { ...state, isLoggingIn: false, loginError: action.account }
     case 'LOGOUT_SUCCESS':
-      return { token: null, isVolunteer:false }
+      return { token: null, isVolunteer:false, pushNotificationUserId: action.payload }
     default:
       return state
   }

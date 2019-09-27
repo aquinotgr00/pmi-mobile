@@ -29,7 +29,6 @@ import RsvpThankYouScreen from 'src/screens/Rsvp/Form/ThankYou'
 import RsvpListScreen from 'src/screens/Rsvp/List'
 import RsvpDetailScreen from 'src/screens/Rsvp/Detail'
 import ChatScreen from 'src/screens/Chat'
-import ChatInfoScreen from 'src/screens/Chat/Info'
 
 import { IconInu } from 'src/components'
 import Color from 'src/constants/Color'
@@ -138,9 +137,6 @@ const MainNavigator = createStackNavigator({
   Chat: {
     screen: ChatScreen
   },
-  ChatInfo: {
-    screen: ChatInfoScreen
-  },
   Login: {
     screen: LoginScreen
   },
@@ -183,7 +179,7 @@ const MainNavigator = createStackNavigator({
 
 }, {
   initialRouteName: 'Splash',
-  //initialRouteName: 'EmergencyAndEvent',
+  // initialRouteName: 'RsvpDetail',
   headerMode: 'none'
 })
 

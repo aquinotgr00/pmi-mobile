@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Animated } from 'react-native'
+import { Animated } from 'react-native'
 
 export function IconInu (props) {
   const code = {
