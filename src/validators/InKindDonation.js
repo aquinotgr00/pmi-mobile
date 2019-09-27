@@ -4,10 +4,10 @@ Yup.setLocale(localeID)
 
 export default Yup.object().shape({
   name: Yup.string()
-    .max(255, 'Maksimum 255 huruf')
+    .max(255)
     .required(),
   email: Yup.string()
-    .email('Email tidak valid')
+    .email()
     .required(),
   phone: Yup.string()
     .required(),
