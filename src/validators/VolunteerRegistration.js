@@ -1,5 +1,5 @@
 import * as Yup from "yup"
-import localeID from './setLocaleID.js'
+import localeID from 'src/validators/setLocaleID.js'
 Yup.setLocale(localeID)
 
 export const Step1Schema = Yup.object().shape({

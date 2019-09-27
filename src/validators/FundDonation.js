@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import localeID from './setLocaleID.js'
+import localeID from 'src/validators/setLocaleID.js'
 Yup.setLocale(localeID)
 
 export default yup.object().shape({
