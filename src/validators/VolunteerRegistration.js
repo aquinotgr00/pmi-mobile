@@ -2,7 +2,7 @@ import * as Yup from "yup"
 
 export const Step1Schema = Yup.object().shape({
   parentMember: Yup.string().required("Parent Member Is Required"),
-  subMember: Yup.string().required("Sub Member Is Required"),
+  unitCity: Yup.string().required("Unit City Is Required"),
 })
 
 export const Step2Schema = Yup.object().shape({

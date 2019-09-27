@@ -7,6 +7,7 @@ import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
 import Wizard from './Wizard'
+import Config from 'react-native-config'
 
 class VolunteerRegistrationFormScreen extends React.Component {
   static navigationOptions = {
@@ -75,7 +76,8 @@ class VolunteerRegistrationFormScreen extends React.Component {
       <Screen title='Daftar Sebagai Relawan' back>
 
 				<Wizard
-					initialValues={{
+          initialValues={Config.IS_PRODUCTION === '0'
+          ? {
 						parentMember: '',
 						subMember: '',
 						name: 'Volu One',
@@ -99,7 +101,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						postal_code: '',
 						blood_type: 'O',
 						address: 'jalan betawi rt 5',
-					}}
+					}: {}}
 					onSubmit={this.handleFormSubmit}
 				>
 					<Step1 />
