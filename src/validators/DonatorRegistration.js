@@ -1,17 +1,19 @@
 import * as Yup from "yup"
+import localeID from './setLocaleID.js'
+Yup.setLocale(localeID)
 
 export default Yup.object().shape({
-  name: Yup.string().required('Nama tidak boleh kosong'),
-  email: Yup.string().email('Email tidak valid').required('Email tidak boleh kosong'),
-  phone: Yup.string().required('Nomor HP tidak boleh kosong'),
-  password: Yup.string().required('Password tidak boleh kosong'),
-  password_confirmation: Yup.string().required('Mohon konfirmasi Password'),
-  dob: Yup.string().required('Mohon memasukan tanggal lahir'),
-  address: Yup.string().required('Alamat tidak boleh kosong'),
-  province: Yup.string().required('Provinsi tidak boleh kosong'),
-  city: Yup.string().required('Kabupaten/Kota tidak boleh kosong'),
-  subdistrict: Yup.string().required('Kecamatan tidak boleh kosong'),
-  subdivision: Yup.string().required('Kelurahan/Desa tidak boleh kosong'),
-  postal_code: Yup.string().required('Kode Pos tidak boleh kosong'),
-  gender: Yup.string().required('Silahkan memilih Gender'),
+  name: Yup.string().required(),
+  email: Yup.string().email().required(),
+  phone: Yup.string().required(),
+  password: Yup.string().required(),
+  password_confirmation: Yup.string().required(),
+  dob: Yup.string().required(),
+  address: Yup.string().required(),
+  province: Yup.string().required(),
+  city: Yup.string().required(),
+  subdistrict: Yup.string().required(),
+  subdivision: Yup.string().required(),
+  postal_code: Yup.string().required(),
+  gender: Yup.string().required(),
 })

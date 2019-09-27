@@ -1,17 +1,19 @@
 import * as yup from 'yup'
+import localeID from './setLocaleID.js'
+Yup.setLocale(localeID)
 
 export default yup.object().shape({
 	name: yup
 		.string()
-		.required('Nama tidak boleh kosong'),
+		.required(),
 	email: yup
 		.string()
-		.email('Email tidak valid')
-		.required('Email tidak boleh kosong'),
+		.email()
+		.required(),
 	phone: yup
 		.string()
-		.required('Nomor HP tidak boleh kosong'),
+		.required(),
 	amount: yup
-		.number('Hanya boleh memasukan angka')
-		.required('Kolom tidak boleh kosong'),
+		.number()
+		.required(),
 })
