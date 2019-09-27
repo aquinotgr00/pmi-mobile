@@ -10,8 +10,8 @@ class RsvpCard extends React.Component {
   }
 
   navigateToRsvpDetailScreen () {
-    const { rsvpId } = this.props.item
-    this.props.navigation.navigate('RsvpDetail', { rsvpId })
+    const { id: rsvpId } = this.props.item
+    this.props.navigation.navigate('RsvpDetail', { rsvpId, joinRequest: true })
   }
 
   render () {
