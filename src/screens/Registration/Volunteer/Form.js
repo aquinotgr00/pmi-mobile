@@ -8,6 +8,7 @@ import Step2 from './Step2'
 import Step3 from './Step3'
 import Wizard from './Wizard'
 import Config from 'react-native-config'
+import Snackbar from 'react-native-snackbar'
 
 class VolunteerRegistrationFormScreen extends React.Component {
   static navigationOptions = {
@@ -28,6 +29,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
 		this.handleChoosePhoto = this.handleChoosePhoto.bind(this)
     this.addQualifications = this.addQualifications.bind(this)
+    this.showAlertPopup = this.showAlertPopup.bind(this)
   }
 
   handleFormSubmit = async (values, actions) => {
@@ -45,8 +47,25 @@ class VolunteerRegistrationFormScreen extends React.Component {
 			values.image = this.state.photo
 		}
 
-		this.props.dispatch(register(values, true))
-	}
+    try {
+      await this.props.dispatch(register(values, true))
+      actions.setSubmitting(false)
+      if (this.props.user.token === undefined) {
+        console.log('there is a error')
+        this.showAlertPopup('Gagal daftar relawan, server sedang error.')
+      }
+    } catch (err) {
+      this.showAlertPopup('Gagal daftar relawan, server sedang error.')
+      console.log(err.response)
+    }
+  }
+  
+  showAlertPopup = message => {
+    Snackbar.show({
+      title: message,
+      duration: Snackbar.LENGTH_SHORT,
+    })
+  }
 
 	addQualifications (listArr, data, idx, category) {
 		data.map(item => {
@@ -68,7 +87,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
       if (response.uri) {
         this.setState({ photo: response, loading: false })
       }
-		})
+    })
   }
 
   render() {
@@ -92,7 +111,7 @@ class VolunteerRegistrationFormScreen extends React.Component {
             password_confirmation: 'Open1234',
             password_placeholder: 'Password sama dengan akun donatur.',
 						birthplace: 'jakarta',
-						dob: '2000-01-10',
+						dob: '',
 						gender: 'male',
 						religion: 'Islam',
 						province: 'DKI JAKARTA',
@@ -101,7 +120,10 @@ class VolunteerRegistrationFormScreen extends React.Component {
 						postal_code: '',
 						blood_type: 'O',
 						address: 'jalan betawi rt 5',
-					}: {}}
+					} : {
+            dob: '',
+            province: 'DKI JAKARTA',
+          }}
 					onSubmit={this.handleFormSubmit}
 				>
 					<Step1 />

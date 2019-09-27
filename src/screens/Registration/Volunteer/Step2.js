@@ -78,7 +78,8 @@ class Step2 extends React.Component {
         <FormField label='Tempat Lahir' name='birthplace' />
         <FormField label='Tanggal Lahir' name='dob'>
           <DatePicker
-            defaultDate={new Date()}
+            defaultDate={new Date(2019, 1, 1)}
+            minimumDate={new Date(1950, 1, 1)}
             maximumDate={new Date()}
             animationType='fade'
             textStyle={{ color: Color.black, marginVertical: 5 }}

@@ -1,21 +1,23 @@
 import * as Yup from 'yup'
+import localeID from 'src/validators/setLocaleID.js'
+Yup.setLocale(localeID)
 
 export default Yup.object().shape({
   name: Yup.string()
-    .max(255, 'Maksimum 255 huruf')
-    .required('Harus diisi'),
+    .max(255)
+    .required(),
   email: Yup.string()
-    .email('Alamat email belum benar')
-    .required('Harus diisi'),
+    .email()
+    .required(),
   phone: Yup.string()
-    .required('Harus diisi'),
+    .required(),
   items: Yup.array()
     .of(
       Yup.object().shape({
-        type: Yup.string().required('Harus diisi'),
-        name: Yup.string().required('Harus diisi'),
-        amount: Yup.string().required('Harus diisi')
+        type: Yup.string().required(),
+        name: Yup.string().required(),
+        amount: Yup.string().required(),
       })
     )
-    .required('Harus ada barang yang didonasikan')
+    .required()
 })

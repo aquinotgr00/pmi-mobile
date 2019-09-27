@@ -1,13 +1,17 @@
 import * as Yup from "yup"
+import localeID from 'src/validators/setLocaleID.js'
+Yup.setLocale(localeID)
 
 export const Step1Schema = Yup.object().shape({
-  parentMember: Yup.string().required("Parent Member Is Required"),
-  unitCity: Yup.string().required("Unit City Is Required"),
+  parentMember: Yup.string().required(),
+  subMember: Yup.string().required(),
+  unitCity: Yup.string().required(),
+  unit_id: Yup.number().required()
 })
 
 export const Step2Schema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().required("Email is required"),
+  name: Yup.string().required(),
+  email: Yup.string().email().required(),
   phone: Yup.string().required(),
   password: Yup.string().required(),
   password_confirmation:

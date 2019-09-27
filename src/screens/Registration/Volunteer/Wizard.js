@@ -82,7 +82,7 @@ class Wizard extends React.Component {
 							{isLastPage && (
 								<>
                   {isSubmitting
-                  ? <ActivityIndicator />
+                  ? <ActivityIndicator style={{marginBottom: 15}} />
                   : (
                     <>
                       <Button
