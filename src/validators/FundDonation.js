@@ -3,15 +3,15 @@ import * as yup from 'yup'
 export default yup.object().shape({
 	name: yup
 		.string()
-		.required(),
+		.required('Nama tidak boleh kosong'),
 	email: yup
 		.string()
-		.email()
-		.required(),
+		.email('Email tidak valid')
+		.required('Email tidak boleh kosong'),
 	phone: yup
 		.string()
-		.required(),
+		.required('Nomor HP tidak boleh kosong'),
 	amount: yup
-		.number()
-		.required(),
+		.number('Hanya boleh memasukan angka')
+		.required('Kolom tidak boleh kosong'),
 })

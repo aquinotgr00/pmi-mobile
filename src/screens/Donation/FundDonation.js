@@ -75,7 +75,16 @@ export default class FundDonationScreen extends React.Component {
               category: 1,
               anonym: false,
             }
-          : {}}
+          : {
+              name: '',
+              email: '',
+              phone: '',
+              amount: '',
+              manual_payment: 1,
+              campaign_id: this.state.id,
+              category: 1,
+              anonym: false,
+          }}
 					onSubmit={this.handleSubmit}
 					validationSchema={FundDonation}
 				>

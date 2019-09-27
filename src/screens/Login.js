@@ -28,7 +28,7 @@ class LoginScreen extends React.Component {
       await this.props.dispatch(login(credentials))
       this.setState({ loading: false })
       if (this.props.user.token === null) {
-        this.showAlertPopup('Wrong password!')
+        this.showAlertPopup('Email/Password anda salah')
       }
     } catch (err) {
       console.log(err.response)
