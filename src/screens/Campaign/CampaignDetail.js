@@ -1,6 +1,6 @@
 import React from 'react'
-import { ProgressBar, Loader } from 'src/components'
-import { Text, View, TouchableOpacity, FlatList, Animated, ScrollView, Dimensions } from 'react-native'
+import { Loader, ProgressBar, RedButton } from 'src/components'
+import { Animated, Dimensions, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Card, CardItem, Thumbnail, Body, Container } from 'native-base'
 import { BackButton } from 'src/components/HeaderButtons'
 import { getCampaignDetail, getDonatorsByCampaignApi } from 'src/services/api'
@@ -10,9 +10,22 @@ import moment from 'moment'
 import 'moment/min/locales'
 import AutoHeightWebView from 'react-native-autoheight-webview'
 import { formatCurrency } from 'src/utils'
+import Image from 'src/constants/Image'
+import Color from 'src/constants/Color'
 
+const { height, width } = Dimensions.get('window')
 const Header_Maximum_Height = 200
-const Header_Minimum_Height = Math.round(Dimensions.get('window').height * (1 / 9))
+const Header_Minimum_Height = Math.round(height * (1 / 9))
+
+const range = {
+  headerHeight:[Header_Maximum_Height, Header_Minimum_Height],
+  fadeIn:[0, 1],
+  fadeOut:[1,0],
+  fadeToBlack:['white','black']
+}
+
+const deltaHeaderHeight = Header_Maximum_Height-Header_Minimum_Height
+const extrapolation = {inputRange: [0, deltaHeaderHeight], extrapolate: 'clamp'}
 
 export default class CampaignScreen extends React.Component {
   constructor (props) {
@@ -48,26 +61,6 @@ export default class CampaignScreen extends React.Component {
     this.renderDonatorList = this.renderDonatorList.bind(this)
 
     this.animatedHeight = new Animated.Value(0)
-    this.animatedHeaderHeight = this.animatedHeight.interpolate({
-      inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
-      outputRange: [Header_Maximum_Height, Header_Minimum_Height],
-      extrapolate: 'clamp'
-    })
-    this.animatedImageOpacity = this.animatedHeight.interpolate({
-      inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
-      outputRange: [1, 0],
-      extrapolate: 'clamp'
-    })
-    this.animatedTitleOpacity = this.animatedHeight.interpolate({
-      inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
-      outputRange: [0, 1],
-      extrapolate: 'clamp'
-    })
-    this.animatedBackColor = this.animatedHeight.interpolate({
-      inputRange: [0, Header_Maximum_Height - Header_Minimum_Height],
-      outputRange: ['white', 'black'],
-      extrapolate: 'clamp'
-    })
   }
 
   componentDidMount () {
@@ -137,7 +130,7 @@ export default class CampaignScreen extends React.Component {
       <Card transparent>
         <CardItem style={{ paddingLeft: 0, paddingRight: 0 }}>
           <Thumbnail source={(item.anonym || item.guest === 1 || item.donator.image === null)
-            ? require('assets/images/avatar-default.png')
+            ? Image.DefaultAvatar
             : { uri: item.donator.image_url }}
           />
           <Body style={{ marginLeft: 20 }}>
@@ -166,36 +159,19 @@ export default class CampaignScreen extends React.Component {
           <Animated.Image
             source={{ uri: this.state.image_url }}
             style={{
-              width: 380,
-              height: this.animatedHeaderHeight,
-              opacity: this.animatedImageOpacity,
-              position: 'relative'
+              width,
+              position: 'relative',
+              height: this.animate(range.headerHeight),
+              opacity: this.animate(range.fadeOut)
             }}
           />
-          <TouchableOpacity
-            onPress={() => { this.props.navigation.goBack() }}
-            style={{
-			      position: 'absolute',
-			      top: Math.round(Dimensions.get('window').height * (1 / 24)),
-			      left: 15
-			    }}>
-            <BackButton color={this.animatedBackColor} />
-          </TouchableOpacity>
-          <Animated.View style={{
-            position: 'absolute',
-            top: Math.round(Dimensions.get('window').height * (1 / 17)),
-            left: 50,
-            width: '100%',
-            opacity: this.animatedTitleOpacity
-          }}>
-            <Animated.Text
-              numberOfLines={1}
-              style={{
-                textAlign: 'left',
-                fontSize: 16,
-                width: '80%'
-              }}
-            >
+          { this.state.image_url !=='' && 
+            <View style={styles.backButtonWrapper}>
+              <BackButton color={this.animate(range.fadeToBlack)} shadow />
+            </View>
+          }
+          <Animated.View style={[styles.animatedTitleWrapper,{opacity:this.animate(range.fadeIn)}]}>
+            <Animated.Text numberOfLines={1} style={styles.animatedTitle} >
               {this.state.title}
             </Animated.Text>
           </Animated.View>
@@ -215,25 +191,20 @@ export default class CampaignScreen extends React.Component {
               <ProgressBar left={0} height={12} width={335} percentage={this.state.percentage} />
             }
 
-            <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                marginVertical: 10,
-                maxHeight: 45,
-              }}
+            <View style={styles.donationProgress}
               onLayout={event => {
                 this.setState({ webviewWidth: event.nativeEvent.layout.width });
               }}
             >
               {fundraising === 1 &&
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: 11, color: 'grey' }}>Terkumpul</Text>
-                  <Text style={{ fontWeight: '500' }}>{this.state.amount_real ? formatCurrency(this.state.amount_real) : 0}</Text>
+                  <Text style={styles.label}>Terkumpul</Text>
+                  <Text style={styles.bold}>{this.state.amount_real ? formatCurrency(this.state.amount_real) : 0}</Text>
                 </View>
               }
               <View style={{ flex: 1, alignItems: fundraising === 1 ? 'flex-end':'' }}>
-                <Text style={{ fontSize: 11, color: 'grey' }}>Sisa Hari</Text>
-                <Text style={{ fontWeight: '500' }}>{isNaN(this.state.days) ? '-':this.state.days}</Text>
+                <Text style={styles.label}>Sisa Hari</Text>
+                <Text style={styles.bold}>{isNaN(this.state.days) ? '-':this.state.days}</Text>
               </View>
             </View>
 
@@ -252,16 +223,9 @@ export default class CampaignScreen extends React.Component {
             />
 
             {this.state.showAllDonationsText &&
-              <View style={{
-                borderTopWidth: 1,
-                borderBottomWidth: 1,
-                borderColor: 'rgba(60, 58, 57, 0.15)',
-                marginBottom: 45
-              }}>
+              <View style={styles.showAllDonationsWrapper}>
                 <TouchableOpacity onPress={() => this.setState({modalVisible:true})}>
-                  <Text style={{ textAlign: 'center', paddingVertical: 20, color: 'red', fontWeight: '500' }}>
-                  Lihat Semua
-                  </Text>
+                  <Text style={styles.redLink}>Lihat Semua</Text>
                 </TouchableOpacity>
               </View>
             }
@@ -275,41 +239,74 @@ export default class CampaignScreen extends React.Component {
               }}
               propagateSwipe={true}
             >
-              <View style={{
-                  marginTop:200,
-                  paddingHorizontal: 15,
-                  backgroundColor:'white',
-                }}
-              >
-                  <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
-                  <FlatList
-                    onEndReached={this.fetchDonators}
-                    onEndReachedThreshold={0.7}
-                    data={this.state.donators}
-                    renderItem={({item}) => this.renderDonatorList(item)}
-                  />
+              <View style={styles.donatorListWrapper}>
+                <Text style={{fontWeight:'500',fontSize:16,marginVertical:15}}>List Donatur</Text>
+                <FlatList
+                  onEndReached={this.fetchDonators}
+                  onEndReachedThreshold={0.7}
+                  data={this.state.donators}
+                  renderItem={({item}) => this.renderDonatorList(item)}
+                />
               </View>
             </Modal>
 					</Container>
         </ScrollView>
 
-        <View style={{backgroundColor: 'white', bottom: 15}}>
-          {!this.state.loading &&
-            <TouchableOpacity
-              onPress={this.navigateToDonationScreen}
-              style={{
-                backgroundColor:'red',
-                borderRadius:60,
-                paddingVertical:15,
-                marginVertical:5,
-                marginHorizontal: 15,
-              }}
-            >
-              <Text style={{textAlign:'center',color:'white',fontWeight:'bold'}}>Berdonasi</Text>
-            </TouchableOpacity>
-          }
+        <View style={{backgroundColor: 'white', bottom: 15, paddingHorizontal:20}}>
+          {!this.state.loading && <RedButton text='Berdonasi' onPress={this.navigateToDonationScreen} /> }
         </View>
       </>
     )
   }
+
+  animate = outputRange => this.animatedHeight.interpolate({ ...extrapolation, outputRange })
 }
+
+const styles = StyleSheet.create({
+  backButtonWrapper: {
+    position: 'absolute',
+    top: Math.round(height * (1 / 24)),
+    left: 15
+  },
+  animatedTitleWrapper: {
+    position: 'absolute',
+    top: Math.round(height * (1 / 17)),
+    left: 50,
+    width: '100%'
+  },
+  animatedTitle: {
+    textAlign: 'left',
+    fontSize: 16,
+    width: '80%'
+  },
+  donationProgress: {
+    flex: 1,
+    flexDirection: 'row',
+    marginVertical: 10,
+    maxHeight: 45,
+  },
+  label : {
+    fontSize: 11,
+    color: 'grey'
+  },
+  bold: {
+    fontWeight: '500'
+  },
+  showAllDonationsWrapper:{
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(60, 58, 57, 0.15)',
+    marginBottom: 45
+  },
+  redLink: {
+    textAlign: 'center',
+    paddingVertical: 20,
+    color: Color.red,
+    fontWeight: '500'
+  },
+  donatorListWrapper: {
+    marginTop:200,
+    paddingHorizontal: 15,
+    backgroundColor:'white'
+  }
+})

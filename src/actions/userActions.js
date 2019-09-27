@@ -101,10 +101,12 @@ export function logout () {
       console.log(error)
       // TODO : handle error!
     } finally {
+      const { pushNotificationUserId:userId } = getState().user
       OneSignal.deleteTag('volunteer')
       persistor.purge()
       dispatch({
-        type: 'LOGOUT_SUCCESS'
+        type: 'LOGOUT_SUCCESS',
+        payload: userId
       })
     }
   }

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     alignItems: 'flex-start',
-    marginBottom:20,
+    marginBottom: 20,
     backgroundColor: '#fff',
     borderRadius: 7,
     shadowColor: '#000',
