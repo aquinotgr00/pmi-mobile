@@ -84,6 +84,8 @@ class Step2 extends React.Component {
             animationType='fade'
             textStyle={{ color: Color.black, marginVertical: 5 }}
             formatChosenDate={date => moment(date).format('DD MMM YYYY')}
+            onDateChange={val => this.props.formik.setFieldValue('dob', val)}
+            name='dob'
           />
         </FormField>
         <FormSelect
