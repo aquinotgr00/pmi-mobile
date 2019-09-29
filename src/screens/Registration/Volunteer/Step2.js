@@ -78,13 +78,16 @@ class Step2 extends React.Component {
         <FormField label='Tempat Lahir' name='birthplace' />
         <FormField label='Tanggal Lahir' name='dob'>
           <DatePicker
-            defaultDate={new Date(2019, 1, 1)}
-            minimumDate={new Date(1950, 1, 1)}
+            defaultDate={new Date()}
+            minimumDate={new Date(1980, 1, 1)}
             maximumDate={new Date()}
             animationType='fade'
             textStyle={{ color: Color.black, marginVertical: 5 }}
             formatChosenDate={date => moment(date).format('DD MMM YYYY')}
-            onDateChange={val => this.props.formik.setFieldValue('dob', val)}
+            onDateChange={val => {
+              const valDob = moment(val).format('Y-M-D')
+              this.props.formik.setFieldValue('dob', valDob)
+            }}
             name='dob'
           />
         </FormField>
@@ -124,7 +127,7 @@ class Step2 extends React.Component {
         />
 
         <FormField label='Propinsi' name='province'>
-          <FormInput name='province' disabled />
+          <FormInput name='province' placeholder='DKI JAKARTA' disabled />
         </FormField>
 
         <AddressField />

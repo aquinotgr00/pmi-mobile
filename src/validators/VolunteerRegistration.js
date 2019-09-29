@@ -18,7 +18,7 @@ export const Step2Schema = Yup.object().shape({
     Yup.string()
     .required(),
   birthplace: Yup.string().required(),
-  dob: Yup.string().required(),
+  dob: Yup.date().required(),
   gender: Yup.string().required(),
   blood_type: Yup.string().required(),
   religion: Yup.string().required(),
