@@ -58,7 +58,6 @@ class AddressField extends React.Component {
       })
     })
     this.setState({ cityData, subdistrictData, villageData, postalCodes })
-    console.log(this.props.formik)
     if (this.props.formik.initialValues.city !== undefined && this.props.formik.initialValues.city !== '') {
       this.checkInitialValues()
     }
@@ -81,8 +80,6 @@ class AddressField extends React.Component {
 
   checkInitialValues () {
     const { city, subdistrict } = this.props.formik.initialValues
-    console.log(city)
-    console.log(subdistrict)
     this.setState({
       subdistrictOptions: this.state.subdistrictData[this.props.formik.initialValues.city],
       villageOptions: this.state.villageData[this.props.formik.initialValues.subdistrict]

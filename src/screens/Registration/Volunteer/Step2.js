@@ -78,26 +78,16 @@ class Step2 extends React.Component {
         <FormField label='Tempat Lahir' name='birthplace' />
         <FormField label='Tanggal Lahir' name='dob'>
           <DatePicker
-            defaultDate={new Date()}
+            defaultDate={moment().subtract(7, 'years').toDate()}
             minimumDate={new Date(1980, 1, 1)}
-            maximumDate={new Date()}
+            maximumDate = {moment().subtract(7, 'years').toDate()}
             animationType='fade'
             textStyle={{ color: Color.black, marginVertical: 5 }}
             formatChosenDate={date => moment(date).format('DD MMM YYYY')}
             name='dob'
-            onDateChange={val => {
-              this.props.formik.setStatus({dob:undefined})
-              const valDob = moment(val).format('Y-M-D')
-              if (moment().diff(valDob, 'years') < 7) {
-                this.props.formik.setStatus({dob: 'Umur minimal 7 Tahun'})
-              }
-              this.props.formik.setFieldValue('dob', valDob)
-            }}
+            onDateChange={val => this.props.formik.setFieldValue('dob', moment(val).format('Y-M-D'))}
           />
         </FormField>
-        {!!this.props.formik.status &&
-          <Text style={{fontSize: 12, color: Color.red}}>{this.props.formik.status.dob}</Text>
-        }
         <FormSelect
           placeholder='Gender'
           style={{ width: undefined, marginVertical: 4 }}
