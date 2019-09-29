@@ -84,13 +84,20 @@ class Step2 extends React.Component {
             animationType='fade'
             textStyle={{ color: Color.black, marginVertical: 5 }}
             formatChosenDate={date => moment(date).format('DD MMM YYYY')}
+            name='dob'
             onDateChange={val => {
+              this.props.formik.setStatus({dob:undefined})
               const valDob = moment(val).format('Y-M-D')
+              if (moment().diff(valDob, 'years') < 7) {
+                this.props.formik.setStatus({dob: 'Umur minimal 7 Tahun'})
+              }
               this.props.formik.setFieldValue('dob', valDob)
             }}
-            name='dob'
           />
         </FormField>
+        {!!this.props.formik.status &&
+          <Text style={{fontSize: 12, color: Color.red}}>{this.props.formik.status.dob}</Text>
+        }
         <FormSelect
           placeholder='Gender'
           style={{ width: undefined, marginVertical: 4 }}
