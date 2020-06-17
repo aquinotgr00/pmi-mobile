@@ -178,8 +178,8 @@ const MainNavigator = createStackNavigator({
   }
 
 }, {
-  initialRouteName: 'Splash',
-  // initialRouteName: 'RsvpDetail',
+  // initialRouteName: 'Splash',
+  initialRouteName: 'VolunteerRegistrationForm',
   headerMode: 'none'
 })
 

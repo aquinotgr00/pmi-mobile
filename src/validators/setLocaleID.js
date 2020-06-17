@@ -1,6 +1,7 @@
 exports.mixed = {
+    label: 'something',
     default: '${path} tidak valid',
-    required: '${path} tidak boleh kosong',
+    required: '${name} tidak boleh kosong',
     oneOf: '${path} harus mengandung salah satu dari nilai berikut: ${values}',
     notOneOf: '${path} tidak dapat mengandung nilai-nilai berikut: ${values}'
   };
