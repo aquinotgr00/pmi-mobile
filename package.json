@@ -16,7 +16,7 @@
     "native-base": "^2.13.1",
     "pusher-js": "^5.0.1",
     "react": "16.8.6",
-    "react-native": "0.60.4",
+    "react-native": "0.62.3",
     "react-native-autoheight-webview": "^1.2.2",
     "react-native-collapsible-toolbar": "^0.1.2",
     "react-native-config": "https://github.com/luggit/react-native-config",
